@@ -182,4 +182,4 @@ uv run pyright             # type-check
 
 ## License
 
-TBD
+GNU General Public License — see [LICENSE](LICENSE) for details.
