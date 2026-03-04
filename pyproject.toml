@@ -9,22 +9,25 @@ description = "Normalize speech-to-text output for fair Word Error Rate (WER) co
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.13"
-authors = [
-    { name = "Gladia" },
+authors = [{ name = "Gladia", email = "support@gladia.io" }]
+keywords = [
+  "speech-to-text",
+  "STT",
+  "ASR",
+  "WER",
+  "normalization",
+  "transcription",
+  "benchmark",
 ]
-keywords = ["speech-to-text", "STT", "ASR", "WER", "normalization", "transcription"]
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Topic :: Text Processing :: Linguistic",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Development Status :: 4 - Beta",
+  "Topic :: Text Processing :: Linguistic",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
-dependencies = [
-    "contractions>=0.1.73",
-    "pyyaml>=6.0.3",
-]
+dependencies = ["contractions>=0.1.73", "pyyaml>=6.0.3"]
 
 [project.urls]
 Homepage = "https://github.com/gladiaio/normalization"
@@ -32,12 +35,7 @@ Repository = "https://github.com/gladiaio/normalization"
 "Bug Tracker" = "https://github.com/gladiaio/normalization/issues"
 
 [dependency-groups]
-dev = [
-    "pre-commit>=4.5.1",
-    "pyright>=1.1.408",
-    "pytest>=9.0.2",
-    "ruff>=0.15.2",
-]
+dev = ["pre-commit>=4.5.1", "pyright>=1.1.408", "pytest>=9.0.2", "ruff>=0.15.2"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["normalization"]
