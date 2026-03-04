@@ -1,0 +1,101 @@
+from dataclasses import dataclass, field
+from typing import TypeAlias
+
+# Semantic type aliases for LanguageConfig dict fields.
+# All are dict[str, str] structurally, but named to convey intent and
+# make the config contract self-documenting for new language contributors.
+
+TimeWords: TypeAlias = dict[str, str]
+"""Maps spoken time values to digit strings.
+Covers clock hours (1-12) and minute-worth values (13-50).
+Example: {'one': '1', ..., 'twelve': '12', 'thirteen': '13', ..., 'fifty': '50'}
+
+Compound minute expressions (e.g. 'twenty-one') are language-specific behavior
+and are NOT stored here — see LanguageOperators.get_compound_minutes().
+"""
+
+SentenceReplacements: TypeAlias = dict[str, str]
+"""Maps multi-word phrases to their normalized replacements.
+Applied longest-match first. Example: {'good bye': 'goodbye'}
+"""
+
+DigitWords: TypeAlias = dict[str, str]
+"""Maps word forms of single digits (0-9) to their digit characters.
+Include both canonical forms and common spoken aliases.
+Example (English): {'zero': '0', 'oh': '0', 'o': '0', 'one': '1', ..., 'nine': '9'}
+"""
+
+
+@dataclass
+class LanguageConfig:
+    code: str
+    """ISO language code (e.g. 'en', 'fr')."""
+    decimal_separator: str
+    """Decimal separator character."""
+    decimal_word: str
+    """Word used for decimal separator."""
+    dot_word: str
+    """Word used when reading a literal dot."""
+    thousand_separator: str
+    """Thousands separator character."""
+    euro_word: str
+    """Word for euro symbol : €"""
+    dollar_word: str
+    """Word for dollar symbol : $"""
+    pound_word: str
+    """Word for pound symbol : £"""
+    cent_word: str
+    """Word for cent symbol : ¢"""
+    yen_word: str
+    """Word for yen symbol : ¥"""
+    at_word: str
+    """Word for '@'."""
+    percent_words: list[str]
+    """Words meaning percent."""
+    greater_than_word: str
+    """Word for '>'."""
+    less_than_word: str
+    """Word for '<'."""
+    equals_word: str
+    """Word for '='."""
+    degree_celsius_word: str
+    """Word for °C."""
+    degree_fahrenheit_word: str
+    """Word for °F."""
+    filler_words: list[str] = field(default_factory=list)
+    """Words to ignore during parsing."""
+    oclock_word: str | None = None
+    """The word or phrase meaning 'o'clock' in this language (e.g. "o'clock" for English).
+    Used by convert_oclock_to_numeric_time. None = step is skipped."""
+    time_words: TimeWords | None = None
+    """Maps spoken time values to digit strings (hours 1-12 and minute values 13-50).
+    Used by time normalization steps (o'clock patterns and word-based time patterns).
+    Compound minute forms like 'twenty-one' are NOT included here — define them
+    in LanguageOperators.get_compound_minutes() instead.
+    None = time word steps are skipped."""
+    sentence_replacements: SentenceReplacements | None = None
+    """Multi-word phrase replacements applied before word splitting.
+    Applied longest-match first. Used by apply_sentence_level_replacements. None = step is skipped."""
+    digit_words: DigitWords | None = None
+    """Maps word forms of single digits (0-9) to their digit characters.
+    Used by steps that recognize isolated digit words in sequences or
+    adjacent to special tokens (e.g. 'dot' in IP addresses / versions).
+    Example (English): {'zero': '0', 'oh': '0', 'o': '0', 'one': '1', ..., 'nine': '9'}
+    None = steps requiring digit word recognition are skipped."""
+    number_words: list[str] | None = None
+    """All number-related words for this language (digits, teens, tens, multipliers).
+    Used by steps that need to identify number words in context (e.g. punctuation normalization).
+    Example (English): ["zero", "oh", "o", "one", ..., "hundred", "thousand", "million"]
+    None = steps requiring number word recognition are skipped."""
+    plus_word: str | None = None
+    """The word for 'plus' in this language (e.g. "plus" for English).
+    Used by protect_plus_word_before_digit_words. None = step is skipped."""
+    ordinal_suffixes: list[str] | None = None
+    """Ordinal number suffixes for this language (e.g. ["st", "nd", "rd", "th"] for English).
+    Used by steps that need to detect ordinal numbers. None = ordinal detection is skipped."""
+    am_word: str | None = None
+    """Canonical AM time designator (e.g. "am" for English).
+    Used by am/pm time formatting steps. None = am/pm steps are skipped."""
+    pm_word: str | None = None
+    """Canonical PM time designator (e.g. "pm" for English).
+    Used by am/pm time formatting steps. None = am/pm steps are skipped."""

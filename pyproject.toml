@@ -1,0 +1,29 @@
+[project]
+name = "gladia-normalization"
+version = "0.1.0"
+description = "Normalize speech-to-text output for fair Word Error Rate (WER) comparison"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "contractions>=0.1.73",
+    "pyyaml>=6.0.3",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.5.1",
+    "pyright>=1.1.408",
+    "pytest>=9.0.2",
+    "ruff>=0.15.2",
+]
+
+[tool.pytest.ini_options]
+python_files = ["*_test.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"] # pycodestyle errors, pyflakes, isort
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

@@ -1,0 +1,122 @@
+name: gladia-3
+
+stages:
+  text_pre:
+    # --- Phase 1: Protect symbols from being erased by later cleanup ---
+    # Run first so that email @/., phone +, time :, unit decimal/slash, and
+    # number separators all survive remove_symbols later in this stage.
+    - protect_email_symbols
+    - protect_phone_plus_symbol
+    - protect_time_colon
+    - protect_unit_decimal
+    - protect_unit_slash
+    - protect_number_separator_commas
+
+    # --- Phase 2: Pre-casefold transforms ---
+    # These steps rely on original casing (degree symbols, acronyms) or must
+    # run before contractions alter token boundaries.
+    - remove_hash_before_numbers
+    - normalize_numeric_time_formats
+    - convert_degree_symbols_to_words
+    - convert_oclock_to_numeric_time
+    - remove_acronym_periods
+    # Protect spelled-out letters (b-o-b, j o h n) before any word transform
+    # can misinterpret individual letters as real words.
+    - protect_hyphenated_letter_spelling
+    - protect_space_separated_letter_spelling
+    - apply_sentence_level_replacements
+    - expand_contractions
+
+    # --- Phase 3: Numeric transforms (before written-number expansion) ---
+    - protect_plus_word_before_digit_words
+    - convert_comparison_operators_to_words
+    # convert_word_based_time_patterns creates new HH:MM tokens; protect_time_colon
+    # runs a second time immediately after to cover those new patterns.
+    - convert_word_based_time_patterns
+    - protect_time_colon # 2nd run: covers HH:MM produced by the step above
+    - remove_thousand_separators
+    - convert_dots_to_words_in_technical_contexts
+    # protect_decimal_separator runs here for the first time (decimal patterns
+    # only become distinct from thousand-separators after remove_thousand_separators).
+    # protect_number_separator_commas runs a second time to cover any new
+    # comma-separated digit groups exposed by the numeric transforms above.
+    - protect_decimal_separator
+    - protect_number_separator_commas # 2nd run
+    - normalize_punctuation_between_number_words
+    - convert_digit_word_sequences_to_digits
+
+    # --- Phase 4: Written-number expansion ---
+    - expand_written_numbers_to_digits
+    # Re-protect after expansion: expand_written_numbers_to_digits can produce
+    # new decimal numbers (e.g. "three point five" → "3.5"), new phone-number-
+    # like digit sequences, and new email-adjacent patterns. All must be
+    # protected before remove_symbols erases the separators.
+    - protect_decimal_separator # 2nd run
+    - protect_phone_plus_symbol # 2nd run
+    - protect_email_symbols # 2nd run
+    - protect_number_separator_commas # 3rd run
+
+    # --- Phase 5: Code and abbreviation expansion ---
+    # convert_roman_numerals_to_digits must run before expand_alphanumeric_codes
+    # to prevent "VIII" from being spaced out to "V I I I" instead of "8".
+    - expand_www_abbreviation
+    - convert_roman_numerals_to_digits
+    - expand_alphanumeric_codes
+
+    # --- Phase 6: Casefold and cleanup ---
+    - casefold_text
+    - remove_symbols
+    - remove_diacritics
+    - remove_standalone_currency_symbols
+    # remove_filler_words runs after casefold so that mixed-case fillers
+    # (e.g. "Um", "UH") are matched reliably against the lowercase config list.
+    - remove_filler_words
+    - normalize_whitespace
+
+  word:
+    - apply_word_replacements
+
+  text_post:
+    # --- Phase 1: Restore protected symbols and resolve placeholders ---
+    - restore_email_at_symbol_with_word
+    - restore_email_dot_symbol_with_word
+    - restore_time_colon
+    - replace_currency
+    - restore_unit_decimal_as_word
+    # fix_dot_adjacent_number_words must run before restore_decimal_separator
+    # so that "zero dot one" → "0 dot 1" is done while "dot" is still a word.
+    - fix_dot_adjacent_number_words
+    - fix_version_number_v_prefix
+    - restore_decimal_separator_with_word
+    - convert_decimal_periods_to_decimal_word
+    - remove_trailing_apostrophe_space
+    - remove_non_numeric_trailing_dots
+    - normalize_whitespace
+
+    # --- Phase 2: Time and digit collapsing ---
+    - format_time_patterns_with_ampm
+    # First digit-collapse pass: collapses within each number-separator-bounded
+    # group independently before the markers are removed.
+    - remove_spaces_between_adjacent_digits
+    - fix_one_word_in_numeric_contexts
+    # Removing markers may join previously separated digit groups; collapse
+    # spaces again immediately after so those groups are merged correctly.
+    - remove_number_separator_markers
+    - remove_spaces_between_adjacent_digits # 2nd run: after marker removal
+
+    # --- Phase 3: Late restores (must follow digit collapsing) ---
+    - restore_phone_plus_symbol
+    # fix_ampm_letter_spacing and remove_letter_spelling_markers run after
+    # digit collapsing to avoid interfering with numeric patterns.
+    - fix_ampm_letter_spacing
+    - remove_letter_spelling_markers
+    - remove_zero_minutes_from_time
+    - remove_trailing_dot_word_from_emails
+    - restore_unit_slash
+
+    # --- Phase 4: Final cleanup ---
+    - remove_trailing_period
+    # Final digit-collapse pass: late restores above (phone plus, unit slash)
+    # can produce new adjacent-digit sequences that need collapsing.
+    - remove_spaces_between_adjacent_digits # 3rd run: after late restores
+    - normalize_whitespace
