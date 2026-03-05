@@ -1,4 +1,4 @@
-from normalization.languages.default import DefaultOperators
+from normalization.languages.base import LanguageOperators
 from normalization.steps.text.placeholders import (
     RestoreDecimalSeparatorWithWordStep,
 )
@@ -11,7 +11,7 @@ def test_step_is_registered():
 
 
 def test_convert_protected_decimal_separator_to_word_step_converts_protected_decimal_separator_to_word(
-    operators: DefaultOperators,
+    operators: LanguageOperators,
 ):
     """
     Test that the convert protected decimal separator to word step converts the protected decimal separator to the word decimal.

@@ -1,9 +1,32 @@
-from abc import ABC
-
 from normalization.languages.base.language_config import LanguageConfig
+from normalization.languages.registery import register_language
+
+DEFAULT_CONFIG = LanguageConfig(
+    code="default",
+    decimal_separator=".",
+    decimal_word="point",
+    dot_word="dot",
+    thousand_separator=",",
+    euro_word="euros",
+    dollar_word="dollars",
+    pound_word="pounds",
+    cent_word="cents",
+    yen_word="yen",
+    at_word="at",
+    percent_words=["percent"],
+    greater_than_word="greater than",
+    less_than_word="less than",
+    equals_word="equals",
+    degree_celsius_word="degree celsius",
+    degree_fahrenheit_word="degree fahrenheit",
+    filler_words=[],
+    am_word="am",
+    pm_word="pm",
+)
 
 
-class LanguageOperators(ABC):
+@register_language
+class LanguageOperators:
     """
     Behavioral contract: all language-specific text transformations.
 
@@ -11,11 +34,14 @@ class LanguageOperators(ABC):
     Each method is intentionally fine-grained so contributors can override
     only what they need. Default implementations are all no-ops.
 
+    Used directly (with no subclass) as the language-agnostic fallback when no
+    language is specified or the language is unsupported. Must never crash.
+
     Number-related *data* (digit_words, number_words) lives in LanguageConfig.
     Override expand_written_numbers when the expansion *algorithm* differs.
     """
 
-    def __init__(self, config: LanguageConfig):
+    def __init__(self, config: LanguageConfig = DEFAULT_CONFIG):
         self.config = config
 
     def expand_contractions(self, text: str) -> str:

@@ -1,13 +1,13 @@
 import pytest
 
-from normalization.languages.default import DefaultOperators
+from normalization.languages.base import LanguageOperators
 from normalization.languages.english import EnglishOperators
 from normalization.steps import get_step_registry
 
 
 @pytest.fixture
 def operators():
-    return DefaultOperators()
+    return LanguageOperators()
 
 
 @pytest.fixture

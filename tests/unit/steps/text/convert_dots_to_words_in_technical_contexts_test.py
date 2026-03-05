@@ -1,4 +1,4 @@
-from normalization.languages.default import DefaultOperators
+from normalization.languages.base import LanguageOperators
 from normalization.steps.text.convert_dots_to_words_in_technical_contexts import (
     ConvertDotsToWordsInTechnicalContextsStep,
 )
@@ -10,7 +10,7 @@ def test_step_is_registered():
     assert_text_step_registered(ConvertDotsToWordsInTechnicalContextsStep)
 
 
-def test_ip_address_conversion(operators: DefaultOperators):
+def test_ip_address_conversion(operators: LanguageOperators):
     """
     Test that the ip address conversion converts the ip address to the language ip address word.
     """
@@ -19,7 +19,7 @@ def test_ip_address_conversion(operators: DefaultOperators):
     assert converted_text == "192 dot 168 dot 1 dot 1"
 
 
-def test_domain_conversion(operators: DefaultOperators):
+def test_domain_conversion(operators: LanguageOperators):
     """
     Test that the domain conversion converts the domain to the language domain word.
     """
@@ -28,7 +28,7 @@ def test_domain_conversion(operators: DefaultOperators):
     assert converted_text == "example dot com"
 
 
-def test_file_extension_conversion(operators: DefaultOperators):
+def test_file_extension_conversion(operators: LanguageOperators):
     """
     Test that the file extension conversion converts the file extension to the language file extension word.
     """
@@ -37,7 +37,7 @@ def test_file_extension_conversion(operators: DefaultOperators):
     assert converted_text == "example dot txt"
 
 
-def test_version_conversion(operators: DefaultOperators):
+def test_version_conversion(operators: LanguageOperators):
     """
     Test that the version conversion converts the version to the language version word.
     """
