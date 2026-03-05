@@ -8,7 +8,6 @@ from normalization.pipeline.base import NormalizationPipeline
 from normalization.pipeline.loader import load_pipeline
 
 _FILES_DIR = Path(__file__).resolve().parent / "files"
-_PRESETS_DIR = Path(__file__).resolve().parents[2] / "normalization" / "presets"
 
 
 @dataclass
@@ -36,10 +35,10 @@ def _case_ids(cases: list[NormalizationTest]) -> list[str]:
     return [f"{test.language}:{test.input[:60]}" for test in cases]
 
 
-def _load_pipeline(preset_path: Path, language: str) -> NormalizationPipeline:
+def _load_pipeline(preset_name_or_path: str, language: str) -> NormalizationPipeline:
     if language not in _GLADIA_3_PIPELINES:
         _GLADIA_3_PIPELINES[language] = load_pipeline(
-            preset_path,
+            preset_name_or_path,
             language,
         )
     return _GLADIA_3_PIPELINES[language]
@@ -60,7 +59,7 @@ _GLADIA_3_PIPELINES: dict[str, NormalizationPipeline] = {}
     ids=_case_ids(_GLADIA_3_TESTS),
 )
 def test_gladia_3(test: NormalizationTest) -> None:
-    pipeline = _load_pipeline(_PRESETS_DIR / "gladia-3.yaml", test.language)
+    pipeline = _load_pipeline("gladia-3", test.language)
     result = pipeline.normalize(test.input)
     assert result == test.expected, (
         f"\n  input:    {test.input!r}"
