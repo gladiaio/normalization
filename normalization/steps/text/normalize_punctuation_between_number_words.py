@@ -20,9 +20,8 @@ class NormalizePunctuationBetweenNumberWordsStep(TextStep):
         if not number_words:
             return text
 
-        alternation = "|".join(
-            re.escape(w) for w in sorted(number_words, key=len, reverse=True)
-        )
+        sorted_words = sorted(number_words, key=lambda w: len(w), reverse=True)
+        alternation = "|".join(re.escape(w) for w in sorted_words)
         number_group = f"(?:{alternation})"
         pattern = re.compile(
             rf"({number_group})\s*[,.\-…]+\s*(?={number_group})",

@@ -26,9 +26,8 @@ class ProtectPlusWordBeforeDigitWordsStep(TextStep):
             return text
 
         placeholder = ProtectPlaceholder.PHONE_PLUS.value
-        word_alts = "|".join(
-            re.escape(w) for w in sorted(digit_words, key=len, reverse=True)
-        )
+        sorted_words = sorted(digit_words, key=lambda w: len(w), reverse=True)
+        word_alts = "|".join(re.escape(w) for w in sorted_words)
         lookahead = rf"(?=(?:{word_alts}|\d))"
         return re.sub(
             rf"\b{re.escape(plus_word)}\s+{lookahead}",
