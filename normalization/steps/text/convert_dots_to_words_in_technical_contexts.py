@@ -20,7 +20,9 @@ class ConvertDotsToWordsInTechnicalContextsStep(TextStep):
     name = "convert_dots_to_words_in_technical_contexts"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        dot = operators.config.dot_word
+        dot = operators.config.symbols_to_words.get(".")
+        if dot is None:
+            return text
         text = _RE_DOMAIN_3PARTS.sub(rf"\1 {dot} \2 {dot} \3\4", text)
         text = _RE_DOMAIN_2PARTS.sub(rf"\1 {dot} \2", text)
         text = _RE_IP_ADDRESS.sub(rf"\1 {dot} \2 {dot} \3 {dot} \4", text)

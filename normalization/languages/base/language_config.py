@@ -37,26 +37,12 @@ class LanguageConfig:
     """Decimal separator character."""
     decimal_word: str
     """Word used for decimal separator."""
-    dot_word: str
-    """Word used when reading a literal dot."""
+    symbols_to_words: dict[str, str]
+    """Maps symbols to their corresponding words. Example: {'@': 'at', '.': 'dot', '+': 'plus'}"""
     currency_symbol_to_word: CurrencySymbols
-    """Maps currency symbols to their corresponding words."""
+    """Maps currency symbols to their corresponding words. Example: {'€': 'euros', '$': 'dollars', '£': 'pounds', '¢': 'cents', '¥': 'yens'}"""
     thousand_separator: str
     """Thousands separator character."""
-    at_word: str
-    """Word for '@'."""
-    percent_words: list[str]
-    """Words meaning percent."""
-    greater_than_word: str
-    """Word for '>'."""
-    less_than_word: str
-    """Word for '<'."""
-    equals_word: str
-    """Word for '='."""
-    degree_celsius_word: str
-    """Word for °C."""
-    degree_fahrenheit_word: str
-    """Word for °F."""
     filler_words: list[str] = field(default_factory=list)
     """Words to ignore during parsing."""
     oclock_word: str | None = None

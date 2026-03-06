@@ -5,8 +5,19 @@ DEFAULT_CONFIG = LanguageConfig(
     code="default",
     decimal_separator=".",
     decimal_word="point",
-    dot_word="dot",
     thousand_separator=",",
+    symbols_to_words={
+        "@": "at",
+        ".": "dot",
+        "+": "plus",
+        "=": "equals",
+        ">": "greater than",
+        "<": "less than",
+        "°": "degree",
+        "°C": "degree celsius",
+        "°F": "degree fahrenheit",
+        "%": "percent",
+    },
     currency_symbol_to_word={
         "€": "euros",
         "$": "dollars",
@@ -14,14 +25,6 @@ DEFAULT_CONFIG = LanguageConfig(
         "¢": "cents",
         "¥": "yen",
     },
-    at_word="at",
-    percent_words=["percent"],
-    greater_than_word="greater than",
-    less_than_word="less than",
-    equals_word="equals",
-    degree_celsius_word="degree celsius",
-    degree_fahrenheit_word="degree fahrenheit",
-    filler_words=[],
     am_word="am",
     pm_word="pm",
 )
@@ -39,17 +42,8 @@ class DefaultOperators(LanguageOperators):
     - decimal_word: "point"
     - dot_word: "dot"
     - thousand_separator: ","
-    - euro_word: "euros"
-    - dollar_word: "dollars"
-    - pound_word: "pounds"
-    - cent_word: "cents"
-    - at_word: "at"
-    - percent_words: ["percent"]
-    - greater_than_word: "greater than"
-    - less_than_word: "less than"
-    - equals_word: "equals"
-    - degree_celsius_word: "degree celsius"
-    - degree_fahrenheit_word: "degree fahrenheit"
+    - symbols_to_words: {"@": "at", ".": "dot", "+": "plus", "=": "equals", ">": "greater than", "<": "less than", "°": "degree", "°C": "degree celsius", "°F": "degree fahrenheit", "%": "percent"}
+    - currency_symbol_to_word: {"€": "euros", "$": "dollars", "£": "pounds", "¢": "cents", "¥": "yen"}
     - filler_words: []
     All methods are no-ops inherited from LanguageOperators.
     """

@@ -21,7 +21,9 @@ class FixDotAdjacentNumberWordsStep(TextStep):
         if not digit_words:
             return text
 
-        dot_word = operators.config.dot_word
+        dot_word = operators.config.symbols_to_words.get(".")
+        if dot_word is None:
+            return text
         # Skip single-char entries: standalone "o" is too ambiguous in dot contexts
         for word, digit in digit_words.items():
             if len(word) < 2:

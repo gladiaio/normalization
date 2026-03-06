@@ -62,7 +62,9 @@ Convert dots in domains, IPs, versions, file extensions to the language dot word
 Convert 'ten o'clock' -> '10:00'.
 
 Reads operators.config.oclock_word and operators.config.time_words.
-No-op when either is None.
+Only entries whose digit value is 1-12 (valid clock hours) are used;
+minute-range values (13-50) present in time_words are ignored here.
+No-op when either field is None.
 
 ### `convert_roman_numerals_to_digits`
 
@@ -80,8 +82,9 @@ Skips 'v' when adjacent to digits (version-like contexts: v2, v 12).
 
 Convert word-based time patterns (two p.m -> 2 pm, two thirty p.m -> 2:30 pm).
 
-Reads operators.config.extended_time_words, operators.config.compound_minutes,
-operators.config.am_word, operators.config.pm_word, and operators.config.oclock_word.
+Reads operators.config.time_words, operators.config.am_word,
+operators.config.pm_word, operators.config.oclock_word, and
+operators.get_compound_minutes().
 No-op when required config is None.
 
 ### `expand_alphanumeric_codes`
@@ -331,7 +334,7 @@ Handles ¤ markers by processing segments separately.
 
 **Base class:** `TextStep`
 
-Remove currency/percent symbols that are not adjacent to numbers.
+Remove currency symbols that are not adjacent to numbers.
 
 ### `remove_symbols`
 
@@ -382,12 +385,6 @@ No-op when either is None.
 
 Replace currency symbols with their corresponding words.
 
-Args:
-    text: Input text
-
-Returns:
-    Text with currency symbols replaced with their corresponding words
-
 ### `restore_decimal_separator_with_word`
 
 **Base class:** `RestoreStep`
@@ -400,9 +397,8 @@ Restore XDECIMALX placeholder with the language-specific decimal word.
 
 Restore XATX placeholder with the language-specific 'at' word.
 
-Uses TextStep directly: ProtectEmailSymbolsStep inserts spaces around the
-placeholder, so restoration uses re.sub with \s* to absorb them. RestoreStep
-only does a plain str.replace, which would leave double spaces.
+Uses TextStep directly: ProtectEmailSymbolsStep inserts spaces around the placeholder, so restoration uses re.sub with \s* to absorb them. RestoreStep only does a plain str.replace, which would leave double spaces.
+If does not have a word for the @ symbol, skip.
 
 ### `restore_email_dot_symbol_with_word`
 

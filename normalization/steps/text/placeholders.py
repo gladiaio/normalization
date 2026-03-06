@@ -41,15 +41,16 @@ class ProtectEmailSymbolsStep(TextStep):
 class RestoreEmailAtSymbolWithWordStep(TextStep):
     """Restore XATX placeholder with the language-specific 'at' word.
 
-    Uses TextStep directly: ProtectEmailSymbolsStep inserts spaces around the
-    placeholder, so restoration uses re.sub with \\s* to absorb them. RestoreStep
-    only does a plain str.replace, which would leave double spaces.
+    Uses TextStep directly: ProtectEmailSymbolsStep inserts spaces around the placeholder, so restoration uses re.sub with \\s* to absorb them. RestoreStep only does a plain str.replace, which would leave double spaces.
+    If does not have a word for the @ symbol, skip.
     """
 
     name = "restore_email_at_symbol_with_word"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        at_word = operators.config.at_word
+        at_word = operators.config.symbols_to_words.get("@")
+        if at_word is None:
+            return text
         text = re.sub(
             rf"\s*{re.escape(ProtectPlaceholder.EMAIL_AT.value)}\s*",
             f" {at_word} ",
@@ -70,7 +71,9 @@ class RestoreEmailDotSymbolWithWordStep(TextStep):
     name = "restore_email_dot_symbol_with_word"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        dot_word = operators.config.dot_word
+        dot_word = operators.config.symbols_to_words.get(".")
+        if dot_word is None:
+            return text
         text = re.sub(
             rf"\s*{re.escape(ProtectPlaceholder.EMAIL_DOT.value)}\s*",
             f" {dot_word} ",
