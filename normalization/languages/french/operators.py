@@ -9,7 +9,7 @@ FRENCH_CONFIG = LanguageConfig(
     decimal_separator=",",
     decimal_word="virgule",
     dot_word="point",
-    thousand_separator=".",
+    thousand_separator=" ",
     currency_symbol_to_word={
         "€": "euros",
         "$": "dollars",
@@ -18,12 +18,12 @@ FRENCH_CONFIG = LanguageConfig(
         "¥": "yens",
     },
     at_word="arobase",
-    percent_words=["percent"],
+    percent_words=["pourcent", "pour cent"],
     greater_than_word="plus grand que",
     less_than_word="plus petit que",
     equals_word="égal à",
-    degree_celsius_word="degrés Celsius",
-    degree_fahrenheit_word="degrés Fahrenheit",
+    degree_celsius_word="degrés celsius",
+    degree_fahrenheit_word="degrés fahrenheit",
     filler_words=["euh", "hum", "beh", "bah", "ben", "hein"],
 )
 
