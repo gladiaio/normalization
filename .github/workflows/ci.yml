@@ -8,23 +8,11 @@ jobs:
   commitlint:
     name: Lint commit messages
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
     steps:
-      # Add this step to check if the repository is accessible
-      # To be removed once the repository is public
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-        continue-on-error: true
-      - name: Warn if repository not accessible
-        if: steps.checkout.outcome == 'failure'
-        run: echo "::warning::Repository not accessible, skipping commitlint"
-      - name: Lint commit messages
-        if: steps.checkout.outcome == 'success'
-        uses: wagoid/commitlint-github-action@v6
+      - uses: wagoid/commitlint-github-action@v6
         with:
           failOnWarnings: false
 
