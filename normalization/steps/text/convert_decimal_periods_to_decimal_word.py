@@ -19,6 +19,8 @@ class ConvertDecimalPeriodsToDecimalWordStep(TextStep):
         dot_word = operators.config.symbols_to_words.get(".")
         if dot_word is None:
             return text
+        if operators.config.decimal_word is None:
+            return text
         decimal_word = operators.config.decimal_word
         text = re.sub(
             rf"(?<!\d\s{re.escape(dot_word)}\s)(\d+)\.(\d+)(?!\s+{re.escape(dot_word)}\s+\d)",

@@ -24,6 +24,9 @@ class RemoveStandaloneCurrencySymbolsStep(TextStep):
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
         symbols = frozenset(operators.config.currency_symbol_to_word.keys())
+        if not symbols:
+            return text
+
         between, start, end, standalone = _make_standalone_patterns(symbols)
         text = between.sub(r"\1 \2", text)
         text = start.sub(r" \1", text)

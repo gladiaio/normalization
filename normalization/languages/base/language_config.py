@@ -32,17 +32,18 @@ CurrencySymbols: TypeAlias = dict[str, str]
 @dataclass
 class LanguageConfig:
     code: str
-    """ISO language code (e.g. 'en', 'fr')."""
-    decimal_separator: str
+    """ISO language code (e.g. 'en', 'fr') or 'default' for the language-neutral fallback."""
+    decimal_separator: str = "."
     """Decimal separator character."""
-    decimal_word: str
-    """Word used for decimal separator."""
-    symbols_to_words: dict[str, str]
-    """Maps symbols to their corresponding words. Example: {'@': 'at', '.': 'dot', '+': 'plus'}"""
-    currency_symbol_to_word: CurrencySymbols
-    """Maps currency symbols to their corresponding words. Example: {'€': 'euros', '$': 'dollars', '£': 'pounds', '¢': 'cents', '¥': 'yens'}"""
-    thousand_separator: str
+    thousand_separator: str = ","
     """Thousands separator character."""
+    decimal_word: str | None = None
+    """Word used for decimal separator (e.g. 'point' in English, 'virgule' in French).
+    None = decimal-word steps are skipped."""
+    symbols_to_words: dict[str, str] = field(default_factory=dict)
+    """Maps symbols to their corresponding words. Example: {'@': 'at', '.': 'dot', '+': 'plus'}"""
+    currency_symbol_to_word: CurrencySymbols = field(default_factory=dict)
+    """Maps currency symbols to their corresponding words. Example: {'€': 'euros', '$': 'dollars', '£': 'pounds', '¢': 'cents', '¥': 'yens'}"""
     filler_words: list[str] = field(default_factory=list)
     """Words to ignore during parsing."""
     oclock_word: str | None = None

@@ -1,22 +1,28 @@
-from abc import ABC
+from __future__ import annotations
 
 from normalization.languages.base.language_config import LanguageConfig
 
+_DEFAULT_CONFIG = LanguageConfig(code="default")
 
-class LanguageOperators(ABC):
+
+class LanguageOperators:
     """
-    Behavioral contract: all language-specific text transformations.
+    Base language operator and language-neutral fallback.
 
-    Adding a new language = subclassing this and implementing the relevant methods.
-    Each method is intentionally fine-grained so contributors can override
-    only what they need. Default implementations are all no-ops.
+    Directly instantiable: when no config is provided, uses a minimal
+    language-neutral config (code="default") with empty symbol/currency
+    mappings and all optional fields set to None.
+
+    Adding a new language = subclassing this and implementing the relevant
+    methods. Each method is intentionally fine-grained so contributors can
+    override only what they need. Default implementations are all no-ops.
 
     Number-related *data* (digit_words, number_words) lives in LanguageConfig.
     Override expand_written_numbers when the expansion *algorithm* differs.
     """
 
-    def __init__(self, config: LanguageConfig):
-        self.config = config
+    def __init__(self, config: LanguageConfig | None = None):
+        self.config = config if config is not None else _DEFAULT_CONFIG
 
     def expand_contractions(self, text: str) -> str:
         """Expand contractions (e.g. it's -> it is). No-op by default."""

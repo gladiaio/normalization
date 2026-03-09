@@ -7,6 +7,8 @@ from normalization.languages.registery import get_language_registry
     "language_code,operators_cls", list(get_language_registry().items())
 )
 def test_symbols_to_words_not_empty(language_code, operators_cls):
+    if language_code == "default":
+        return
     ops = operators_cls()
     symbols_to_words = ops.config.symbols_to_words
     assert symbols_to_words, f"Symbols to words is empty for language '{language_code}'"
