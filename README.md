@@ -64,7 +64,8 @@ uv sync
 ```python
 from normalization import load_pipeline
 
-pipeline = load_pipeline("normalization/presets/gladia-3.yaml", language="en")
+# Load a built-in preset by name
+pipeline = load_pipeline("gladia-3", language="en")
 
 pipeline.normalize("It's $50 at 3:00PM")
 # => "it is 50 dollars at 3 pm"
@@ -118,10 +119,12 @@ stages:
     - normalize_whitespace
 ```
 
+_Load from your custom configuration:_
+
 ```python
 from normalization import load_pipeline
 
-pipeline = load_pipeline("path/to/my-preset-v1.yaml", language="en")
+pipeline = load_pipeline("path/to/my-custom-configuration.yaml", language="en")
 result = pipeline.normalize("some transcription text")
 ```
 
