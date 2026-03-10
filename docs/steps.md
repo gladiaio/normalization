@@ -175,12 +175,6 @@ Replace commas, dots, hyphens between number words with a single space.
 Handles: 'seven, zero' -> 'seven zero', 'two-one-three' -> 'two one three'.
 Reads operators.config.number_words. No-op when None.
 
-### `normalize_whitespace`
-
-**Base class:** `TextStep`
-
-Collapse multiple spaces into one and strip leading/trailing whitespace.
-
 ### `protect_decimal_separator`
 
 **Base class:** `ProtectStep`

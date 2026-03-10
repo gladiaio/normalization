@@ -71,7 +71,6 @@ stages:
     # remove_filler_words runs after casefold so that mixed-case fillers
     # (e.g. "Um", "UH") are matched reliably against the lowercase config list.
     - remove_filler_words
-    - normalize_whitespace
 
   word:
     - apply_word_replacements
@@ -91,7 +90,6 @@ stages:
     - convert_decimal_periods_to_decimal_word
     - remove_trailing_apostrophe_space
     - remove_non_numeric_trailing_dots
-    - normalize_whitespace
 
     # --- Phase 2: Time and digit collapsing ---
     - format_time_patterns_with_ampm
@@ -119,4 +117,3 @@ stages:
     # Final digit-collapse pass: late restores above (phone plus, unit slash)
     # can produce new adjacent-digit sequences that need collapsing.
     - remove_spaces_between_adjacent_digits # 3rd run: after late restores
-    - normalize_whitespace
