@@ -2,14 +2,19 @@ name: CI
 
 on:
   pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled]
   workflow_dispatch:
 
 jobs:
   commitlint:
     name: Lint commit messages
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v6
@@ -20,8 +25,8 @@ jobs:
     name: Lint (ruff)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
       - run: uvx ruff check .
       - run: uvx ruff format --check .
 
@@ -29,19 +34,19 @@ jobs:
     name: Type check (ty)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.13"
-      - run: uv sync
-      - run: uv run ty check
+      - run: uv sync --group dev
+      - run: uv run ty check .
 
   test:
     name: Tests (pytest)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.13"
       - run: uv sync --group dev

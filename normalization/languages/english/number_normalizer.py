@@ -19,7 +19,7 @@ class EnglishNumberNormalizer:
 
     def __init__(self):
         self.zeros = {"o", "oh", "zero"}
-        self.ones = {
+        self.ones: dict[str, int] = {
             name: i
             for i, name in enumerate(
                 [

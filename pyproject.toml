@@ -7,7 +7,7 @@ requires-python = ">=3.13"
 dependencies = ["contractions>=0.1.73", "pyyaml>=6.0.3"]
 
 [dependency-groups]
-dev = ["pre-commit>=4.5.1", "ty", "pytest>=9.0.2", "ruff>=0.15.2"]
+dev = ["pre-commit>=4.5.1", "ty>=0.0.20", "pytest>=9.0.2", "ruff>=0.15.2"]
 
 [tool.pytest.ini_options]
 python_files = ["*_test.py"]

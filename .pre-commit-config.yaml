@@ -17,11 +17,12 @@ repos:
         args: [--fix]
       - id: ruff-format
 
+  # Remove this once ty pre-commit hook is released
   - repo: local
     hooks:
-      - id: ty-check
+      - id: ty
         name: ty check
-        entry: uv run ty check
+        entry: uvx ty check .
         language: system
-        types: [python]
         pass_filenames: false
+        always_run: true
