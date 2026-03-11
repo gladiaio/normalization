@@ -180,7 +180,7 @@ Steps must be language-agnostic — delegate all language-specific logic to the 
 uv run pytest              # run tests
 uv run ruff check .        # lint
 uv run ruff format .       # format
-uv run pyright             # type-check
+uv run ty check             # type-check
 ```
 
 ## License

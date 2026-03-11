@@ -21,7 +21,7 @@ class ConvertDigitWordSequencesToDigitsStep(TextStep):
             return text
 
         # Sort longest first so alternation prefers longer matches (e.g. "oh" before "o")
-        sorted_words = sorted(digit_words, key=len, reverse=True)
+        sorted_words = sorted(digit_words, key=lambda w: len(w), reverse=True)
         word_pattern = "|".join(re.escape(w) for w in sorted_words)
         pattern = (
             rf"\b(?:{word_pattern})"
