@@ -39,7 +39,7 @@ jobs:
         with:
           python-version: "3.13"
       - run: uv sync --group dev
-      - run: uvx ty check .
+      - run: uv run ty check .
 
   test:
     name: Tests (pytest)
