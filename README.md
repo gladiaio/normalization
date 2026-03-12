@@ -185,4 +185,4 @@ uv run ty check             # type-check
 
 ## License
 
-TBD
+[MIT](LICENSE)
