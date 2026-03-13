@@ -36,7 +36,7 @@ jobs:
 
       - name: Publish to TestPyPI (pre-release)
         if: contains(github.ref_name, '-')
-        run: uv publish --index https://test.pypi.org/legacy/
+        run: uv publish --index testpypi
         # Token alternative: UV_PUBLISH_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
 
       - name: Publish to PyPI (stable)
