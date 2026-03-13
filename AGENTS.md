@@ -48,12 +48,10 @@ Each supported language is a **self-contained folder** (e.g. `languages/english/
 
 **`languages/base/`** is a package that defines the full language contract. It contains two files:
 
-- `language_config.py` — `LanguageConfig` dataclass: all language-specific _data_ (separators, currency words, filler words, digit words, time word maps, sentence replacements, etc.). Optional fields default to `None`; steps that read them skip gracefully when `None`.
-- `language_operator.py` — `LanguageOperators` ABC: language-specific _behavioral_ method overrides. Only methods where the algorithm itself varies by language live here. Methods that are purely data-driven (i.e. the step owns the algorithm and only reads config values) do **not** belong here.
+- `language_config.py` — `LanguageConfig` dataclass: all language-specific _data_ (separators, currency words, filler words, digit words, time word maps, sentence replacements, etc.). Most fields have sensible defaults (empty dicts/lists, `None` for optional fields); steps that read them skip gracefully when `None`.
+- `language_operator.py` — `LanguageOperators`: the base class and language-neutral fallback. Directly instantiable with no arguments — uses a minimal `LanguageConfig(code="default")` with empty symbol/currency mappings and all optional fields set to `None`. Registered in the language registry under `"default"` so it serves as the automatic fallback when no language is specified or the language is unsupported. All methods are no-ops. Only methods where the algorithm itself varies by language should be overridden in subclasses. Methods that are purely data-driven (i.e. the step owns the algorithm and only reads config values) do **not** belong here.
 
 Both symbols are re-exported from `languages/base/__init__.py`.
-
-**`languages/default/`** is a concrete, usable implementation of `LanguageOperators` with neutral config values and all methods as no-ops. It is the fallback when no language is specified or the language is unsupported. It must never crash. It follows the same folder structure as any language, including a `replacements.py` with an empty dict.
 
 Additional files beyond the required three (e.g. `number_normalizer.py`, `sentence_replacements.py`) are allowed when a language needs them, but they must never be empty. Number-related _data_ (digit words, number words) belongs in `LanguageConfig`. Only create a `number_normalizer.py` when the expansion _algorithm_ is complex enough to warrant its own module (see `languages/english/number_normalizer.py`).
 

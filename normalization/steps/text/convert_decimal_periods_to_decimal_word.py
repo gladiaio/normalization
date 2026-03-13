@@ -16,7 +16,11 @@ class ConvertDecimalPeriodsToDecimalWordStep(TextStep):
     name = "convert_decimal_periods_to_decimal_word"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        dot_word = operators.config.dot_word
+        dot_word = operators.config.symbols_to_words.get(".")
+        if dot_word is None:
+            return text
+        if operators.config.decimal_word is None:
+            return text
         decimal_word = operators.config.decimal_word
         text = re.sub(
             rf"(?<!\d\s{re.escape(dot_word)}\s)(\d+)\.(\d+)(?!\s+{re.escape(dot_word)}\s+\d)",

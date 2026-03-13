@@ -22,7 +22,8 @@ class RemoveSpacesBetweenAdjacentDigitsStep(TextStep):
         decimal_word = operators.config.decimal_word
         sep = ProtectPlaceholder.NUMBER_SEPARATOR.value
 
-        text = text.replace(f" {decimal_word} ", f"X{decimal_word.upper()}X")
+        if decimal_word is not None:
+            text = text.replace(f" {decimal_word} ", "XDECWORDX")
 
         ordinals: list[str] = []
         ordinal_suffixes = operators.config.ordinal_suffixes
@@ -47,6 +48,7 @@ class RemoveSpacesBetweenAdjacentDigitsStep(TextStep):
         for i, ordinal in enumerate(ordinals):
             text = text.replace(f"XORDINAL{i}X", ordinal.strip())
 
-        text = text.replace(f"X{decimal_word.upper()}X", f" {decimal_word} ")
+        if decimal_word is not None:
+            text = text.replace("XDECWORDX", f" {decimal_word} ")
 
         return text

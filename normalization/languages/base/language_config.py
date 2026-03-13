@@ -25,43 +25,25 @@ Include both canonical forms and common spoken aliases.
 Example (English): {'zero': '0', 'oh': '0', 'o': '0', 'one': '1', ..., 'nine': '9'}
 """
 
+CurrencySymbols: TypeAlias = dict[str, str]
+"""Maps currency symbols to their corresponding words."""
+
 
 @dataclass
 class LanguageConfig:
     code: str
-    """ISO language code (e.g. 'en', 'fr')."""
-    decimal_separator: str
+    """ISO language code (e.g. 'en', 'fr') or 'default' for the language-neutral fallback."""
+    decimal_separator: str = "."
     """Decimal separator character."""
-    decimal_word: str
-    """Word used for decimal separator."""
-    dot_word: str
-    """Word used when reading a literal dot."""
-    thousand_separator: str
+    thousand_separator: str = ","
     """Thousands separator character."""
-    euro_word: str
-    """Word for euro symbol : €"""
-    dollar_word: str
-    """Word for dollar symbol : $"""
-    pound_word: str
-    """Word for pound symbol : £"""
-    cent_word: str
-    """Word for cent symbol : ¢"""
-    yen_word: str
-    """Word for yen symbol : ¥"""
-    at_word: str
-    """Word for '@'."""
-    percent_words: list[str]
-    """Words meaning percent."""
-    greater_than_word: str
-    """Word for '>'."""
-    less_than_word: str
-    """Word for '<'."""
-    equals_word: str
-    """Word for '='."""
-    degree_celsius_word: str
-    """Word for °C."""
-    degree_fahrenheit_word: str
-    """Word for °F."""
+    decimal_word: str | None = None
+    """Word used for decimal separator (e.g. 'point' in English, 'virgule' in French).
+    None = decimal-word steps are skipped."""
+    symbols_to_words: dict[str, str] = field(default_factory=dict)
+    """Maps symbols to their corresponding words. Example: {'@': 'at', '.': 'dot', '+': 'plus'}"""
+    currency_symbol_to_word: CurrencySymbols = field(default_factory=dict)
+    """Maps currency symbols to their corresponding words. Example: {'€': 'euros', '$': 'dollars', '£': 'pounds', '¢': 'cents', '¥': 'yens'}"""
     filler_words: list[str] = field(default_factory=list)
     """Words to ignore during parsing."""
     oclock_word: str | None = None

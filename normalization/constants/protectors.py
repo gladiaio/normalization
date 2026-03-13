@@ -11,3 +11,14 @@ class ProtectPlaceholder(str, Enum):
     UNIT_DECIMAL = "‡"
     NUMBER_SEPARATOR = "¤"
     SPELLING_SUFFIX = "xltrx"
+
+
+PLACEHOLDER_FALLBACK_CHARS: dict[str, str] = {
+    ProtectPlaceholder.EMAIL_AT: "@",
+    ProtectPlaceholder.EMAIL_DOT: ".",
+    ProtectPlaceholder.PHONE_PLUS: "+",
+    ProtectPlaceholder.TIME_COLON: ":",
+    ProtectPlaceholder.UNIT_SLASH: "/",
+    ProtectPlaceholder.UNIT_DECIMAL: ".",
+    ProtectPlaceholder.DECIMAL_SEPARATOR: ".",
+}

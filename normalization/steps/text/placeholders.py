@@ -41,15 +41,16 @@ class ProtectEmailSymbolsStep(TextStep):
 class RestoreEmailAtSymbolWithWordStep(TextStep):
     """Restore XATX placeholder with the language-specific 'at' word.
 
-    Uses TextStep directly: ProtectEmailSymbolsStep inserts spaces around the
-    placeholder, so restoration uses re.sub with \\s* to absorb them. RestoreStep
-    only does a plain str.replace, which would leave double spaces.
+    When no word is configured for '@', restores the original '@' character
+    so that placeholders never leak into the final output.
     """
 
     name = "restore_email_at_symbol_with_word"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        at_word = operators.config.at_word
+        at_word = operators.config.symbols_to_words.get("@")
+        if at_word is None:
+            return text
         text = re.sub(
             rf"\s*{re.escape(ProtectPlaceholder.EMAIL_AT.value)}\s*",
             f" {at_word} ",
@@ -63,14 +64,16 @@ class RestoreEmailAtSymbolWithWordStep(TextStep):
 class RestoreEmailDotSymbolWithWordStep(TextStep):
     """Restore XDOTX placeholder with the language-specific 'dot' word.
 
-    Uses TextStep directly: same reason as RestoreEmailAtSymbolWithWordStep —
-    spaces were inserted around the placeholder during protection.
+    When no word is configured for '.', restores the original '.' character
+    so that placeholders never leak into the final output.
     """
 
     name = "restore_email_dot_symbol_with_word"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        dot_word = operators.config.dot_word
+        dot_word = operators.config.symbols_to_words.get(".")
+        if dot_word is None:
+            return text
         text = re.sub(
             rf"\s*{re.escape(ProtectPlaceholder.EMAIL_DOT.value)}\s*",
             f" {dot_word} ",
@@ -216,6 +219,8 @@ class RestoreUnitDecimalAsWordStep(RestoreStep):
     placeholder = ProtectPlaceholder.UNIT_DECIMAL
 
     def _replacement(self, operators: LanguageOperators) -> str:
+        if operators.config.decimal_word is None:
+            return " "
         return f" {operators.config.decimal_word} "
 
 
@@ -294,6 +299,8 @@ class RestoreDecimalSeparatorWithWordStep(RestoreStep):
     placeholder = ProtectPlaceholder.DECIMAL_SEPARATOR
 
     def _replacement(self, operators: LanguageOperators) -> str:
+        if operators.config.decimal_word is None:
+            return " "
         return f" {operators.config.decimal_word} "
 
 

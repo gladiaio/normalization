@@ -10,9 +10,8 @@ class ConvertOclockToNumericTimeStep(TextStep):
     """Convert 'ten o'clock' -> '10:00'.
 
     Reads operators.config.oclock_word and operators.config.time_words.
-    Only entries whose digit value is 1-12 (valid clock hours) are used;
-    minute-range values (13-50) present in time_words are ignored here.
-    No-op when either field is None.
+    Only processes time_words entries with numeric values 1-12. Values above 12 (minute expressions like "twenty", "thirty") are skipped because o'clock only applies to full hours.
+    No operation when either field is None.
     """
 
     name = "convert_oclock_to_numeric_time"

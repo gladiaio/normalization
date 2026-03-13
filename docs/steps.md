@@ -62,7 +62,8 @@ Convert dots in domains, IPs, versions, file extensions to the language dot word
 Convert 'ten o'clock' -> '10:00'.
 
 Reads operators.config.oclock_word and operators.config.time_words.
-No-op when either is None.
+Only processes time_words entries with numeric values 1-12. Values above 12 (minute expressions like "twenty", "thirty") are skipped because o'clock only applies to full hours.
+No operation when either field is None.
 
 ### `convert_roman_numerals_to_digits`
 
@@ -80,8 +81,9 @@ Skips 'v' when adjacent to digits (version-like contexts: v2, v 12).
 
 Convert word-based time patterns (two p.m -> 2 pm, two thirty p.m -> 2:30 pm).
 
-Reads operators.config.extended_time_words, operators.config.compound_minutes,
-operators.config.am_word, operators.config.pm_word, and operators.config.oclock_word.
+Reads operators.config.time_words, operators.config.am_word,
+operators.config.pm_word, operators.config.oclock_word, and
+operators.get_compound_minutes().
 No-op when required config is None.
 
 ### `expand_alphanumeric_codes`
@@ -171,12 +173,6 @@ Replace commas, dots, hyphens between number words with a single space.
 
 Handles: 'seven, zero' -> 'seven zero', 'two-one-three' -> 'two one three'.
 Reads operators.config.number_words. No-op when None.
-
-### `normalize_whitespace`
-
-**Base class:** `TextStep`
-
-Collapse multiple spaces into one and strip leading/trailing whitespace.
 
 ### `protect_decimal_separator`
 
@@ -331,7 +327,7 @@ Handles ¤ markers by processing segments separately.
 
 **Base class:** `TextStep`
 
-Remove currency/percent symbols that are not adjacent to numbers.
+Remove currency symbols that are not adjacent to numbers.
 
 ### `remove_symbols`
 
@@ -382,12 +378,6 @@ No-op when either is None.
 
 Replace currency symbols with their corresponding words.
 
-Args:
-    text: Input text
-
-Returns:
-    Text with currency symbols replaced with their corresponding words
-
 ### `restore_decimal_separator_with_word`
 
 **Base class:** `RestoreStep`
@@ -400,9 +390,8 @@ Restore XDECIMALX placeholder with the language-specific decimal word.
 
 Restore XATX placeholder with the language-specific 'at' word.
 
-Uses TextStep directly: ProtectEmailSymbolsStep inserts spaces around the
-placeholder, so restoration uses re.sub with \s* to absorb them. RestoreStep
-only does a plain str.replace, which would leave double spaces.
+When no word is configured for '@', restores the original '@' character
+so that placeholders never leak into the final output.
 
 ### `restore_email_dot_symbol_with_word`
 
@@ -410,8 +399,8 @@ only does a plain str.replace, which would leave double spaces.
 
 Restore XDOTX placeholder with the language-specific 'dot' word.
 
-Uses TextStep directly: same reason as RestoreEmailAtSymbolWithWordStep —
-spaces were inserted around the placeholder during protection.
+When no word is configured for '.', restores the original '.' character
+so that placeholders never leak into the final output.
 
 ### `restore_phone_plus_symbol`
 

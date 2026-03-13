@@ -3,7 +3,7 @@
   <p align="center">
     Text normalization for fair speech-to-text evaluation.
     <br />
-    <a href="#quick-start">Quick Start</a> &middot; <a href="docs/steps.md">Step Reference</a> &middot; <a href="#contributing">Contributing</a>
+    <a href="#quick-start">Quick Start</a> &middot; <a href="docs/steps.md">Step Reference</a> &middot; <a href="CONTRIBUTING.md">Contributing</a>
   </p>
 </p>
 
@@ -144,45 +144,18 @@ pipeline.describe()
 
 ## Contributing
 
-### Adding a new step
-
-1. Create or extend a file under `normalization/steps/text/` or `normalization/steps/word/`.
-2. Decorate the class with `@register_step` and set a unique `name` attribute.
-3. Add an import to `steps/text/__init__.py` or `steps/word/__init__.py`.
-4. Add unit tests under `tests/unit/steps/`.
-5. Add the step to the relevant preset YAML, or create a new preset version.
-
-```python
-from normalization.languages.base import LanguageOperators
-from normalization.steps.base import TextStep
-from normalization.steps.registery import register_step
-
-@register_step
-class MyNewStep(TextStep):
-    name = "my_new_step"
-
-    def __call__(self, text: str, operators: LanguageOperators) -> str:
-        return operators.some_method(text)
-```
-
-Steps must be language-agnostic — delegate all language-specific logic to the `operators` argument.
-
-### Adding a new language
-
-1. Create `normalization/languages/{lang}/` with `operators.py`, `replacements.py`, and `__init__.py`.
-2. Instantiate a `LanguageConfig` and subclass `LanguageOperators`.
-3. Decorate with `@register_language` and add one import to `normalization/languages/__init__.py`.
-4. Add tests under `tests/unit/languages/` and e2e fixture rows in `tests/e2e/`.
+Bug reports, new steps, and new language support are all welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide — including how to add steps, add languages, write tests, and the commit style we follow.
 
 ### Development
 
 ```bash
+uv run pre-commit install --install-hooks   # install hooks once after cloning
 uv run pytest              # run tests
 uv run ruff check .        # lint
 uv run ruff format .       # format
-uv run ty check             # type-check
+uv run ty check            # type-check
 ```
 
 ## License
 
-TBD
+[MIT](LICENSE)

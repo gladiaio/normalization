@@ -1,4 +1,4 @@
-from normalization.languages.default import DefaultOperators
+from normalization.languages.base import LanguageOperators
 from normalization.steps.text.placeholders import (
     ProtectDecimalSeparatorStep,
 )
@@ -10,7 +10,7 @@ def test_step_is_registered():
     assert_text_step_registered(ProtectDecimalSeparatorStep)
 
 
-def test_protect_decimal_separator_period_separator(operators: DefaultOperators):
+def test_protect_decimal_separator_period_separator(operators: LanguageOperators):
     """
     Test that the protect decimal separator step protects the decimal separator.
     """
@@ -20,7 +20,7 @@ def test_protect_decimal_separator_period_separator(operators: DefaultOperators)
     assert protected_text == "1,234XDECIMALX56"
 
 
-def test_protect_decimal_separator_comma_separator(operators: DefaultOperators):
+def test_protect_decimal_separator_comma_separator(operators: LanguageOperators):
     """
     Test that the protect decimal separator step protects the decimal separator.
     """
@@ -30,7 +30,7 @@ def test_protect_decimal_separator_comma_separator(operators: DefaultOperators):
     assert protected_text == "1XDECIMALX234.56"
 
 
-def test_protect_decimal_separator_multiple_decimals(operators: DefaultOperators):
+def test_protect_decimal_separator_multiple_decimals(operators: LanguageOperators):
     """
     Test that the protect decimal separator step protects the decimal separator.
     """

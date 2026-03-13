@@ -1,6 +1,7 @@
 import re
 from dataclasses import dataclass, field
 
+from normalization.constants.protectors import PLACEHOLDER_FALLBACK_CHARS
 from normalization.languages.base import LanguageOperators
 from normalization.steps.base import TextStep, WordStep
 
@@ -46,6 +47,15 @@ class NormalizationPipeline:
         # Stage 3
         for step in self.text_post_steps:
             text = step(text, self.operators)
+
+        # Restore any placeholders that dedicated steps left behind
+        for placeholder, char in PLACEHOLDER_FALLBACK_CHARS.items():
+            text = re.sub(
+                rf"\s*{re.escape(placeholder)}\s*",
+                char,
+                text,
+                flags=re.IGNORECASE,
+            )
 
         return re.sub(r"\s+", " ", text).strip()
 

@@ -7,43 +7,25 @@ from normalization.steps.registery import register_step
 
 _CURRENCY_NUM = rf"\d+(?:{ProtectPlaceholder.DECIMAL_SEPARATOR.value}\d+)?"
 
-RE_EURO_BEFORE = re.compile(rf"€\s*({_CURRENCY_NUM})", re.IGNORECASE)
-RE_EURO_AFTER = re.compile(rf"({_CURRENCY_NUM})\s*€", re.IGNORECASE)
-RE_DOLLAR_BEFORE = re.compile(rf"\$\s*({_CURRENCY_NUM})", re.IGNORECASE)
-RE_DOLLAR_AFTER = re.compile(rf"({_CURRENCY_NUM})\s*\$", re.IGNORECASE)
-RE_POUND_BEFORE = re.compile(rf"£\s*({_CURRENCY_NUM})", re.IGNORECASE)
-RE_POUND_AFTER = re.compile(rf"({_CURRENCY_NUM})\s*£", re.IGNORECASE)
-RE_CENT_BEFORE = re.compile(r"¢\s*(\d+)", re.IGNORECASE)
-RE_CENT_AFTER = re.compile(r"(\d+)\s*¢", re.IGNORECASE)
-RE_YEN_BEFORE = re.compile(r"¥\s*(\d+)", re.IGNORECASE)
-RE_YEN_AFTER = re.compile(r"(\d+)\s*¥", re.IGNORECASE)
+
+def _make_currency_patterns(symbol: str) -> tuple[re.Pattern, re.Pattern]:
+    escaped = re.escape(symbol)
+    before = re.compile(rf"{escaped}\s*({_CURRENCY_NUM})", re.IGNORECASE)
+    after = re.compile(rf"({_CURRENCY_NUM})\s*{escaped}", re.IGNORECASE)
+    return before, after
 
 
 @register_step
 class ReplaceCurrencyStep(TextStep):
     """
     Replace currency symbols with their corresponding words.
-
-    Args:
-        text: Input text
-
-    Returns:
-        Text with currency symbols replaced with their corresponding words
     """
 
     name = "replace_currency"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        cfg = operators.config
-        # Symbol before/after number → "number word" (language from config)
-        text = RE_EURO_BEFORE.sub(rf"\1 {cfg.euro_word}", text)
-        text = RE_EURO_AFTER.sub(rf"\1 {cfg.euro_word}", text)
-        text = RE_DOLLAR_BEFORE.sub(rf"\1 {cfg.dollar_word}", text)
-        text = RE_DOLLAR_AFTER.sub(rf"\1 {cfg.dollar_word}", text)
-        text = RE_POUND_BEFORE.sub(rf"\1 {cfg.pound_word}", text)
-        text = RE_POUND_AFTER.sub(rf"\1 {cfg.pound_word}", text)
-        text = RE_CENT_BEFORE.sub(rf"\1 {cfg.cent_word}", text)
-        text = RE_CENT_AFTER.sub(rf"\1 {cfg.cent_word}", text)
-        text = RE_YEN_BEFORE.sub(rf"\1 {cfg.yen_word}", text)
-        text = RE_YEN_AFTER.sub(rf"\1 {cfg.yen_word}", text)
+        for symbol, word in operators.config.currency_symbol_to_word.items():
+            before, after = _make_currency_patterns(symbol)
+            text = before.sub(rf"\1 {word}", text)
+            text = after.sub(rf"\1 {word}", text)
         return text

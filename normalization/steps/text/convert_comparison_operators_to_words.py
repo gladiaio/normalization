@@ -16,8 +16,11 @@ class ConvertComparisonOperatorsToWordsStep(TextStep):
     name = "convert_comparison_operators_to_words"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        cfg = operators.config
-        text = _RE_GREATER_THAN.sub(rf"\1 {cfg.greater_than_word} \2", text)
-        text = _RE_LESS_THAN.sub(rf"\1 {cfg.less_than_word} \2", text)
-        text = _RE_EQUALS.sub(rf"\1 {cfg.equals_word} \2", text)
+        stw = operators.config.symbols_to_words
+        if ">" in stw:
+            text = _RE_GREATER_THAN.sub(rf"\1 {stw['>']} \2", text)
+        if "<" in stw:
+            text = _RE_LESS_THAN.sub(rf"\1 {stw['<']} \2", text)
+        if "=" in stw:
+            text = _RE_EQUALS.sub(rf"\1 {stw['=']} \2", text)
         return text
