@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "gladia-normalization"
 version = "0.1.0"
@@ -5,7 +9,14 @@ description = "Normalize speech-to-text output for fair Word Error Rate (WER) co
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.13"
-dependencies = ["contractions>=0.1.73", "pyyaml>=6.0.3"]
+dependencies = [
+    "contractions>=0.1.73",
+    "pyyaml>=6.0.3",
+    "text2num>=3.0.0",
+]
+
+[tool.setuptools.package-data]
+normalization = ["presets/*.yaml"]
 
 [dependency-groups]
 dev = ["pre-commit>=4.5.1", "ty>=0.0.20", "pytest>=9.0.2", "ruff>=0.15.2"]
