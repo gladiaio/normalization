@@ -8,9 +8,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/pypi/v/gladia-normalization?style=flat-square" alt="PyPI version" />
-  <img src="https://img.shields.io/pypi/pyversions/gladia-normalization?style=flat-square" alt="Python versions" />
-  <img src="https://img.shields.io/github/license/gladiaio/normalization?style=flat-square" alt="License" />
+  <img src="https://img.shields.io/pypi/v/gladia_normalization?style=flat-square" alt="PyPI version" />
+  <img src="https://img.shields.io/pypi/pyversions/gladia_normalization?style=flat-square" alt="Python versions" />
+  <img src="https://img.shields.io/pypi/l/gladia_normalization?style=flat-square" alt="License" />
 </p>
 
 ---
@@ -155,6 +155,12 @@ uv run ruff check .        # lint
 uv run ruff format .       # format
 uv run ty check            # type-check
 ```
+
+## About
+
+`gladia-normalization` grew out of internal tooling at [Gladia](https://gladia.io), where we are building an audio intelligence platform powered by speech recognition. When benchmarking ASR systems, we kept hitting the same problem: computing WER from raw transcript penalizes formatting differences that have nothing to do with the quality itself. We built this library to solve it for ourselves, then open-sourced it so the broader speech community doesn't have to solve it again.
+
+Sharing it felt like the right next step: the problem is universal, and community contributions are the best way to make reliable normalization available for every language, not just the ones we support today.
 
 ## License
 
