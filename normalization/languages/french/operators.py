@@ -103,24 +103,27 @@ class FrenchOperators(LanguageOperators):
         self._number_normalizer = FrenchNumberNormalizer()
 
     def expand_contractions(self, text: str) -> str:
-        """Expand French elisions (j'ai → je ai, c'est → ce est, d'accord → de accord, etc.)."""
-        # j' → je (j'ai, j'avais, j'étais...)
-        text = re.sub(r"\bj'", "je ", text, flags=re.IGNORECASE)
-        # c' → ce (c'est, c'était...)
-        text = re.sub(r"\bc'", "ce ", text, flags=re.IGNORECASE)
-        # d' → de (d'accord, d'abord, d'habitude...)
-        text = re.sub(r"\bd'", "de ", text, flags=re.IGNORECASE)
-        # qu' → que
-        text = re.sub(r"\bqu'", "que ", text, flags=re.IGNORECASE)
-        # n' → ne (n'est, n'a...)
-        text = re.sub(r"\bn'", "ne ", text, flags=re.IGNORECASE)
-        # s' → se (s'il, s'est...)
-        text = re.sub(r"\bs'", "se ", text, flags=re.IGNORECASE)
-        # m' → me, t' → te
-        text = re.sub(r"\bm'", "me ", text, flags=re.IGNORECASE)
-        text = re.sub(r"\bt'", "te ", text, flags=re.IGNORECASE)
-        # l' → le (simplified; l'heure → le heure for normalization consistency)
-        text = re.sub(r"\bl'", "le ", text, flags=re.IGNORECASE)
+        """Expand French informal spoken contractions before consonants only.
+
+        French elision (apostrophe before a vowel or h) is the standard written form and
+        must be preserved: j'ai, c'est, l'ami, d'accord stay as-is because expanding them
+        would produce adjacent vowels that are incorrect in written French.
+
+        Only expand when the apostrophe is followed by a consonant — those are informal
+        spoken reductions (j'veux → je veux, j'suis → je suis, s'pas → se pas).
+        """
+        # Vowels + h: elision before these is standard written French — do not expand.
+        vowels = "aàâeéèêiîïoôuùûy"
+        _V = rf"(?![{vowels}{vowels.upper()}])"
+        text = re.sub(rf"\bj'{_V}", "je ", text, flags=re.IGNORECASE)
+        text = re.sub(rf"\bc'{_V}", "ce ", text, flags=re.IGNORECASE)
+        text = re.sub(rf"\bd'{_V}", "de ", text, flags=re.IGNORECASE)
+        text = re.sub(rf"\bqu'{_V}", "que ", text, flags=re.IGNORECASE)
+        text = re.sub(rf"\bn'{_V}", "ne ", text, flags=re.IGNORECASE)
+        text = re.sub(rf"\bs'{_V}", "se ", text, flags=re.IGNORECASE)
+        text = re.sub(rf"\bm'{_V}", "me ", text, flags=re.IGNORECASE)
+        text = re.sub(rf"\bt'{_V}", "te ", text, flags=re.IGNORECASE)
+        text = re.sub(rf"\bl'{_V}", "le ", text, flags=re.IGNORECASE)
         return text
 
     def expand_written_numbers(self, text: str) -> str:
