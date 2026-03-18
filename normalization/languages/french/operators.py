@@ -2,7 +2,7 @@ from normalization.languages.base import (
     LanguageConfig,
     LanguageOperators,
 )
-from normalization.languages.registery import register_language
+from normalization.languages.registry import register_language
 
 FRENCH_CONFIG = LanguageConfig(
     code="fr",

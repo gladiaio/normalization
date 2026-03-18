@@ -1,7 +1,7 @@
 import pytest
 
 from normalization.languages.english.operators import EnglishOperators
-from normalization.languages.registery import get_language_registry
+from normalization.languages.registry import get_language_registry
 
 
 @pytest.fixture

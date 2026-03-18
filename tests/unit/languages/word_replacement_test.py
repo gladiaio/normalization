@@ -1,6 +1,6 @@
 import pytest
 
-from normalization.languages.registery import get_language_registry
+from normalization.languages.registry import get_language_registry
 
 
 def has_multiple_words(key: str) -> bool:

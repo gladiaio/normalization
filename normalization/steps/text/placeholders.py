@@ -9,7 +9,7 @@ import re
 from normalization.constants.protectors import ProtectPlaceholder
 from normalization.languages.base import LanguageOperators
 from normalization.steps.base import ProtectStep, RestoreStep, TextStep
-from normalization.steps.registery import register_step
+from normalization.steps.registry import register_step
 
 # ---------------------------------------------------------------------------
 # Email symbols

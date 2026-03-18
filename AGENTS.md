@@ -96,7 +96,7 @@ Versioned YAML files shipped with the library. **Once published, a preset must n
 
 ### Auto-registration, not manual registries
 
-Never manually maintain a dict mapping names to classes. Use the `@register_step` and `@register_language` decorators defined in `steps/registery.py` and `languages/registery.py`. The only manual work is adding an import line to the relevant `__init__.py` so the decorator runs at import time.
+Never manually maintain a dict mapping names to classes. Use the `@register_step` and `@register_language` decorators defined in `steps/registry.py` and `languages/registry.py`. The only manual work is adding an import line to the relevant `__init__.py` so the decorator runs at import time.
 
 ### Language data vs. language behavior
 

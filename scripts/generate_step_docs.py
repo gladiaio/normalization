@@ -21,7 +21,7 @@ from normalization.steps.base.protect_step import ProtectStep  # noqa: E402
 from normalization.steps.base.restore_step import RestoreStep  # noqa: E402
 from normalization.steps.base.text_step import TextStep  # noqa: E402
 from normalization.steps.base.word_step import WordStep  # noqa: E402
-from normalization.steps.registery import get_step_registry  # noqa: E402
+from normalization.steps.registry import get_step_registry  # noqa: E402
 
 _BASE_CLASS_PRIORITY = (ProtectStep, RestoreStep, TextStep, WordStep)
 

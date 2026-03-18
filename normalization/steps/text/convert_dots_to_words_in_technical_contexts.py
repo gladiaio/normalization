@@ -2,7 +2,7 @@ import re
 
 from normalization.languages.base import LanguageOperators
 from normalization.steps.base import TextStep
-from normalization.steps.registery import register_step
+from normalization.steps.registry import register_step
 
 _RE_DOMAIN_3PARTS = re.compile(r"\b([a-zA-Z]+)\.([a-zA-Z]+)\.([a-zA-Z]+)(\d*)\b")
 _RE_DOMAIN_2PARTS = re.compile(r"\b([a-zA-Z]+)\.([a-zA-Z]{2,})\b")
