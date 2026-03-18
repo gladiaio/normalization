@@ -16,7 +16,8 @@ jobs:
     environment: pypi
     permissions:
       contents: read
-      id-token: write # required for Trusted Publisher (OIDC)
+      id-token: write # required for Trusted Publisher (OIDC) and Sigstore signing
+      attestations: write # required to persist build attestations
 
     steps:
       - uses: actions/checkout@v6
@@ -44,6 +45,11 @@ jobs:
 
       - name: Build
         run: uv build
+
+      - name: Attest build artifacts
+        uses: actions/attest@v4
+        with:
+          subject-path: dist/*
 
       - name: Publish to PyPI
         run: uv publish --trusted-publishing automatic
