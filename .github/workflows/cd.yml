@@ -16,7 +16,7 @@ jobs:
     environment: pypi
     permissions:
       contents: read
-      id-token: write  # required for Trusted Publisher (OIDC)
+      id-token: write # required for Trusted Publisher (OIDC)
 
     steps:
       - uses: actions/checkout@v6
@@ -40,10 +40,10 @@ jobs:
 
       - name: Update version in pyproject.toml
         run: |
-          sed -i 's/^version = ".*"/version = "${{ steps.version.outputs.version }}"/' pyproject.toml
+          uv version ${{ steps.version.outputs.version }}
 
       - name: Build
         run: uv build
 
       - name: Publish to PyPI
-        run: uv publish
+        run: uv publish --trusted-publishing automatic
