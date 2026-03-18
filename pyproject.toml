@@ -23,7 +23,7 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 license = { file = "LICENSE" }
-requires-python = ">=3.13"
+requires-python = ">=3.10"
 dependencies = ["contractions>=0.1.73", "pyyaml>=6.0.3"]
 
 [project.urls]
