@@ -69,9 +69,11 @@ DUTCH_CONFIG = LanguageConfig(
         "hmm",
         "mm",
         "mmm",
+        "mhm",
         "nou",
         "o",
         "oke",
+        "okee",
         "oké",
         "uh",
     ],
@@ -83,7 +85,9 @@ DUTCH_CONFIG = LanguageConfig(
 class DutchOperators(LanguageOperators):
     def __init__(self):
         super().__init__(DUTCH_CONFIG)
-        self._number_normalizer = DutchNumberNormalizer()
+        self._number_normalizer = DutchNumberNormalizer(
+            DUTCH_CONFIG.currency_symbol_to_word,
+        )
 
     def expand_written_numbers(self, text: str) -> str:
         return self._number_normalizer(text)

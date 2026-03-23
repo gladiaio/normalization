@@ -9,11 +9,12 @@ Dutch number normalizer: spelled-out numbers to digits.
 - Vocabulary: nul, een, twee, ..., tien, elf, twaalf, ..., twintig, dertig, ...
 - Multipliers: honderd, duizend, miljoen, miljard, biljoen.
 - Handles currency (euro, dollar, pond, cent), percent (procent), and decimal (komma).
+- Currency output follows Dutch word order: amount then unit (e.g. €10 and "tien euro" -> "10 euros").
 """
 
 
 class DutchNumberNormalizer:
-    def __init__(self):
+    def __init__(self, currency_symbol_to_word: dict[str, str] | None = None):
         self.zeros = {"nul"}
         self.ones: dict[str, int] = {
             name: i
@@ -133,6 +134,8 @@ class DutchNumberNormalizer:
         }
         self.specials = {"en", "dubbel", "drievoudig", "komma"}
 
+        self._currency_trailing = currency_symbol_to_word or {}
+
         self.words = {
             key
             for mapping in [
@@ -168,7 +171,11 @@ class DutchNumberNormalizer:
             nonlocal prefix, value, pending_ones
             result = str(result)
             if prefix is not None:
-                result = prefix + result
+                trailing = self._currency_trailing.get(prefix)
+                if trailing is not None:
+                    result = f"{result} {trailing}"
+                else:
+                    result = prefix + result
             value = None
             pending_ones = None
             prefix = None
