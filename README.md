@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">Normalization</h1>
   <p align="center">
-    Text normalization for fair speech-to-text evaluation.
+    A lightweight library for normalizing speech transcripts before computing WER.
     <br />
     <a href="#quick-start">Quick Start</a> &middot; <a href="docs/steps.md">Step Reference</a> &middot; <a href="CONTRIBUTING.md">Contributing</a>
   </p>
