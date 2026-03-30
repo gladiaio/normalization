@@ -1,9 +1,14 @@
 import re
+from collections.abc import Callable
 from typing import NamedTuple
 
 from normalization.languages.base import LanguageOperators
 from normalization.steps.base import TextStep
 from normalization.steps.registry import register_step
+
+# Replacement type: either a pre-compiled string template or a callable.
+# Callables avoid re._compile_template() being invoked on every .sub() call.
+_Replacement = str | Callable[[re.Match[str]], str]
 
 
 def _ampm_prefix_class(am_word: str, pm_word: str) -> str:
@@ -13,15 +18,15 @@ def _ampm_prefix_class(am_word: str, pm_word: str) -> str:
 
 class _CompiledPatterns(NamedTuple):
     # List of (compiled_pattern, replacement) for hour+compound_minute+ampm
-    compound_minute: list[tuple[re.Pattern[str], str]]
+    compound_minute: list[tuple[re.Pattern[str], _Replacement]]
     # List of (compiled_pattern, replacement) for hour+minute_word+ampm
-    minute_word: list[tuple[re.Pattern[str], str]]
+    minute_word: list[tuple[re.Pattern[str], _Replacement]]
     # List of (compiled_pattern, replacement) for hour+ampm only
-    hour_only: list[tuple[re.Pattern[str], str]]
+    hour_only: list[tuple[re.Pattern[str], _Replacement]]
     # (compiled_pattern, replacement) for digit+oclock, or None
-    oclock: tuple[re.Pattern[str], str] | None
+    oclock: tuple[re.Pattern[str], _Replacement] | None
     # (compiled_pattern, replacement) for digit:00+ampm collapse, or None
-    oclock_ampm: tuple[re.Pattern[str], str] | None
+    oclock_ampm: tuple[re.Pattern[str], _Replacement] | None
 
 
 def _build_compiled_patterns(operators: LanguageOperators) -> _CompiledPatterns:
@@ -30,11 +35,11 @@ def _build_compiled_patterns(operators: LanguageOperators) -> _CompiledPatterns:
     pm_word = operators.config.pm_word
     oclock_word = operators.config.oclock_word
 
-    compound_minute: list[tuple[re.Pattern[str], str]] = []
-    minute_word: list[tuple[re.Pattern[str], str]] = []
-    hour_only: list[tuple[re.Pattern[str], str]] = []
-    oclock: tuple[re.Pattern[str], str] | None = None
-    oclock_ampm: tuple[re.Pattern[str], str] | None = None
+    compound_minute: list[tuple[re.Pattern[str], _Replacement]] = []
+    minute_word: list[tuple[re.Pattern[str], _Replacement]] = []
+    hour_only: list[tuple[re.Pattern[str], _Replacement]] = []
+    oclock: tuple[re.Pattern[str], _Replacement] | None = None
+    oclock_ampm: tuple[re.Pattern[str], _Replacement] | None = None
 
     if time_words is not None and am_word is not None and pm_word is not None:
         compound = operators.get_compound_minutes()
@@ -48,7 +53,7 @@ def _build_compiled_patterns(operators: LanguageOperators) -> _CompiledPatterns:
                             rf"\b{hour_word}\s+{min_pattern}\s+({prefix_class})\.?m\.?\b",
                             re.IGNORECASE,
                         ),
-                        rf"{hour_num}:{min_num} \1m",
+                        lambda m, h=hour_num, mn=min_num: f"{h}:{mn} {m.group(1)}m",
                     )
                 )
 
@@ -60,7 +65,7 @@ def _build_compiled_patterns(operators: LanguageOperators) -> _CompiledPatterns:
                             rf"\b{hour_word}\s+{min_word}\s+({prefix_class})\.?m\.?\b",
                             re.IGNORECASE,
                         ),
-                        rf"{hour_num}:{min_num} \1m",
+                        lambda m, h=hour_num, mn=min_num: f"{h}:{mn} {m.group(1)}m",
                     )
                 )
 
@@ -71,7 +76,7 @@ def _build_compiled_patterns(operators: LanguageOperators) -> _CompiledPatterns:
                         rf"\b{word}\s+({prefix_class})\.?m\.?\b",
                         re.IGNORECASE,
                     ),
-                    rf"{num} \1m",
+                    lambda m, n=num: f"{n} {m.group(1)}m",
                 )
             )
 
@@ -79,13 +84,13 @@ def _build_compiled_patterns(operators: LanguageOperators) -> _CompiledPatterns:
         escaped = re.escape(oclock_word)
         oclock = (
             re.compile(rf"(\d{{1,2}})\s+{escaped}", re.IGNORECASE),
-            r"\1:00",
+            lambda m: f"{m.group(1)}:00",
         )
         if am_word is not None and pm_word is not None:
             prefix_class = _ampm_prefix_class(am_word, pm_word)
             oclock_ampm = (
                 re.compile(rf"(\d{{1,2}}):00\s+({prefix_class}m)"),
-                r"\1 \2",
+                lambda m: f"{m.group(1)} {m.group(2)}",
             )
 
     return _CompiledPatterns(
