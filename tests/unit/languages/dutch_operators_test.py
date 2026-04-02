@@ -45,6 +45,10 @@ def test_config_sentence_replacements(operators):
 def test_word_replacements(operators):
     assert operators.get_word_replacements()["ge"] == "je"
     assert operators.get_word_replacements()["da"] == "dat"
+    assert operators.get_word_replacements()["u"] == "je"
+    assert operators.get_word_replacements()["uw"] == "je"
+    assert operators.get_word_replacements()["okee"] == "oke"
+    assert operators.get_word_replacements()["euro"] == "euros"
 
 
 def test_expand_written_numbers_euro_after_amount_dutch_order(operators):
