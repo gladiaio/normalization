@@ -8,4 +8,5 @@ FRENCH_SENTENCE_REPLACEMENTS: dict[str, str] = {
     "wi fi": "wifi",
     "cd rom": "cdrom",
     "t shirt": "tshirt",
+    "pour 100": "pourcent",
 }
