@@ -9,7 +9,7 @@ from normalization.languages.french.replacements import FRENCH_REPLACEMENTS
 from normalization.languages.french.sentence_replacements import (
     FRENCH_SENTENCE_REPLACEMENTS,
 )
-from normalization.languages.registery import register_language
+from normalization.languages.registry import register_language
 
 # French digit words (0-9) for steps that need digit-word recognition.
 _FRENCH_DIGIT_WORDS: dict[str, str] = {

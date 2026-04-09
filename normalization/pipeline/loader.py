@@ -4,7 +4,7 @@ from typing import cast
 import yaml
 
 import normalization.languages  # noqa: F401 — triggers @register_language decorators
-from normalization.languages.registery import get_language_registry
+from normalization.languages.registry import get_language_registry
 from normalization.pipeline.base import NormalizationPipeline
 from normalization.steps import get_step_registry
 from normalization.steps.base import TextStep, WordStep

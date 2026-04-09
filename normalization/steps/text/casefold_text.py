@@ -1,6 +1,6 @@
 from normalization.languages.base import LanguageOperators
 from normalization.steps.base import TextStep
-from normalization.steps.registery import register_step
+from normalization.steps.registry import register_step
 
 
 @register_step

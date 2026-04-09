@@ -9,7 +9,7 @@ from normalization.languages.english.replacements import ENGLISH_REPLACEMENTS
 from normalization.languages.english.sentence_replacements import (
     ENGLISH_SENTENCE_REPLACEMENTS,
 )
-from normalization.languages.registery import register_language
+from normalization.languages.registry import register_language
 
 # Single digits 1-9 as words: shared by _TIME_WORDS, digit_words, and
 # get_compound_minutes() so each word is defined exactly once.

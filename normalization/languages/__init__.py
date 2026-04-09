@@ -1,6 +1,6 @@
 from . import english, french
 from .base import LanguageOperators
-from .registery import get_language_registry, register_language
+from .registry import get_language_registry, register_language
 
 register_language(LanguageOperators)
 

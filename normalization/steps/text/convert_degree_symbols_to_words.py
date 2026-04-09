@@ -2,7 +2,7 @@ import re
 
 from normalization.languages.base import LanguageOperators
 from normalization.steps.base import TextStep
-from normalization.steps.registery import register_step
+from normalization.steps.registry import register_step
 
 _RE_DEGREE_CELSIUS = re.compile(r"(\d+)°C", re.IGNORECASE)
 _RE_DEGREE_FAHRENHEIT = re.compile(r"(\d+)°F", re.IGNORECASE)

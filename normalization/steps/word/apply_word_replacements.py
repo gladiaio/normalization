@@ -3,7 +3,7 @@ import re
 from normalization.languages.base import LanguageOperators
 from normalization.pipeline.replacer import Replacer
 from normalization.steps.base import WordStep
-from normalization.steps.registery import register_step
+from normalization.steps.registry import register_step
 
 _RE_EMAIL = re.compile(r"^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$")
 

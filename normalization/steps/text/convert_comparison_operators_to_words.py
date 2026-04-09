@@ -2,7 +2,7 @@ import re
 
 from normalization.languages.base import LanguageOperators
 from normalization.steps.base import TextStep
-from normalization.steps.registery import register_step
+from normalization.steps.registry import register_step
 
 _RE_GREATER_THAN = re.compile(r"(\d+)\s*>\s*(\d+)")
 _RE_LESS_THAN = re.compile(r"(\d+)\s*<\s*(\d+)")

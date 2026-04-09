@@ -1,14 +1,29 @@
-[build-system]
-requires = ["setuptools>=61", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "gladia-normalization"
 version = "0.1.0"
 description = "Normalize speech-to-text output for fair Word Error Rate (WER) comparison"
 readme = "README.md"
+authors = [{ name = "Gladia", email = "support@gladia.io" }]
+keywords = [
+  "speech-to-text",
+  "STT",
+  "ASR",
+  "WER",
+  "normalization",
+  "transcription",
+  "benchmark",
+]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Development Status :: 4 - Beta",
+  "Topic :: Text Processing :: Linguistic",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 license = { file = "LICENSE" }
-requires-python = ">=3.13"
+requires-python = ">=3.10"
 dependencies = [
     "contractions>=0.1.73",
     "pyyaml>=6.0.3",
@@ -18,8 +33,20 @@ dependencies = [
 [tool.setuptools.package-data]
 normalization = ["presets/*.yaml"]
 
+[project.urls]
+Homepage = "https://github.com/gladiaio/normalization"
+Repository = "https://github.com/gladiaio/normalization"
+"Bug Tracker" = "https://github.com/gladiaio/normalization/issues"
+
 [dependency-groups]
 dev = ["pre-commit>=4.5.1", "ty>=0.0.20", "pytest>=9.0.2", "ruff>=0.15.2"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["normalization"]
 
 [tool.pytest.ini_options]
 python_files = ["*_test.py"]
@@ -31,3 +58,4 @@ ignore = ["E501"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
