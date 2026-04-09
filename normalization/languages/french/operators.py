@@ -113,7 +113,7 @@ class FrenchOperators(LanguageOperators):
         spoken reductions (j'veux → je veux, j'suis → je suis, s'pas → se pas).
         """
         # Vowels + h: elision before these is standard written French — do not expand.
-        vowels = "aàâeéèêiîïoôuùûy"
+        vowels = "aàâeéèêiîïoôuùûyh"
         _V = rf"(?![{vowels}{vowels.upper()}])"
         text = re.sub(rf"\bj'{_V}", "je ", text, flags=re.IGNORECASE)
         text = re.sub(rf"\bc'{_V}", "ce ", text, flags=re.IGNORECASE)
