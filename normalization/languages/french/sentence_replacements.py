@@ -9,4 +9,5 @@ FRENCH_SENTENCE_REPLACEMENTS: dict[str, str] = {
     "cd rom": "cdrom",
     "t shirt": "tshirt",
     "pour 100": "pourcent",
+    "pour cent": "pourcent",
 }
