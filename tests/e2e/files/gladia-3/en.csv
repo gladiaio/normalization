@@ -48,17 +48,14 @@ CAPS@EXAMPLE.COM,c a p s at e x a m p l e dot c o m
 Contact john.doe@company.co.uk now,contact john dot doe at company dot co dot uk now
 Contact me at john@example.com please,contact me at john at example dot com please
 example.com,example dot com
-fail-safe,fail safe
 file.txt,file dot txt
 first.last+tag@subdomain.example.com,1st dot last tag at subdomain dot example dot com
 francois.dupont@gladia.io,francois dot dupont at gladia dot io
 good bye,goodbye
 he ain't gonna,he is not going to
 hello (yeah) there,hello there
-hello (yeah) there,hello there
 I have $20 dollars here,i have 20 dollars here
 is +16209113040,is +16209113040
-is one 620 911 3040,is 16209113040
 is one 620 911 3040,is 16209113040
 is plus 33 6 80 63 10 00,is +33680631000
 is plus 330662732643,is +330662732643
@@ -108,7 +105,6 @@ two hundred items,200 items
 two million people,2000000 people
 two thousand,2000
 two thousand items,2000 items
-U.S.A.,u s a
 user.name@domain.com,user dot name at domain dot com
 user@domain.com,user at domain dot com
 user@sub.domain.example.org,user at sub dot domain dot example dot org

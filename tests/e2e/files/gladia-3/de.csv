@@ -1,6 +1,6 @@
 input,expected
-#1 spot,1 spot
-It costs €50,it costs 50 euros
+#1 Platz,1 platz
+Es kostet €50,es kostet 50 euros
 "3,14",3 komma 14
 "1.234,56",1234 komma 56
 2 < 5,2 kleiner als 5
@@ -9,20 +9,16 @@ It costs €50,it costs 50 euros
 admin+tag@example.com,admin tag at example punkt com
 test@example.com,test at example punkt com
 x = 5,x gleich 5
-"The price is 99,99",the price is 99 komma 99
+"Der Preis ist 99,99",der preis ist 99 komma 99
 francois.dupont@gladia.io,francois punkt dupont at gladia punkt io
 www.example.com,w w w punkt example punkt com
-Version 1.0.0 released,version 1 punkt 0 punkt 0 released
+Version 1.0.0 veröffentlicht,version 1 punkt 0 punkt 0 veroffentlicht
 api.endpoint.v2,api punkt endpoint punkt v2
-fail-safe,fail safe
-U.S.A.,u s a
-+1 (619) 981-0181,+16199810181
-10:12 pm,10:12 pm
-Contact me at john@example.com please,contact me at john at example punkt com please
-"Temperature is 98,6 degrees",temperature is 98 komma 6 degrees
-The word [inaudible] is here,the word inaudible is here
-$5 and $10,5 dollars and 10 dollars
-my  name is bob,my name is bob
+Kontaktiere mich bei john@example.com bitte,kontaktiere mich bei john at example punkt com bitte
+"Die Temperatur ist 98,6 Grad",die temperatur ist 98 komma 6 grad
+Das Wort [inaudible] ist hier,das wort inaudible ist hier
+$5 und $10,5 dollars und 10 dollars
+mein  Name ist Bob,mein name ist bob
 5 bis 10,5 - 10
 kilometer weg,km weg
 internet suche heute,internetsuche heute

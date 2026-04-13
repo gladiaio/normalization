@@ -1,0 +1,30 @@
+input,expected
+$99,99 dólares
+"100,50 €",100 punto 50
+9.8 m/s,9 punto 8 m/s
+admin+tag@example.com,admin tag arroba example punto com
+cien mil items,100000 items
+"Cuesta 12,5 euros",cuesta 12 punto 5 euros
+diez mil personas,10000 personas
+dos mil items,2000 items
+dos millones de personas,2 millones de personas
+"El precio es 99,99 €",el precio es 99 punto 99
+Escribe a test@ejemplo.es por favor,escribe a test arroba ejemplo punto es por favor
+first.last+tag@subdomain.example.com,first punto last tag arroba subdomain punto example punto com
+hola (bien) aquí,hola bien aqui
+jane_smith@test.co.uk,jane smith arroba test punto co punto uk
+john.doe@company.org,john punto doe arroba company punto org
+mil millones de dólares,mil millones de dolares
+noventa y nueve items,99 items
+Señal%Marca,senal%marca
+Tengo 20€ euros aquí,tengo 20 euros euros aqui
+un millón de dólares,un millon de dolares
+user@domain.com,user arroba domain punto com
+veintidós items,22 items
+veintitrés personas,23 personas
+Veintitrés personas aquí,23 personas aqui
+Visita www.ejemplo.com ahora,visita w w w punto ejemplo punto com ahora
+www.gladia.io,w w w punto gladia punto io
+¢25,25 céntimos
+£50,50 libras
+¥1000,1000 yenes
