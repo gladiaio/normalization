@@ -1,0 +1,126 @@
+input,expected
+#1 spot,1 spot
+"$1,000,000",1000000 dollars
+$5 and $10,5 dollars and 10 dollars
+$50.75 total,50 point 75 dollars total
++1 (619) 981-0181,+16199810181
+05 45 pm,5:45 pm
+05:45pm,05:45 pm
+"1,234.56",1234 point 56
+1.1.1.1,1 dot 1 dot 1 dot 1
+10 a m,10 am
+1012 am,10:12 am
+10:00 pm,10 pm
+10:12 pm,10:12 pm
+10:54 a m,10:54 am
+11 a m,11 am
+1145 pm,11:45 pm
+12 p m,12 pm
+12:34 p m,12:34 pm
+Let's meet at noon o'clock,let us meet at 12:00
+Appointment is at 3 o'clock,appointment is at 3:00
+192.168.1.1,192 dot 168 dot 1 dot 1
+2 < 5,2 less than 5
+3.14,3 point 14
+5 45 p m,5:45 pm
+5 > 3,5 greater than 3
+5 a m,5 am
+5.45 p.m.,5:45 pm
+50°C,50 degree celsius
+545 pm,5:45 pm
+6 p m,6 pm
+602 am,6:02 am
+6:00 am,6 am
+6:24 am,6:24 am
+9.8 m/s,9 point 8 m/s
+About ¢25,about 25 cents
+About ¢25 cents only,about 25 cents only
+About ¥1000 yen total,about 1000 yens total
+admin+tag@example.com,admin tag at example dot com
+api.endpoint.v2,api dot endpoint dot v2
+at eleven twenty-five a.m,at 11:25 am
+at French numbers plus three three oh six six two seven three two six four three,at french numbers +330662732643
+at ten o'clock,at 10:00
+at two p.m,at 2 pm
+at two thirty p.m,at 2:30 pm
+bob b-o-b dupov d-u-p-o-v,bob b o b dupov d u p o v
+CAPS@EXAMPLE.COM,c a p s at e x a m p l e dot c o m
+Contact john.doe@company.co.uk now,contact john dot doe at company dot co dot uk now
+Contact me at john@example.com please,contact me at john at example dot com please
+example.com,example dot com
+fail-safe,fail safe
+file.txt,file dot txt
+first.last+tag@subdomain.example.com,1st dot last tag at subdomain dot example dot com
+francois.dupont@gladia.io,francois dot dupont at gladia dot io
+good bye,goodbye
+he ain't gonna,he is not going to
+hello (yeah) there,hello there
+hello (yeah) there,hello there
+I have $20 dollars here,i have 20 dollars here
+is +16209113040,is +16209113040
+is one 620 911 3040,is 16209113040
+is one 620 911 3040,is 16209113040
+is plus 33 6 80 63 10 00,is +33680631000
+is plus 330662732643,is +330662732643
+is plus one 620 911 3040,is +16209113040
+It costs £30 pounds,it costs 30 pounds
+It costs €50,it costs 50 euros
+It's 12.5 dollars,it is 12 point 5 dollars
+j o h a n n,j o h a n n
+jane_smith@test.co.uk,jane smith at test dot co dot uk
+john j-o-h-n doe d-o-e,john j o h n doe d o e
+my name is B.O.B,my name is b o b
+john.doe@company.org,john dot doe at company dot org
+lemme see,let me see
+my phone number is o 4 5 o 6 4 3 2 1 1 and,my phone number is 0450643211 and
+ninety nine items,99 items
+o 4 5 o 6 4 3 2 1 1,0450643211
+o 4 5 o 6 4 3 2 1 6,0450643216
+o 4 5 o 6 4 3 2 1 o,0450643210
+one apple,1 apple
+one billion dollars,1000000000 dollars
+one hundred,100
+one hundred people,100 people
+one hundred thousand items,100000 items
+one million dollars,1000000 dollars
+One million dollars total,1000000 dollars total
+one thousand dollars,1000 dollars
+one thousand three hundred and thirty seven,1337
+"one, two, three",123
+Plus 1 16 plus equals one.,+116 plus equals one
+plus 1-619-981-0181,+16199810181
+she ain't gonna,she is not going to
+Temperature is 98.6 degrees,temperature is 98 point 6 degrees
+ten thousand people,10000 people
+test@example.com,test at example dot com
+test@example.com.,test at example dot com
+test@gladia.io.,test at gladia dot io
+That's £100,that is 100 pounds
+The code is ABC123 here,the code is a b c 123 here
+The price is $99,the price is 99 dollars
+The price is 99.99,the price is 99 point 99
+The price is €50 euros,the price is 50 euros
+The word [inaudible] is here,the word inaudible is here
+twenty one dogs,21 dogs
+twenty three people,23 people
+twenty two items,22 items
+two hundred items,200 items
+two million people,2000000 people
+two thousand,2000
+two thousand items,2000 items
+U.S.A.,u s a
+user.name@domain.com,user dot name at domain dot com
+user@domain.com,user at domain dot com
+user@sub.domain.example.org,user at sub dot domain dot example dot org
+Version 1.0.0 released,version 1 dot 0 dot 0 released
+version 2.5.1,version 2 dot 5 dot 1
+Visit www.example.com today,visit w w w dot example dot com today
+Look at my v12 motor,look at my v12 motor
+www.example.com,w w w dot example dot com
+x = 5,x equals 5
+"zip code 92103, U.S.",zip code 92103 u s
+£5.50,5 point 50 pounds
+¥1000,1000 yens
+ø in Danish,o in danish
+€20 or €30,20 euros or 30 euros
+my  name is bob,my name is bob

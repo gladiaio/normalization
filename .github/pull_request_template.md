@@ -20,7 +20,7 @@
 - [ ] Decorated operators class with `@register_language`
 - [ ] Added one import line to `languages/__init__.py`
 - [ ] Added unit tests in `tests/unit/languages/`
-- [ ] Added e2e test rows in `tests/e2e/files/`
+- [ ] Added a per-language CSV in `tests/e2e/files/{preset}/` (e.g. `tests/e2e/files/gladia-3/fr.csv`)
 
 ### New step
 

@@ -12,7 +12,6 @@ _FILES_DIR = Path(__file__).resolve().parent / "files"
 
 @dataclass
 class NormalizationTest:
-    language: str
     input: str
     expected: str
 
@@ -23,7 +22,6 @@ def _load_tests_from_csv(csv_path: Path) -> list[NormalizationTest]:
         for row in csv.DictReader(f):
             rows.append(
                 NormalizationTest(
-                    language=row["language"],
                     input=row["input"],
                     expected=row["expected"],
                 )
@@ -35,13 +33,31 @@ def _case_ids(cases: list[NormalizationTest]) -> list[str]:
     return [test.input[:60] for test in cases]
 
 
-def _group_by_language(
-    tests: list[NormalizationTest],
+def _discover_preset_tests(
+    preset_dir: Path,
 ) -> dict[str, list[NormalizationTest]]:
-    groups: dict[str, list[NormalizationTest]] = {}
-    for t in tests:
-        groups.setdefault(t.language, []).append(t)
-    return groups
+    """Scan a preset directory for per-language CSV files.
+
+    Returns a dict mapping language code (filename stem) to test cases.
+    """
+    tests: dict[str, list[NormalizationTest]] = {}
+    if not preset_dir.is_dir():
+        return tests
+    for csv_path in sorted(preset_dir.glob("*.csv")):
+        language = csv_path.stem
+        cases = _load_tests_from_csv(csv_path)
+        if cases:
+            tests[language] = cases
+    return tests
+
+
+# ---------------------------------------------------------------------------
+# gladia_3
+# ---------------------------------------------------------------------------
+
+_GLADIA_3_DIR = _FILES_DIR / "gladia-3"
+_GLADIA_3_BY_LANGUAGE = _discover_preset_tests(_GLADIA_3_DIR)
+_GLADIA_3_PIPELINES: dict[str, NormalizationPipeline] = {}
 
 
 def _load_pipeline(preset_name_or_path: str, language: str) -> NormalizationPipeline:
@@ -51,15 +67,6 @@ def _load_pipeline(preset_name_or_path: str, language: str) -> NormalizationPipe
             language,
         )
     return _GLADIA_3_PIPELINES[language]
-
-
-# ---------------------------------------------------------------------------
-# gladia_3
-# ---------------------------------------------------------------------------
-
-_GLADIA_3_CSV = _FILES_DIR / "gladia-3.csv"
-_GLADIA_3_TESTS = _load_tests_from_csv(_GLADIA_3_CSV) if _GLADIA_3_CSV.exists() else []
-_GLADIA_3_PIPELINES: dict[str, NormalizationPipeline] = {}
 
 
 def _make_gladia_3_test(language: str, cases: list[NormalizationTest]):
@@ -76,8 +83,6 @@ def _make_gladia_3_test(language: str, cases: list[NormalizationTest]):
     _test.__name__ = f"test_gladia_3_{language}"
     return _test
 
-
-_GLADIA_3_BY_LANGUAGE = _group_by_language(_GLADIA_3_TESTS)
 
 for _language in sorted(_GLADIA_3_BY_LANGUAGE):
     globals()[f"test_gladia_3_{_language}"] = _make_gladia_3_test(

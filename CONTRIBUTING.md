@@ -18,7 +18,7 @@ A new language requires:
 2. Put all word-level substitutions in `replacements.py`
 3. Instantiate a `LanguageConfig` and subclass `LanguageOperators` in `operators.py`
 4. Decorate with `@register_language` and add one import to `normalization/languages/__init__.py`
-5. Add tests under `tests/unit/languages/` and e2e fixture rows in `tests/e2e/files/`
+5. Add tests under `tests/unit/languages/` and a per-language CSV in `tests/e2e/files/{preset}/` (e.g. `tests/e2e/files/gladia-3/fr.csv`)
 
 See [docs/contributing-guide.md](docs/contributing-guide.md) for the full checklist and design rules.
 
