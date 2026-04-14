@@ -1,0 +1,33 @@
+input,expected
+#1 posto,1 posto
+Costa €50,costa 50 euro
+"3,14",3 virgola 14
+"1.234,56",1234 virgola 56
+2 < 5,2 minore di 5
+5 > 3,5 maggiore di 3
+50°C,50 gradi celsius
+dieci per cento,dieci percento
+vs milan,contro milan
+dott rossi,dottor rossi
+dr rossi,dottor rossi
+ehm tipo insomma ciao,ciao
+admin+tag@example.com,admin tag chiocciola example punto com
+test@example.com,test chiocciola example punto com
+uno mela,1 mela
+x = 5,x uguale a 5
+"Il prezzo è 99,99",il prezzo e 99 virgola 99
+francois.dupont@gladia.io,francois punto dupont chiocciola gladia punto io
+www.example.com,w w w punto example punto com
+Versione 1.0.0 rilasciata,versione 1 punto 0 punto 0 rilasciata
+api.endpoint.v2,api punto endpoint punto v2
+prof bianchi,professore bianchi
+avv verdi,avvocato verdi
+versus inter,contro inter
+tel 123,telefono 123
+ecc.,eccetera
+etc subito,eccetera subito
+Contattami a john@example.com per favore,contattami a john chiocciola example punto com per favore
+"La temperatura è di 98,6 gradi",la temperatura e di 98 virgola 6 gradi
+La parola [inaudible] è qui,la parola inaudible e qui
+$5 e $10,5 dollari e 10 dollari
+mi  chiamo bob,mi chiamo bob

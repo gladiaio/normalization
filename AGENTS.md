@@ -144,7 +144,7 @@ Never modify a published preset YAML. Never let a preset reference a step that h
 - [ ] Decorate the class with `@register_language`
 - [ ] Add one import to `languages/__init__.py`
 - [ ] Add tests in `tests/unit/languages/`
-- [ ] Add test rows to `tests/e2e/files/` for the new language
+- [ ] Add a CSV file `tests/e2e/files/{preset}/{language_code}.csv` for each relevant preset (e.g. `tests/e2e/files/gladia-3/fr.csv`)
 
 ## Adding a new step — checklist
 

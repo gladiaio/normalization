@@ -1,0 +1,32 @@
+input,expected
+#1 Platz,1 platz
+Es kostet €50,es kostet 50 euros
+"3,14",3 komma 14
+"1.234,56",1234 komma 56
+2 < 5,2 kleiner als 5
+5 > 3,5 grosser als 3
+50°C,50 grad celsius
+admin+tag@example.com,admin tag at example punkt com
+test@example.com,test at example punkt com
+x = 5,x gleich 5
+"Der Preis ist 99,99",der preis ist 99 komma 99
+francois.dupont@gladia.io,francois punkt dupont at gladia punkt io
+www.example.com,w w w punkt example punkt com
+Version 1.0.0 veröffentlicht,version 1 punkt 0 punkt 0 veroffentlicht
+api.endpoint.v2,api punkt endpoint punkt v2
+Kontaktiere mich bei john@example.com bitte,kontaktiere mich bei john at example punkt com bitte
+"Die Temperatur ist 98,6 Grad",die temperatur ist 98 komma 6 grad
+Das Wort [inaudible] ist hier,das wort inaudible ist hier
+$5 und $10,5 dollars und 10 dollars
+mein  Name ist Bob,mein name ist bob
+kilometer weg,km weg
+internet suche heute,internetsuche heute
+wild card spiel,wildcard spiel
+national parks tour,nationalparks tour
+also naja hallo,hallo
+äh ähm hallo,ah ahm hallo
+hm okay,okay
+halt mal so,mal so
+st. petersburg,st petersburg
+6 tage krieg,sechstagekrieg
+kreuzungs punkt,kreuzungspunkt

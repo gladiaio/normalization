@@ -26,7 +26,7 @@ This ordering is a hard constraint — some steps depend on earlier steps having
 - [ ] Decorate the class with `@register_language`
 - [ ] Add one import to `languages/__init__.py`
 - [ ] Add tests in `tests/unit/languages/`
-- [ ] Add test rows to `tests/e2e/files/` for the new language
+- [ ] Add a CSV file `tests/e2e/files/{preset}/{language_code}.csv` for each relevant preset (e.g. `tests/e2e/files/gladia-3/fr.csv`)
 
 ### Language data vs. language behavior
 
@@ -159,42 +159,46 @@ def test_my_step_with_english(english_operators):
 
 ### E2E tests for a preset
 
-E2E tests validate the full pipeline (preset + language) against a CSV fixture. The test runner lives in `tests/e2e/normalization_test.py` and CSV files go in `tests/e2e/files/`.
+E2E tests validate the full pipeline (preset + language) against CSV fixtures. The test runner lives in `tests/e2e/normalization_test.py` and CSV files are organized under `tests/e2e/files/`.
 
-**CSV format** — three columns, no quoting needed unless the value contains a comma:
+**Directory structure** — one folder per preset, one CSV per language:
 
 ```
-input,expected,language
-$1,000,000,1000000 dollars,en
-hello world,hello world,fr
+tests/e2e/files/
+  gladia-3/
+    default.csv
+    de.csv
+    en.csv
+    fr.csv
+    it.csv
 ```
 
-Each row is one test case. The `language` column must match a registered language code (or `default`).
+**CSV format** — two columns (`input,expected`), no quoting needed unless the value contains a comma:
 
-**Registering a new CSV** — add a block to `normalization_test.py` following the existing pattern:
+```
+input,expected
+"$1,000,000",1000000 dollars
+hello world,hello world
+```
+
+The language is derived from the filename (e.g. `fr.csv` → language code `fr`). Use `default.csv` for the language-agnostic fallback.
+
+**Adding test cases for an existing preset** — drop rows into the appropriate `{language_code}.csv` file, or create a new CSV if the language isn't covered yet. Tests are discovered automatically.
+
+**Registering a new preset** — add a block to `normalization_test.py` following the existing pattern:
 
 ```python
-_MY_PRESET_CSV = _FILES_DIR / "my-preset.csv"
-_MY_PRESET_TESTS = _load_tests_from_csv(_MY_PRESET_CSV) if _MY_PRESET_CSV.exists() else []
+_MY_PRESET_DIR = _FILES_DIR / "my-preset"
+_MY_PRESET_BY_LANGUAGE = _discover_preset_tests(_MY_PRESET_DIR)
 _MY_PRESET_PIPELINES: dict[str, NormalizationPipeline] = {}
 
-
-@pytest.mark.parametrize(
-    "test",
-    _MY_PRESET_TESTS,
-    ids=_case_ids(_MY_PRESET_TESTS),
-)
-def test_my_preset(test: NormalizationTest) -> None:
-    pipeline = _load_pipeline("my-preset", test.language)
-    result = pipeline.normalize(test.input)
-    assert result == test.expected, (
-        f"\n  input:    {test.input!r}"
-        f"\n  expected: {test.expected!r}"
-        f"\n  got:      {result!r}"
+for _language in sorted(_MY_PRESET_BY_LANGUAGE):
+    globals()[f"test_my_preset_{_language}"] = _make_test(
+        "my-preset", _language, _MY_PRESET_BY_LANGUAGE[_language], _MY_PRESET_PIPELINES
     )
 ```
 
-Pipelines are cached per language inside `_MY_PRESET_PIPELINES` to avoid reloading for each parametrized case — follow the `_load_pipeline` helper pattern already in the file.
+Pipelines are cached per language to avoid reloading for each parametrized case.
 
 ---
 

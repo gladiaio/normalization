@@ -1,0 +1,11 @@
+input,expected
+"Hello, world!",hello world
+ça va?!,ca va
+$100,$100
+80 €,80 €
+test@example.com,test@example.com
++1234567890,+1234567890
+one two three,one two three
+5:30 pm,5:30 pm
+fail-safe,fail safe
+U.S.A.,u s a
