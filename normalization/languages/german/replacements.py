@@ -6,6 +6,5 @@ GERMAN_REPLACEMENTS: dict[str, str] = {
     "xdrtb": "xdr-tb",
     "dualradio": "dual-radio",
     "st.": "sankt",
-    "bis": "-",
     "maubewegung": "mau-bewegung",
 }
