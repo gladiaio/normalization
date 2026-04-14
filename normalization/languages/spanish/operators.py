@@ -20,7 +20,7 @@ _ONE_TO_NINE: dict[str, str] = {
 SPANISH_CONFIG = LanguageConfig(
     code="es",
     decimal_separator=",",
-    decimal_word="punto",
+    decimal_word="coma",
     thousand_separator=".",
     symbols_to_words={
         "@": "arroba",
