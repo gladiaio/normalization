@@ -33,6 +33,9 @@ dependencies = [
 [tool.setuptools.package-data]
 normalization = ["presets/*.yaml"]
 
+[project.scripts]
+normalize = "normalization.cli:main"
+
 [project.urls]
 Homepage = "https://github.com/gladiaio/normalization"
 Repository = "https://github.com/gladiaio/normalization"

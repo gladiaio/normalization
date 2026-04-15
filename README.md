@@ -71,6 +71,28 @@ pipeline.normalize("It's $50 at 3:00PM")
 # => "it is 50 dollars at 3 pm"
 ```
 
+### CLI
+
+```bash
+# Normalize a single text
+normalize "It's $50 at 3:00PM" --language en
+
+# Pipe from stdin
+echo "she spent twenty dollars" | normalize --language fr
+
+# Use a custom preset
+normalize "some text" --preset path/to/my-preset.yaml --language en
+
+# Inspect the pipeline
+normalize --describe --language en
+```
+
+If you don't want a permanent installation, run it directly with `uvx`:
+
+```bash
+uvx gladia-normalization "It's $50 at 3:00PM" --language en
+```
+
 ## How it works
 
 Every pipeline runs exactly **three stages**, always in this order:
