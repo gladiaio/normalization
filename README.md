@@ -77,6 +77,9 @@ pipeline.normalize("It's $50 at 3:00PM")
 # Normalize a single text
 normalize "It's $50 at 3:00PM" --language en
 
+# Normalize a text file
+normalize --file transcript.txt --language en
+
 # Pipe from stdin
 echo "she spent twenty dollars" | normalize --language fr
 

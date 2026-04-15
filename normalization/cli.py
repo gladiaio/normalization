@@ -43,12 +43,21 @@ def main() -> None:
         help="Built-in preset name or path to a YAML file (default: gladia-3).",
     )
     parser.add_argument(
+        "--file",
+        "-f",
+        metavar="PATH",
+        help="Path to a text file to normalize. Mutually exclusive with positional text.",
+    )
+    parser.add_argument(
         "--describe",
         action="store_true",
         help="Print the pipeline description as JSON and exit.",
     )
 
     args = parser.parse_args()
+
+    if args.text is not None and args.file is not None:
+        parser.error("Provide either positional text or --file, not both.")
 
     try:
         pipeline = load_pipeline(args.preset, args.language)
@@ -59,12 +68,18 @@ def main() -> None:
         print(json.dumps(pipeline.describe(), indent=2))
         return
 
-    if args.text is not None:
+    if args.file is not None:
+        try:
+            with open(args.file) as fh:
+                text = fh.read().strip()
+        except OSError as exc:
+            parser.error(str(exc))
+    elif args.text is not None:
         text = args.text
     elif not sys.stdin.isatty():
         text = sys.stdin.read().strip()
     else:
-        parser.error("Provide text as an argument or pipe it via stdin.")
+        parser.error("Provide text as an argument, --file, or pipe it via stdin.")
 
     print(pipeline.normalize(text))
 
