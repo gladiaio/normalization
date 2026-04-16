@@ -34,7 +34,7 @@ dependencies = [
 normalization = ["presets/*.yaml"]
 
 [project.scripts]
-normalize = "normalization.cli:main"
+gladia-normalization = "normalization.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/gladiaio/normalization"

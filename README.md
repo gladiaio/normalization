@@ -75,19 +75,19 @@ pipeline.normalize("It's $50 at 3:00PM")
 
 ```bash
 # Normalize a single text
-normalize "It's $50 at 3:00PM" --language en
+gladia-normalization "It's $50 at 3:00PM" --language en
 
 # Normalize a text file
-normalize --file transcript.txt --language en
+gladia-normalization --file transcript.txt --language en
 
 # Pipe from stdin
-echo "she spent twenty dollars" | normalize --language fr
+echo "she spent twenty dollars" | gladia-normalization --language fr
 
 # Use a custom preset
-normalize "some text" --preset path/to/my-preset.yaml --language en
+gladia-normalization "some text" --preset path/to/my-preset.yaml --language en
 
 # Inspect the pipeline
-normalize --describe --language en
+gladia-normalization --describe --language en
 ```
 
 If you don't want a permanent installation, run it directly with `uvx`:
