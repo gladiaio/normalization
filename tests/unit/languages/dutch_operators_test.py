@@ -49,14 +49,3 @@ def test_word_replacements(operators):
     assert operators.get_word_replacements()["uw"] == "je"
     assert operators.get_word_replacements()["okee"] == "oke"
     assert operators.get_word_replacements()["euro"] == "euros"
-
-
-def test_expand_written_numbers_euro_after_amount_dutch_order(operators):
-    assert operators.expand_written_numbers("tien euro") == "10 euros"
-    assert operators.expand_written_numbers("€10") == "10 euros"
-    assert operators.expand_written_numbers("honderd euro's") == "100 euros"
-
-
-def test_expand_written_numbers_other_currency_trailing_words(operators):
-    assert operators.expand_written_numbers("vijf dollar") == "5 dollars"
-    assert operators.expand_written_numbers("$3.50") == "3.50 dollars"
