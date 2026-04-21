@@ -32,6 +32,19 @@ _CLITIC_LETTER_TO_WORD = {
     "m": "hem",
 }
 
+_DUTCH_DIGIT_WORDS: dict[str, str] = {
+    "nul": "0",
+    "een": "1",
+    "twee": "2",
+    "drie": "3",
+    "vier": "4",
+    "vijf": "5",
+    "zes": "6",
+    "zeven": "7",
+    "acht": "8",
+    "negen": "9",
+}
+
 DUTCH_CONFIG = LanguageConfig(
     code="nl",
     decimal_separator=",",
@@ -78,6 +91,37 @@ DUTCH_CONFIG = LanguageConfig(
         "uh",
     ],
     sentence_replacements=DUTCH_SENTENCE_REPLACEMENTS,
+    digit_words=_DUTCH_DIGIT_WORDS,
+    number_words=[
+        *_DUTCH_DIGIT_WORDS,
+        "tien",
+        "elf",
+        "twaalf",
+        "dertien",
+        "veertien",
+        "vijftien",
+        "zestien",
+        "zeventien",
+        "achttien",
+        "negentien",
+        "twintig",
+        "dertig",
+        "veertig",
+        "vijftig",
+        "zestig",
+        "zeventig",
+        "tachtig",
+        "negentig",
+        "honderd",
+        "duizend",
+        "miljoen",
+        "miljoenen",
+        "miljard",
+        "miljarden",
+        "biljoen",
+        "biljoenen",
+    ],
+    plus_word="plus",
 )
 
 
