@@ -90,6 +90,11 @@ class DutchOperators(LanguageOperators):
         )
 
     def expand_written_numbers(self, text: str) -> str:
+        """Convert Dutch spelled-out numbers to digits (vijf en twintig → 25).
+
+        Uses DutchNumberNormalizer, which normalizes currency symbols and mixed forms
+        (3 miljard → drie miljard), then text2num.alpha2digit.
+        """
         return self._number_normalizer(text)
 
     def expand_contractions(self, text: str) -> str:
