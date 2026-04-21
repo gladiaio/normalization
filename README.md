@@ -117,6 +117,7 @@ Pipelines are defined declaratively in **YAML presets**. Each preset lists the s
 | `de` | German   |
 | `it` | Italian  |
 | `es` | Spanish  |
+| `nl` | Dutch    |
 
 Unsupported language codes fall back to a safe default that applies language-independent normalization only.
 
