@@ -1,6 +1,7 @@
 import pytest
 
 from normalization.languages.base import LanguageOperators
+from normalization.languages.dutch import DutchOperators
 from normalization.languages.english import EnglishOperators
 from normalization.languages.french import FrenchOperators
 from normalization.steps import get_step_registry
@@ -19,6 +20,11 @@ def english_operators():
 @pytest.fixture
 def french_operators():
     return FrenchOperators()
+
+
+@pytest.fixture
+def dutch_operators():
+    return DutchOperators()
 
 
 def assert_text_step_registered(step_cls):

@@ -1,0 +1,25 @@
+input,expected
+tien euro,10 euros
+2 < 5,2 kleiner dan 5
+50°C,50 graden celsius
+ca kost €50,ca kost 50 euros
+"1.234,56",1234 komma 56
+dertien appels,13 appels
+kollega zegt hallo,collega zegt hallo
+ge weet da,je weet dat
+ik zeg 't zo,ik zeg het zo
+honderd euro,100 euros
+vijf dollar,5 dollars
+honderd euro's,100 euros
+"3,14",3 komma 14
+192.168.1.1,192 punt 168 punt 1 punt 1
+test@example.com,test apenstaartje example punt com
+www.example.com,w w w punt example punt com
+x = 5,x gelijk aan 5
+Het woord [inaudible] is hier,het woord inaudible is hier
+hallo eh daar,hallo daar
+mein  naam is Bob,mein naam is bob
+twee duizend,2000
+'s ochtends vroeg,des ochtends vroeg
+ping pong,ping pong
+vijf en twintig euro,25 euros
