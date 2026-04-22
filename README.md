@@ -118,10 +118,11 @@ Pipelines are defined declaratively in **YAML presets**. Each preset lists the s
 | `it` | Italian  |
 | `es` | Spanish  |
 | `nl` | Dutch    |
+| `sv` | Swedish  |
 
 Unsupported language codes fall back to a safe default that applies language-independent normalization only.
 
-Adding a new language is self-contained — create a folder, register it with a decorator, done. See [Contributing](#adding-a-new-language).
+Adding a new language is self-contained — create a folder, register it with a decorator, done. See [Contributing](CONTRIBUTING.md#add-support-for-a-new-language).
 
 ## Custom presets
 

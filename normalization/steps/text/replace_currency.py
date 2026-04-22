@@ -8,17 +8,23 @@ from normalization.steps.registry import register_step
 _CURRENCY_NUM = rf"\d+(?:{ProtectPlaceholder.DECIMAL_SEPARATOR.value}\d+)?"
 
 
-def _make_currency_patterns(symbol: str) -> tuple[re.Pattern, re.Pattern]:
+def _make_currency_patterns(
+    symbol: str,
+) -> tuple[re.Pattern[str], re.Pattern[str]]:
     escaped = re.escape(symbol)
-    before = re.compile(rf"{escaped}\s*({_CURRENCY_NUM})", re.IGNORECASE)
-    after = re.compile(rf"({_CURRENCY_NUM})\s*{escaped}", re.IGNORECASE)
+    sym = rf"\b{escaped}\b" if len(symbol) > 1 else escaped
+    before = re.compile(rf"{sym}\s*({_CURRENCY_NUM})", re.IGNORECASE)
+    after = re.compile(rf"({_CURRENCY_NUM})\s*{sym}", re.IGNORECASE)
     return before, after
 
 
 @register_step
 class ReplaceCurrencyStep(TextStep):
-    """
-    Replace currency symbols with their corresponding words.
+    """Replace currency symbols with their corresponding words next to amounts.
+
+    Reads ``operators.config.currency_symbol_to_word``. Multi-character symbols
+    (e.g. ``kr``) are matched with word boundaries so amounts already written as
+    ``… kronor`` are not parsed as ``… kr`` + ``onor``.
     """
 
     name = "replace_currency"
