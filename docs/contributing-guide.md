@@ -169,8 +169,11 @@ tests/e2e/files/
     default.csv
     de.csv
     en.csv
+    es.csv
     fr.csv
     it.csv
+    nl.csv
+    sv.csv
 ```
 
 **CSV format** — two columns (`input,expected`), no quoting needed unless the value contains a comma:
