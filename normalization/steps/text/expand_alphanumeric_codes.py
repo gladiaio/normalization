@@ -17,8 +17,10 @@ _PROTECTION_MARKERS = [
 class ExpandAlphanumericCodesStep(TextStep):
     """Space out uppercase words and alphanumeric codes.
 
-    'ABC123' -> 'A B C 1 2 3', 'CNN' -> 'C N N'.
-    Skips pure numbers, ordinals (1st, 2nd), and protection markers. Must run before casefold_text.
+    'ABC123' -> 'A B C 1 2 3'. When ``operators.config.expand_all_caps_letter_by_letter``
+    is False, pure letter ALL-CAPS tokens (e.g. SMS) are left intact for Nordic-style
+    acronym handling. Skips pure numbers, ordinals (1st, 2nd), and protection markers.
+    Must run before casefold_text.
     """
 
     name = "expand_alphanumeric_codes"
@@ -56,6 +58,12 @@ class ExpandAlphanumericCodesStep(TextStep):
                 return word
 
             has_digit = any(c.isdigit() for c in word)
+            if (
+                not operators.config.expand_all_caps_letter_by_letter
+                and word.isupper()
+                and not has_digit
+            ):
+                return word
             if word.isupper() or has_digit:
                 return _expand_word(match)
 

@@ -75,6 +75,16 @@ class LanguageConfig:
     ordinal_suffixes: list[str] | None = None
     """Ordinal number suffixes for this language (e.g. ["st", "nd", "rd", "th"] for English).
     Used by steps that need to detect ordinal numbers. None = ordinal detection is skipped."""
+    roman_numerals_uppercase_only: bool = False
+    """When True, only treat Roman numerals as digits if they appear in ALL CAPS (e.g. VI, VIII).
+
+    Avoids collisions with Nordic pronouns spelled ``vi``/``Vi``. Default False preserves
+    legacy case-insensitive matching for other languages."""
+    expand_all_caps_letter_by_letter: bool = True
+    """When False, pure letter ALL-CAPS tokens (e.g. SMS) are not spaced into letters.
+
+    Nordic STT hypotheses often keep acronyms as one word; default True preserves
+    English-style letter-by-letter expansion for CAPS-only tokens."""
     am_word: str | None = None
     """Canonical AM time designator (e.g. "am" for English).
     Used by am/pm time formatting steps. None = am/pm steps are skipped."""
