@@ -23,19 +23,34 @@ class ConvertRomanNumeralsToDigitsStep(TextStep):
     Runs before expand_alphanumeric_codes to prevent 'VIII' -> 'V I I I'.
     Only converts ii-ix to avoid false positives with single letters like 'I'.
     Skips 'v' when adjacent to digits (version-like contexts: v2, v 12).
+
+    When ``operators.config.roman_numerals_uppercase_only`` is True, multi-letter
+    numerals match only in ALL CAPS (so Swedish/Norwegian ``vi`` / ``Vi`` are not
+    read as 6). Standalone ``V`` still matches as 5 for titles like ``Louis V``.
     """
 
     name = "convert_roman_numerals_to_digits"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
+        upper_only = operators.config.roman_numerals_uppercase_only
         for roman, arabic in _ROMAN_REPLACEMENTS.items():
             if roman == "v":
-                text = re.sub(
-                    r"(?<!\d )(?<!\d)\bv\b(?!\s*\d)",
-                    arabic,
-                    text,
-                    flags=re.IGNORECASE,
-                )
+                if upper_only:
+                    text = re.sub(
+                        r"(?<!\d )(?<!\d)\bV\b(?!\s*\d)",
+                        arabic,
+                        text,
+                    )
+                else:
+                    text = re.sub(
+                        r"(?<!\d )(?<!\d)\bv\b(?!\s*\d)",
+                        arabic,
+                        text,
+                        flags=re.IGNORECASE,
+                    )
+            elif upper_only:
+                token = roman.upper()
+                text = re.sub(rf"\b{re.escape(token)}\b", arabic, text)
             else:
                 text = re.sub(rf"\b{roman}\b", arabic, text, flags=re.IGNORECASE)
         return text

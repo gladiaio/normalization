@@ -75,6 +75,10 @@ Runs before expand_alphanumeric_codes to prevent 'VIII' -> 'V I I I'.
 Only converts ii-ix to avoid false positives with single letters like 'I'.
 Skips 'v' when adjacent to digits (version-like contexts: v2, v 12).
 
+When ``operators.config.roman_numerals_uppercase_only`` is True, multi-letter
+numerals match only in ALL CAPS (so Swedish/Norwegian ``vi`` / ``Vi`` are not
+read as 6). Standalone ``V`` still matches as 5 for titles like ``Louis V``.
+
 ### `convert_word_based_time_patterns`
 
 **Base class:** `TextStep`
@@ -86,14 +90,19 @@ operators.config.pm_word, operators.config.oclock_word, and
 operators.get_compound_minutes().
 No-op when required config is None.
 
+Regex patterns are compiled once per operators config instance and cached
+on the step to avoid recompilation on every call.
+
 ### `expand_alphanumeric_codes`
 
 **Base class:** `TextStep`
 
 Space out uppercase words and alphanumeric codes.
 
-'ABC123' -> 'A B C 1 2 3', 'CNN' -> 'C N N'.
-Skips pure numbers, ordinals (1st, 2nd), and protection markers. Must run before casefold_text.
+'ABC123' -> 'A B C 1 2 3'. When ``operators.config.expand_all_caps_letter_by_letter``
+is False, pure letter ALL-CAPS tokens (e.g. SMS) are left intact for Nordic-style
+acronym handling. Skips pure numbers, ordinals (1st, 2nd), and protection markers.
+Must run before casefold_text.
 
 ### `expand_contractions`
 
@@ -329,13 +338,21 @@ Handles ¤ markers by processing segments separately.
 
 Remove currency symbols that are not adjacent to numbers.
 
+Single-character symbols use the classic between/start/end patterns (not
+between two digits). Multi-character keys (e.g. ``kr``) are matched only as
+whole tokens (``\b...\b``) and are skipped when a digit is nearby with
+only whitespace in between, so ordinary words are not corrupted.
+
 ### `remove_symbols`
 
 **Base class:** `TextStep`
 
 Replace markers, symbols, and punctuation with spaces.
 
-Preserves letters, digits, and all placeholder characters.
+Preserves letters, digits, and all placeholder characters. When
+``symbols_to_words`` defines a word for ``%``, expands ``%`` only when it
+follows a decimal or integer literal (e.g. ``8,75%``), so other ``%`` uses
+stay unchanged.
 
 ### `remove_thousand_separators`
 
@@ -376,7 +393,12 @@ No-op when either is None.
 
 **Base class:** `TextStep`
 
-Replace currency symbols with their corresponding words.
+Replace currency symbols with their corresponding words next to amounts.
+
+For each entry in ``operators.config.currency_symbol_to_word``, substitutes
+the symbol before or after a numeric literal (including placeholder decimals).
+Alphanumeric symbols (e.g. ``kr``) use word boundaries so a token like
+``kroner`` is not treated as ``kr`` plus a suffix.
 
 ### `restore_decimal_separator_with_word`
 
