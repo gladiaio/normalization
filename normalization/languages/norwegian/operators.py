@@ -59,13 +59,9 @@ NORWEGIAN_CONFIG = LanguageConfig(
         "liksom",
         "bare",
         "nå",
-        "ja",
-        "jo",
-        "nei",
         "a",
         "aa",
         "mmm",
-        "akkurat",
     ],
     digit_words=_NORWEGIAN_DIGIT_WORDS,
     number_words=[
