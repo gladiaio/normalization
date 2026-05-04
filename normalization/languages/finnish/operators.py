@@ -52,7 +52,6 @@ FINNISH_CONFIG = LanguageConfig(
         "tavallaan",
         "aha",
         "aa",
-        "niin",
     ],
     digit_words=_FINNISH_DIGIT_WORDS,
     number_words=[
