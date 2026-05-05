@@ -110,15 +110,17 @@ Pipelines are defined declaratively in **YAML presets**. Each preset lists the s
 
 ## Supported languages
 
-| Code | Language |
-| ---- | -------- |
-| `en` | English  |
-| `fr` | French   |
-| `de` | German   |
-| `it` | Italian  |
-| `es` | Spanish  |
-| `nl` | Dutch    |
-| `sv` | Swedish  |
+| Code | Language  |
+| ---- | --------- |
+| `en` | English   |
+| `fr` | French    |
+| `de` | German    |
+| `it` | Italian   |
+| `es` | Spanish   |
+| `nl` | Dutch     |
+| `sv` | Swedish   |
+| `fi` | Finnish   |
+| `no` | Norwegian |
 
 Unsupported language codes fall back to a safe default that applies language-independent normalization only.
 
