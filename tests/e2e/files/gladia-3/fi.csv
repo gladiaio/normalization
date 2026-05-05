@@ -1,0 +1,17 @@
+input,expected
+kaksi pienempi kuin viisi,2 pienempi kuin 5
+2 < 5,2 pienempi kuin 5
+50 astetta celsius,50 astetta celsius
+Se maksaa €50,se maksaa 50 euros
+kymmenen euroa,10 euroa
+kolme miljoonaa,3000000
+test@example.com,test at merkki example piste com
+www.example.com,w w w piste example piste com
+x = 5,x yhta kuin 5
+192.168.1.1,192 piste 168 piste 1 piste 1
+juu ok,joo okei
+"3,14",3 pilkku 14
+"1.234,56",1234 pilkku 56
+"8,75%","8 pilkku 75%"
+ping pong,ping pong
+tama on hyva,tama on hyva

@@ -12,14 +12,9 @@ def _make_currency_patterns(
     symbol: str,
 ) -> tuple[re.Pattern[str], re.Pattern[str]]:
     escaped = re.escape(symbol)
-    # Alphanumeric codes (e.g. "kr") must be whole tokens so we do not match
-    # "kr" inside "kroner" after another step has already expanded the amount.
-    if symbol.isalnum():
-        before = re.compile(rf"\b{escaped}\b\s*({_CURRENCY_NUM})", re.IGNORECASE)
-        after = re.compile(rf"({_CURRENCY_NUM})\s*\b{escaped}\b", re.IGNORECASE)
-    else:
-        before = re.compile(rf"{escaped}\s*({_CURRENCY_NUM})", re.IGNORECASE)
-        after = re.compile(rf"({_CURRENCY_NUM})\s*{escaped}", re.IGNORECASE)
+    sym = rf"\b{escaped}\b" if len(symbol) > 1 else escaped
+    before = re.compile(rf"{sym}\s*({_CURRENCY_NUM})", re.IGNORECASE)
+    after = re.compile(rf"({_CURRENCY_NUM})\s*{sym}", re.IGNORECASE)
     return before, after
 
 
@@ -27,10 +22,9 @@ def _make_currency_patterns(
 class ReplaceCurrencyStep(TextStep):
     """Replace currency symbols with their corresponding words next to amounts.
 
-    For each entry in ``operators.config.currency_symbol_to_word``, substitutes
-    the symbol before or after a numeric literal (including placeholder decimals).
-    Alphanumeric symbols (e.g. ``kr``) use word boundaries so a token like
-    ``kroner`` is not treated as ``kr`` plus a suffix.
+    Reads ``operators.config.currency_symbol_to_word``. Multi-character symbols
+    (e.g. ``kr``) are matched with word boundaries so amounts already written as
+    ``… kronor`` are not parsed as ``… kr`` + ``onor``.
     """
 
     name = "replace_currency"

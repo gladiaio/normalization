@@ -1,4 +1,5 @@
 from normalization.languages.norwegian.operators import NorwegianOperators
+from normalization.languages.swedish.operators import SwedishOperators
 from normalization.steps.text.remove_standalone_currency_symbols import (
     RemoveStandaloneCurrencySymbolsStep,
 )
@@ -27,3 +28,9 @@ def test_standalone_kr_token_removed_when_not_near_digits() -> None:
     ops = NorwegianOperators()
     step = RemoveStandaloneCurrencySymbolsStep()
     assert step("pris er kr i dag", ops) == "pris er  i dag"
+
+
+def test_multi_char_kr_not_stripped_from_kronor() -> None:
+    step = RemoveStandaloneCurrencySymbolsStep()
+    op = SwedishOperators()
+    assert step("25 kronor", op) == "25 kronor"

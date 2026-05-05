@@ -395,10 +395,9 @@ No-op when either is None.
 
 Replace currency symbols with their corresponding words next to amounts.
 
-For each entry in ``operators.config.currency_symbol_to_word``, substitutes
-the symbol before or after a numeric literal (including placeholder decimals).
-Alphanumeric symbols (e.g. ``kr``) use word boundaries so a token like
-``kroner`` is not treated as ``kr`` plus a suffix.
+Reads ``operators.config.currency_symbol_to_word``. Multi-character symbols
+(e.g. ``kr``) are matched with word boundaries so amounts already written as
+``… kronor`` are not parsed as ``… kr`` + ``onor``.
 
 ### `restore_decimal_separator_with_word`
 

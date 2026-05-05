@@ -23,12 +23,24 @@ def _currency_touching_digit(text: str, start: int, end: int) -> bool:
 def _make_single_char_patterns(
     symbols: frozenset[str],
 ) -> tuple[re.Pattern[str], re.Pattern[str], re.Pattern[str], re.Pattern[str]]:
+    """Build matchers for single-character currency symbols only.
+
+    Multi-character symbols (e.g. ``kr``) must not be concatenated into a
+    character class: that would treat each letter as its own symbol and strip
+    ``k``/``r`` from ordinary words such as ``kronor`` or ``euros``.
+    """
     char_class = "[" + re.escape("".join(symbols)) + "]"
     between = re.compile(rf"([^0-9]){char_class}([^0-9])")
     start = re.compile(rf"^{char_class}([^0-9])")
     end = re.compile(rf"([^0-9]){char_class}$")
     standalone = re.compile(rf"^{char_class}$")
     return between, start, end, standalone
+
+
+def _strip_standalone_multi_char_symbol(text: str, symbol: str) -> str:
+    """Remove ``symbol`` only when it forms its own token (not a prefix like ``kr`` in ``kronor``)."""
+    esc = re.escape(symbol)
+    return re.sub(rf"\b{esc}\b", " ", text, flags=re.IGNORECASE)
 
 
 @register_step
