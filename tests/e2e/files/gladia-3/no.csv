@@ -1,0 +1,20 @@
+input,expected
+ti euro,10 euros
+2 < 5,2 mindre enn 5
+2 > 5,2 storre enn 5
+50°C,50 grader celsius
+Det koster €50,det koster 50 euros
+tjue fem kroner,25 kroner
+10 kr,10 kroner
+dom heter Anna,de heter anna
+hallo eh der,hallo der
+test@example.com,test krollalfa example punkt com
+www.example.com,w w w punkt example punkt com
+x = 5,x er lik med 5
+Ordet [inaudible] er her,ordet inaudible er her
+"1.234,56",1234 komma 56
+"3,14",3 komma 14
+192.168.1.1,192 punkt 168 punkt 1 punkt 1
+ping pong,ping pong
+"8,75%","8 komma 75 prosent"
+ok da,okei da

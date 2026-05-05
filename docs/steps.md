@@ -75,6 +75,10 @@ Runs before expand_alphanumeric_codes to prevent 'VIII' -> 'V I I I'.
 Only converts ii-ix to avoid false positives with single letters like 'I'.
 Skips 'v' when adjacent to digits (version-like contexts: v2, v 12).
 
+When ``operators.config.roman_numerals_uppercase_only`` is True, multi-letter
+numerals match only in ALL CAPS (so Swedish/Norwegian ``vi`` / ``Vi`` are not
+read as 6). Standalone ``V`` still matches as 5 for titles like ``Louis V``.
+
 ### `convert_word_based_time_patterns`
 
 **Base class:** `TextStep`
@@ -95,8 +99,10 @@ on the step to avoid recompilation on every call.
 
 Space out uppercase words and alphanumeric codes.
 
-'ABC123' -> 'A B C 1 2 3', 'CNN' -> 'C N N'.
-Skips pure numbers, ordinals (1st, 2nd), and protection markers. Must run before casefold_text.
+'ABC123' -> 'A B C 1 2 3'. When ``operators.config.expand_all_caps_letter_by_letter``
+is False, pure letter ALL-CAPS tokens (e.g. SMS) are left intact for Nordic-style
+acronym handling. Skips pure numbers, ordinals (1st, 2nd), and protection markers.
+Must run before casefold_text.
 
 ### `expand_contractions`
 
@@ -332,9 +338,10 @@ Handles ¤ markers by processing segments separately.
 
 Remove currency symbols that are not adjacent to numbers.
 
-Single-character symbols use the between/start/end patterns. Each
-multi-character key (e.g. ``kr``) is stripped only when it appears as its own
-token (``\b...\b``), so it is not confused with a substring inside a word.
+Single-character symbols use the classic between/start/end patterns (not
+between two digits). Multi-character keys (e.g. ``kr``) are matched only as
+whole tokens (``\b...\b``) and are skipped when a digit is nearby with
+only whitespace in between, so ordinary words are not corrupted.
 
 ### `remove_symbols`
 
@@ -342,7 +349,10 @@ token (``\b...\b``), so it is not confused with a substring inside a word.
 
 Replace markers, symbols, and punctuation with spaces.
 
-Preserves letters, digits, and all placeholder characters.
+Preserves letters, digits, and all placeholder characters. When
+``symbols_to_words`` defines a word for ``%``, expands ``%`` only when it
+follows a decimal or integer literal (e.g. ``8,75%``), so other ``%`` uses
+stay unchanged.
 
 ### `remove_thousand_separators`
 

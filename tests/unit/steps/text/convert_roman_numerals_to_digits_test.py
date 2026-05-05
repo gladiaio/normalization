@@ -1,4 +1,7 @@
+import pytest
+
 from normalization.languages.base import LanguageOperators
+from normalization.languages.norwegian.operators import NorwegianOperators
 from normalization.steps.text.convert_roman_numerals_to_digits import (
     ConvertRomanNumeralsToDigitsStep,
 )
@@ -70,3 +73,31 @@ def test_v_not_converted_when_preceded_by_digit(
     text = "12 v motor"
     converted_text = ConvertRomanNumeralsToDigitsStep()(text, operators)
     assert converted_text == "12 v motor"
+
+
+@pytest.fixture
+def uppercase_roman_operators() -> NorwegianOperators:
+    return NorwegianOperators()
+
+
+def test_nordic_lowercase_vi_not_roman(
+    uppercase_roman_operators: NorwegianOperators,
+) -> None:
+    text = "Men vi vet ikke"
+    assert ConvertRomanNumeralsToDigitsStep()(text, uppercase_roman_operators) == text
+
+
+def test_nordic_title_case_vi_not_roman(
+    uppercase_roman_operators: NorwegianOperators,
+) -> None:
+    text = "Vi skal se der"
+    assert ConvertRomanNumeralsToDigitsStep()(text, uppercase_roman_operators) == text
+
+
+def test_nordic_all_caps_vi_is_roman_six(
+    uppercase_roman_operators: NorwegianOperators,
+) -> None:
+    text = "KAPITEL VI i loven"
+    assert ConvertRomanNumeralsToDigitsStep()(text, uppercase_roman_operators) == (
+        "KAPITEL 6 i loven"
+    )
