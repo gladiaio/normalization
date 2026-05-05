@@ -1,4 +1,4 @@
-from . import dutch, english, finnish, french, german, italian, spanish
+from . import dutch, english, finnish, french, german, italian, spanish, swedish
 from .base import LanguageOperators
 from .registry import get_language_registry, register_language
 
@@ -12,5 +12,6 @@ __all__ = [
     "german",
     "italian",
     "spanish",
+    "swedish",
     "get_language_registry",
 ]

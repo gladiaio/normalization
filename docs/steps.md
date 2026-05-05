@@ -86,6 +86,9 @@ operators.config.pm_word, operators.config.oclock_word, and
 operators.get_compound_minutes().
 No-op when required config is None.
 
+Regex patterns are compiled once per operators config instance and cached
+on the step to avoid recompilation on every call.
+
 ### `expand_alphanumeric_codes`
 
 **Base class:** `TextStep`
@@ -329,6 +332,10 @@ Handles ¤ markers by processing segments separately.
 
 Remove currency symbols that are not adjacent to numbers.
 
+Single-character symbols use the between/start/end patterns. Each
+multi-character key (e.g. ``kr``) is stripped only when it appears as its own
+token (``\b...\b``), so it is not confused with a substring inside a word.
+
 ### `remove_symbols`
 
 **Base class:** `TextStep`
@@ -376,7 +383,11 @@ No-op when either is None.
 
 **Base class:** `TextStep`
 
-Replace currency symbols with their corresponding words.
+Replace currency symbols with their corresponding words next to amounts.
+
+Reads ``operators.config.currency_symbol_to_word``. Multi-character symbols
+(e.g. ``kr``) are matched with word boundaries so amounts already written as
+``… kronor`` are not parsed as ``… kr`` + ``onor``.
 
 ### `restore_decimal_separator_with_word`
 
