@@ -5,7 +5,9 @@ from normalization.languages.base import LanguageOperators
 from normalization.steps.base import TextStep
 from normalization.steps.registry import register_step
 
-_RE_SPACES_BETWEEN_DIGITS = re.compile(r"(\d)\s+(?=\d+(?![a-z]))")
+_RE_SPACES_BETWEEN_DIGITS = re.compile(
+    r"(\d)\s+(?=\d+(?![a-z])(?!\s+[a-z]\b))"
+)
 
 
 @register_step

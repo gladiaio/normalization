@@ -1743,6 +1743,12 @@ ENGLISH_REPLACEMENTS: dict[str, str] = {
     "yoghourts": "yogurts",
     "yoghurt": "yogurt",
     "yoghurts": "yogurts",
+    # VoxPopuli / parliamentary corpus aliases
+    "pttering": "pottering",
+    "puttering": "pottering",
+    "putttering": "pottering",
+    "puttrich": "pottering",
+    "guantnamo": "guantanamo",
     # contractions in titles/prefixes
     "mr": "mister",
     "mrs": "missus",

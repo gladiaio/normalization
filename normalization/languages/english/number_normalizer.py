@@ -165,6 +165,13 @@ class EnglishNumberNormalizer:
         prefix: str | None = None
         value: str | int | None = None
         skip = False
+        after_hundred = False
+        compound_after_hundred = False
+
+        def reset_number_phrase_state() -> None:
+            nonlocal after_hundred, compound_after_hundred
+            after_hundred = False
+            compound_after_hundred = False
 
         def to_fraction(s: str | float):
             try:
@@ -179,6 +186,7 @@ class EnglishNumberNormalizer:
                 result = prefix + result
             value = None
             prefix = None
+            reset_number_phrase_state()
             return result
 
         if len(words) == 0:
@@ -225,11 +233,27 @@ class EnglishNumberNormalizer:
             elif current_lower not in self.words:
                 if value is not None:
                     yield output(value)
+                reset_number_phrase_state()
                 yield output(current)
             elif current_lower in self.zeros:
-                value = str(value or "") + "0"
+                if (
+                    after_hundred
+                    and compound_after_hundred
+                    and isinstance(value, int)
+                    and value >= 100
+                    and (
+                        next_lower is None
+                        or next_lower not in self.words
+                        or next_lower in self.zeros
+                    )
+                ):
+                    value *= 1000
+                else:
+                    value = str(value or "") + "0"
             elif current_lower in self.ones:
                 ones = self.ones[current_lower]
+                if after_hundred:
+                    compound_after_hundred = True
 
                 if value is None:
                     value = ones
@@ -270,6 +294,8 @@ class EnglishNumberNormalizer:
                 value = None
             elif current_lower in self.tens:
                 tens = self.tens[current_lower]
+                if after_hundred:
+                    compound_after_hundred = True
                 if value is None:
                     value = tens
                 elif isinstance(value, str):
@@ -292,6 +318,9 @@ class EnglishNumberNormalizer:
                         yield output(str(value) + str(tens) + suffix)
             elif current_lower in self.multipliers:
                 multiplier = self.multipliers[current_lower]
+                if current_lower == "hundred":
+                    after_hundred = True
+                    compound_after_hundred = False
                 if value is None:
                     value = multiplier
                 elif isinstance(value, str) or value == 0:

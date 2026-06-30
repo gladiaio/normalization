@@ -183,6 +183,16 @@ class EnglishOperators(LanguageOperators):
         return text
 
     def fix_one_word_in_numeric_contexts(self, text: str) -> str:
+        # Parliamentary references: EU corpus uses both "rule" and "article".
+        text = re.sub(r"\brule (\d+)", r"article \1", text)
+        # Rejoin subsection suffixes split by expand_alphanumeric_codes (142 2 a -> 142 2a).
+        while True:
+            updated = re.sub(r"\b(\d+[a-z]?) (\d) ([a-z])\b", r"\1 \2\3", text)
+            if updated == text:
+                break
+            text = updated
+        # Spoken percentages often drop "percent" before "of" (e.g. "15 of Latvia's").
+        text = re.sub(r"\b(\d+) of (?!\d)", r"\1 percent of ", text)
         text = re.sub(r"(\d+)\s+one\s+one\b", r"\1 1 1", text)
         text = re.sub(r"\bone\s+one\s+(\d)", r"1 1 \1", text)
         text = re.sub(r"(\d+)\s+one\s+(\d)", r"\1 1 \2", text)
