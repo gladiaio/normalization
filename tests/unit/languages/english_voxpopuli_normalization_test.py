@@ -31,7 +31,14 @@ def test_voxpopuli_word_aliases(pipeline, raw, expected):
             "more than fifteen of latvia population",
             "more than 15 percent of latvia population",
         ),
+        (
+            "fifteen of latvia s population",
+            "15 percent of latvia population",
+        ),
         ("15 of 20 people", "15 of 20 people"),
+        ("5 of the members", "5 of the members"),
+        ("rule 142 of the agenda", "article 142 of the agenda"),
+        ("article 142 of chapter 3", "article 142 of chapter 3"),
     ],
 )
 def test_percent_of_patterns(pipeline, raw, expected):

@@ -366,10 +366,12 @@ English uses comma (1,234 -> 1234), European languages use period (1.234 -> 1234
 
 **Base class:** `TextStep`
 
-Remove space before apostrophe (' s -> 's) and orphan possessive s tokens.
+Normalize apostrophe possessives before symbol stripping.
 
-After remove_symbols, possessives like "Latvia's" become "latvia s"; collapse
-those back to the base word.
+Runs before remove_symbols so ``'s`` markers are removed while the apostrophe
+is still present. Also collapses orphan ``s`` tokens produced when symbol
+removal splits a possessive (``latvia s``), but not literal ``letter s`` or
+product names like ``model s``.
 
 ### `remove_trailing_dot_word_from_emails`
 

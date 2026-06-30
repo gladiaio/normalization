@@ -65,6 +65,8 @@ stages:
 
     # --- Phase 6: Casefold and cleanup ---
     - casefold_text
+    # Strip possessive 's before remove_symbols turns it into an orphan "s" token.
+    - remove_trailing_apostrophe_space
     - remove_symbols
     - remove_diacritics
     - remove_standalone_currency_symbols
@@ -88,7 +90,6 @@ stages:
     - fix_version_number_v_prefix
     - restore_decimal_separator_with_word
     - convert_decimal_periods_to_decimal_word
-    - remove_trailing_apostrophe_space
     - remove_non_numeric_trailing_dots
 
     # --- Phase 2: Time and digit collapsing ---

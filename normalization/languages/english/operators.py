@@ -47,6 +47,19 @@ _TIME_WORDS: dict[str, str] = {
     "fifty": "50",
 }
 
+# Parliamentary / legal citation prefixes: numbers after these are not percentages.
+_REFERENCE_NUMBER_LOOKBEHIND = (
+    "(?<!article )(?<!rule )(?<!section )(?<!chapter )"
+    "(?<!paragraph )(?<!part )(?<!clause )(?<!annex )(?<!appendix )"
+)
+# Spoken percentages often omit "percent" before "of" with a proper-noun object
+# (e.g. "15 of Latvia population"), but not for ratios ("15 of 20"),
+# partitives ("5 of the members"), or citation tails ("article 142 of the agenda").
+_RE_SPOKEN_PERCENT_OF = re.compile(
+    rf"{_REFERENCE_NUMBER_LOOKBEHIND}\b(\d+) of (?!\d)(?!the\b)",
+    re.IGNORECASE,
+)
+
 ENGLISH_CONFIG = LanguageConfig(
     code="en",
     decimal_separator=".",
@@ -191,8 +204,7 @@ class EnglishOperators(LanguageOperators):
             if updated == text:
                 break
             text = updated
-        # Spoken percentages often drop "percent" before "of" (e.g. "15 of Latvia's").
-        text = re.sub(r"\b(\d+) of (?!\d)", r"\1 percent of ", text)
+        text = _RE_SPOKEN_PERCENT_OF.sub(r"\1 percent of ", text)
         text = re.sub(r"(\d+)\s+one\s+one\b", r"\1 1 1", text)
         text = re.sub(r"\bone\s+one\s+(\d)", r"1 1 \1", text)
         text = re.sub(r"(\d+)\s+one\s+(\d)", r"\1 1 \2", text)
