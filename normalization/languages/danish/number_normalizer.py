@@ -61,6 +61,49 @@ _TENS: dict[str, int] = {
     "halvfems": 90,
 }
 
+# In Danish the ordinal indicator is a trailing period, e.g. "første" → "1."
+_ORDINALS: dict[str, tuple[int, str]] = {
+    "første": (1, "."),
+    "anden": (2, "."),
+    "tredje": (3, "."),
+    "fjerde": (4, "."),
+    "femte": (5, "."),
+    "sjette": (6, "."),
+    "syvende": (7, "."),
+    "ottende": (8, "."),
+    "niende": (9, "."),
+    "tiende": (10, "."),
+
+    "ellevte": (11, "."),
+    "tolvte": (12, "."),
+    "trettende": (13, "."),
+    "fjortende": (14, "."),
+    "femtende": (15, "."),
+    "sekstende": (16, "."),
+    "syttende": (17, "."),
+    "attende": (18, "."),
+    "nittende": (19, "."),
+
+    "tyvende": (20, "."),
+    "tredivte": (30, "."),
+    "fyrrende": (40, "."),
+    "fyrretyvende": (40, "."),
+    "halvtredsinde": (50, "."),
+    "halvtredsindstyvende": (50, "."),
+    "tressende": (60, "."),
+    "tresindstyvende": (60, "."),
+    "halvfjerdsende": (70, "."),
+    "halvfjerdsindtyvende": (70, "."),
+    "firsende": (80, "."),
+    "firsindtyvende": (80, "."),
+    "halvfemsende": (90, "."),
+    "halvfemsindstyvende": (90, ".")
+}
+
+_TENS_ORDINAL: dict[str, tuple[int, str]] = {
+    k: v for k, v in _ORDINALS.items() if v[0] >= 20
+}
+
 # Used for og-compound ones part (includes en/et = 1 alongside 2-9)
 _ONES_FOR_OG: dict[str, int] = {"en": 1, "et": 1, **_ONES_2_9}
 
@@ -86,6 +129,7 @@ _RE_MIXED_NUMBER = re.compile(
 
 _BIG_MULT: dict[str, int] = {
     "tusind": 1_000,
+    "tusinde": 1_000,
     "million": 1_000_000,
     "millioner": 1_000_000,
     "milliard": 1_000_000_000,
@@ -110,6 +154,20 @@ def _try_parse_og_compound(word: str) -> int | None:
             tens_val = _TENS.get(rest)
             if tens_val is not None:
                 return tens_val + ones_val
+    return None
+
+
+def _try_parse_og_compound_ordinal(word: str) -> tuple[int, str] | None:
+    """Parse a glued Danish ordinal compound like ``'enogtyvende'`` = 21."""
+    fw = _fold(word)
+    for ones_str, ones_val in _ONES_FOR_OG_SORTED:
+        prefix = ones_str + "og"
+        if fw.startswith(prefix):
+            rest = fw[len(prefix) :]
+            tens = _TENS_ORDINAL.get(rest)
+            if tens is not None:
+                tens_val, suffix = tens
+                return tens_val + ones_val, suffix
     return None
 
 
@@ -214,9 +272,30 @@ class DanishNumberNormalizer:
             parsed = self._parse_number(words, i, n)
             if parsed is not None:
                 end, value = parsed
+                # After parsing a cardinal, peek at the next word to see if it
+                # is an ordinal continuation (e.g. "hundrede" + "enogtyvende" → 121.)
+                if end < n:
+                    ordinal = _ORDINALS.get(_fold(words[end]))
+                    if ordinal is None:
+                        ordinal = _try_parse_og_compound_ordinal(words[end])
+                    if ordinal is not None:
+                        ord_val, suffix = ordinal
+                        out.append(str(value + ord_val) + suffix)
+                        i = end + 1
+                        continue
                 out.append(str(value))
                 i = end
             else:
+                # No cardinal — check if the word is a standalone ordinal
+                # (e.g. "første" → "1.", "enogtyvende" → "21.")
+                ordinal = _ORDINALS.get(_fold(words[i]))
+                if ordinal is None:
+                    ordinal = _try_parse_og_compound_ordinal(words[i])
+                if ordinal is not None:
+                    ord_val, suffix = ordinal
+                    out.append(str(ord_val) + suffix)
+                    i += 1
+                    continue
                 out.append(words[i])
                 i += 1
         text = " ".join(out)
@@ -229,14 +308,14 @@ class DanishNumberNormalizer:
 
         fw = _fold(words[i])
 
-        if fw == "tusind":
+        if fw in ("tusind", "tusinde"):
             tail = self._parse_number(words, i + 1, n)
             if tail is not None:
                 end, v2 = tail
                 return end, 1000 + v2
             return i + 1, 1000
 
-        if i + 1 < n and fw in ("en", "et") and _fold(words[i + 1]) == "tusind":
+        if i + 1 < n and fw in ("en", "et") and _fold(words[i + 1]) in ("tusind", "tusinde"):
             tail = self._parse_number(words, i + 2, n)
             base = 1000
             if tail is not None:
@@ -300,7 +379,7 @@ class DanishNumberNormalizer:
             return j, v
 
         next_fw = _fold(words[j])
-        if next_fw == "tusind":
+        if next_fw in ("tusind", "tusinde"):
             j += 1
             prod = v * 1000
             if j >= n:
@@ -364,7 +443,7 @@ class DanishNumberNormalizer:
 
     def _continues_number(self, word: str) -> bool:
         fw = _fold(word)
-        if fw in ("hundrede", "tusind"):
+        if fw in ("hundrede", "tusind", "tusinde"):
             return True
         if fw in _BIG_MULT:
             return True
