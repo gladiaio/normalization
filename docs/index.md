@@ -1,6 +1,12 @@
-# gladia-normalization
+<p class="gladia-eyebrow" markdown="0">Open source · STT · WER</p>
 
-Normalize speech-to-text transcripts before computing Word Error Rate (WER), so formatting differences stop looking like recognition errors.
+# Normalization
+
+<p class="gladia-lead">
+Normalize speech-to-text transcripts before computing Word Error Rate, so formatting differences stop looking like recognition errors.
+</p>
+
+<div class="gladia-hero-center" markdown="1">
 
 | Ground truth | STT output | Without normalization |
 | --- | --- | --- |
@@ -12,6 +18,11 @@ Normalize speech-to-text transcripts before computing Word Error Rate (WER), so 
 Input:  "It's $50.9 at 3:00PM — y'know, roughly."
 Output: "it is 50 point 9 dollars at 3 pm you know roughly"
 ```
+
+[Get started](getting-started.md){ .md-button .md-button--primary }
+[How it works](concepts.md){ .md-button }
+
+</div>
 
 ## Quick example
 

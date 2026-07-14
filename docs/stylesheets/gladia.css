@@ -1,0 +1,494 @@
+/* Gladia design tokens — mapped onto MkDocs Material
+ * Source: gladia-design/DESIGN.md (dark-first, white contrast, purple spike)
+ * Suisse Intl is licensed — use the system stack that matches its metrics.
+ * Geist Mono (SIL OFL) is self-hosted for code / mono labels.
+ */
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("../assets/fonts/GeistMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Primitives */
+  --gladia-neutral-0: #ffffff;
+  --gladia-neutral-100: #f5f5f5;
+  --gladia-neutral-200: #e5e5e5;
+  --gladia-neutral-300: #d4d4d4;
+  --gladia-neutral-400: #a3a3a3;
+  --gladia-neutral-500: #727272;
+  --gladia-neutral-600: #515151;
+  --gladia-neutral-700: #252525;
+  --gladia-neutral-800: #1c1c1e;
+  --gladia-neutral-900: #0c0c0c;
+  --gladia-neutral-1000: #000000;
+  --gladia-purple-400: #947afc;
+  --gladia-blue-400: #1a9eff;
+
+  --gladia-font-sans: "Suisse Intl", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif;
+  --gladia-font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  --gladia-radius-1: 8px;
+  --gladia-radius-2: 16px;
+  --gladia-radius-5: 40px;
+  --gladia-space-4: 16px;
+  --gladia-space-6: 24px;
+  --gladia-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --gladia-duration: 160ms;
+}
+
+/* ── Dark (default / Canvas) ─────────────────────────────────────────────── */
+
+[data-md-color-scheme="slate"] {
+  --md-default-fg-color: var(--gladia-neutral-0);
+  --md-default-fg-color--light: var(--gladia-neutral-400);
+  --md-default-fg-color--lighter: var(--gladia-neutral-500);
+  --md-default-fg-color--lightest: var(--gladia-neutral-600);
+  --md-default-bg-color: var(--gladia-neutral-1000);
+  --md-default-bg-color--light: var(--gladia-neutral-900);
+  --md-default-bg-color--lighter: var(--gladia-neutral-800);
+  --md-default-bg-color--lightest: var(--gladia-neutral-700);
+
+  --md-primary-fg-color: var(--gladia-neutral-1000);
+  --md-primary-fg-color--light: var(--gladia-neutral-900);
+  --md-primary-fg-color--dark: var(--gladia-neutral-1000);
+  --md-primary-bg-color: var(--gladia-neutral-0);
+  --md-primary-bg-color--light: var(--gladia-neutral-300);
+
+  --md-accent-fg-color: var(--gladia-purple-400);
+  --md-accent-fg-color--transparent: rgba(148, 122, 252, 0.1);
+  --md-accent-bg-color: var(--gladia-neutral-0);
+  --md-accent-bg-color--light: var(--gladia-neutral-300);
+
+  --md-code-fg-color: var(--gladia-neutral-200);
+  --md-code-bg-color: var(--gladia-neutral-900);
+  --md-code-hl-color: rgba(148, 122, 252, 0.18);
+
+  --md-typeset-a-color: var(--gladia-neutral-300);
+  --md-typeset-table-color: rgba(255, 255, 255, 0.14);
+  --md-typeset-table-color--light: rgba(255, 255, 255, 0.08);
+
+  --md-footer-bg-color: var(--gladia-neutral-1000);
+  --md-footer-bg-color--dark: var(--gladia-neutral-1000);
+  --md-footer-fg-color: var(--gladia-neutral-400);
+  --md-footer-fg-color--light: var(--gladia-neutral-0);
+  --md-footer-fg-color--lighter: var(--gladia-neutral-500);
+
+  --md-admonition-bg-color: var(--gladia-neutral-900);
+  --md-admonition-fg-color: var(--gladia-neutral-0);
+}
+
+/* ── Light (opt-in editorial band) ───────────────────────────────────────── */
+
+[data-md-color-scheme="default"] {
+  --md-default-fg-color: var(--gladia-neutral-1000);
+  --md-default-fg-color--light: var(--gladia-neutral-600);
+  --md-default-fg-color--lighter: var(--gladia-neutral-500);
+  --md-default-fg-color--lightest: var(--gladia-neutral-300);
+  --md-default-bg-color: var(--gladia-neutral-0);
+  --md-default-bg-color--light: var(--gladia-neutral-50, #fafafa);
+  --md-default-bg-color--lighter: var(--gladia-neutral-100);
+  --md-default-bg-color--lightest: var(--gladia-neutral-200);
+
+  --md-primary-fg-color: var(--gladia-neutral-0);
+  --md-primary-fg-color--light: var(--gladia-neutral-100);
+  --md-primary-fg-color--dark: var(--gladia-neutral-0);
+  --md-primary-bg-color: var(--gladia-neutral-1000);
+  --md-primary-bg-color--light: var(--gladia-neutral-700);
+
+  --md-accent-fg-color: var(--gladia-purple-400);
+  --md-accent-fg-color--transparent: rgba(148, 122, 252, 0.12);
+  --md-accent-bg-color: var(--gladia-neutral-1000);
+  --md-accent-bg-color--light: var(--gladia-neutral-700);
+
+  --md-code-fg-color: var(--gladia-neutral-800);
+  --md-code-bg-color: var(--gladia-neutral-100);
+  --md-code-hl-color: rgba(148, 122, 252, 0.14);
+
+  --md-typeset-a-color: var(--gladia-neutral-600);
+  --md-typeset-table-color: rgba(0, 0, 0, 0.12);
+  --md-typeset-table-color--light: rgba(0, 0, 0, 0.06);
+
+  --md-footer-bg-color: var(--gladia-neutral-1000);
+  --md-footer-bg-color--dark: var(--gladia-neutral-1000);
+  --md-footer-fg-color: var(--gladia-neutral-400);
+  --md-footer-fg-color--light: var(--gladia-neutral-0);
+  --md-footer-fg-color--lighter: var(--gladia-neutral-500);
+}
+
+/* ── Typography ──────────────────────────────────────────────────────────── */
+
+:root {
+  --md-text-font: var(--gladia-font-sans);
+  --md-code-font: var(--gladia-font-mono);
+}
+
+body {
+  font-weight: 400;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.md-typeset {
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h1 {
+  font-size: 2rem;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.6em;
+}
+
+.md-typeset h2 {
+  font-size: 1.4rem;
+  margin-top: 1.8em;
+}
+
+.md-typeset strong {
+  font-weight: 400;
+  color: var(--md-default-fg-color);
+}
+
+/* Eyebrow / section label — Geist Mono, the only brand mono usage outside code */
+.md-typeset .gladia-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--gladia-font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+  margin: 0 0 1rem;
+}
+
+.md-typeset .gladia-eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--gladia-purple-400);
+  flex-shrink: 0;
+}
+
+/* ── Header / nav — glass on black ───────────────────────────────────────── */
+
+.md-header {
+  background-color: rgba(12, 12, 12, 0.72);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  color: var(--gladia-neutral-0);
+}
+
+[data-md-color-scheme="default"] .md-header {
+  background-color: rgba(255, 255, 255, 0.82);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--gladia-neutral-1000);
+}
+
+/* Product title beside the Gladia wordmark — Material defaults this to 700 */
+.md-header__title {
+  font-family: var(--gladia-font-sans);
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.md-header__topic,
+.md-header__topic:first-child {
+  font-family: var(--gladia-font-sans);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.md-header__button.md-logo {
+  padding: 0.3rem;
+  margin: 0.1rem 0.35rem 0.1rem 0;
+  color: inherit;
+}
+
+.md-header__button.md-logo .md-logo__svg,
+.md-header__button.md-logo svg {
+  display: block;
+  height: 1.35rem;
+  width: auto;
+}
+
+/* Wordmark uses currentColor — white on dark header, black on light */
+[data-md-color-scheme="slate"] .md-header,
+[data-md-color-scheme="slate"] .md-header__button {
+  color: var(--gladia-neutral-0);
+}
+
+[data-md-color-scheme="default"] .md-header,
+[data-md-color-scheme="default"] .md-header__button {
+  color: var(--gladia-neutral-1000);
+}
+
+.md-tabs {
+  background-color: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-md-color-scheme="default"] .md-tabs {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.md-nav__title,
+.md-nav__link--active,
+.md-nav__item .md-nav__link--active,
+.md-nav__link:focus,
+.md-nav__link:hover {
+  color: var(--md-default-fg-color);
+}
+
+.md-nav__link--active {
+  font-weight: 400;
+}
+
+.md-nav__link--active:not(.md-nav__link--passed),
+.md-nav__item .md-nav__link--active {
+  color: var(--gladia-purple-400);
+}
+
+/* Sidebar titles: same sans as site title, all caps */
+.md-nav__title,
+.md-nav__item--section > .md-nav__link {
+  font-family: var(--gladia-font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color);
+}
+
+/* ── Links — white/grey contrast; purple only as hover spike ─────────────── */
+
+.md-typeset a {
+  color: var(--md-typeset-a-color);
+  text-decoration: underline;
+  text-decoration-color: rgba(148, 122, 252, 0);
+  text-underline-offset: 0.18em;
+  transition:
+    color var(--gladia-duration) var(--gladia-ease-out),
+    text-decoration-color var(--gladia-duration) var(--gladia-ease-out);
+}
+
+.md-typeset a:hover,
+.md-typeset a:focus {
+  color: var(--gladia-purple-400);
+  text-decoration-color: var(--gladia-purple-400);
+}
+
+/* ── Code ────────────────────────────────────────────────────────────────── */
+
+.md-typeset code,
+.md-typeset kbd,
+.md-typeset pre {
+  font-family: var(--gladia-font-mono);
+  font-weight: 400;
+  border-radius: var(--gladia-radius-1);
+}
+
+.md-typeset pre > code {
+  border-radius: var(--gladia-radius-2);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: var(--gladia-space-4);
+}
+
+[data-md-color-scheme="default"] .md-typeset pre > code {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.md-typeset .tabbed-set > .tabbed-content {
+  border-radius: 0 0 var(--gladia-radius-2) var(--gladia-radius-2);
+}
+
+.md-typeset .tabbed-labels > label {
+  font-weight: 400;
+  border-radius: var(--gladia-radius-5);
+}
+
+/* ── Tables / cards ──────────────────────────────────────────────────────── */
+
+.md-typeset table:not([class]) {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--gladia-radius-2);
+  overflow: hidden;
+  box-shadow: none;
+}
+
+[data-md-color-scheme="default"] .md-typeset table:not([class]) {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--gladia-neutral-900);
+  font-weight: 400;
+  color: var(--md-default-fg-color--light);
+  font-family: var(--gladia-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+[data-md-color-scheme="default"] .md-typeset table:not([class]) th {
+  background-color: var(--gladia-neutral-100);
+}
+
+.md-typeset table:not([class]) td,
+.md-typeset table:not([class]) th {
+  border-color: rgba(255, 255, 255, 0.08);
+  padding: 0.7em 1em;
+}
+
+[data-md-color-scheme="default"] .md-typeset table:not([class]) td,
+[data-md-color-scheme="default"] .md-typeset table:not([class]) th {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ── Buttons / search ────────────────────────────────────────────────────── */
+
+.md-search__form {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--gladia-radius-5);
+  box-shadow: none;
+}
+
+[data-md-color-scheme="default"] .md-search__form {
+  background-color: var(--gladia-neutral-100);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.md-search__input {
+  font-weight: 400;
+}
+
+.md-typeset .md-button {
+  border-radius: var(--gladia-radius-5);
+  font-weight: 400;
+  letter-spacing: 0;
+  padding: 0.5em 1.25em;
+  transition: transform var(--gladia-duration) var(--gladia-ease-out);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.md-typeset .md-button--primary {
+  background-color: var(--gladia-neutral-0);
+  color: var(--gladia-neutral-1000);
+  border: none;
+}
+
+[data-md-color-scheme="default"] .md-typeset .md-button--primary {
+  background-color: var(--gladia-neutral-1000);
+  color: var(--gladia-neutral-0);
+}
+
+.md-typeset .md-button:hover,
+.md-typeset .md-button:focus {
+  transform: scale(1.02);
+  background-color: var(--gladia-neutral-0);
+  color: var(--gladia-neutral-1000);
+  border-color: transparent;
+}
+
+[data-md-color-scheme="default"] .md-typeset .md-button:hover,
+[data-md-color-scheme="default"] .md-typeset .md-button:focus {
+  background-color: var(--gladia-neutral-1000);
+  color: var(--gladia-neutral-0);
+}
+
+/* Never purple-fill a button (G-11) */
+.md-typeset .md-button--primary:hover,
+.md-typeset .md-button--primary:focus {
+  background-color: var(--gladia-neutral-200);
+  color: var(--gladia-neutral-1000);
+}
+
+[data-md-color-scheme="default"] .md-typeset .md-button--primary:hover,
+[data-md-color-scheme="default"] .md-typeset .md-button--primary:focus {
+  background-color: var(--gladia-neutral-700);
+  color: var(--gladia-neutral-0);
+}
+
+/* ── Sidebar / content chrome ────────────────────────────────────────────── */
+
+.md-sidebar__scrollwrap {
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+
+.md-typeset hr {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-md-color-scheme="default"] .md-typeset hr {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.md-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.md-annotation__index {
+  background-color: var(--gladia-purple-400);
+}
+
+/* Focus ring — blue, not purple */
+:focus-visible {
+  outline: 2px solid var(--gladia-blue-400);
+  outline-offset: 2px;
+}
+
+/* Home hero breathing room */
+.md-content article > .gladia-eyebrow:first-child {
+  margin-top: 0.25rem;
+}
+
+.md-typeset .gladia-lead {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+  max-width: 40rem;
+  margin: 0 0 1.75rem;
+}
+
+/* Home hero — center table + CTAs */
+.md-typeset .gladia-hero-center {
+  text-align: center;
+  margin: 0 0 2rem;
+}
+
+.md-typeset .gladia-hero-center .md-typeset__table {
+  display: inline-block;
+  max-width: 100%;
+  margin: 0 auto 1.25rem;
+  text-align: left;
+}
+
+.md-typeset .gladia-hero-center > pre {
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 42rem;
+}
+
+.md-typeset .gladia-hero-center .md-button {
+  margin: 0.35rem 0.35rem 0;
+}

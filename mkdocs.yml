@@ -1,4 +1,4 @@
-site_name: gladia-normalization
+site_name: Normalization
 site_description: Normalize speech-to-text transcripts for fair WER comparison
 site_url: https://gladiaio.github.io/normalization/
 repo_url: https://github.com/gladiaio/normalization
@@ -6,24 +6,27 @@ repo_name: gladiaio/normalization
 edit_uri: edit/main/docs/
 docs_dir: docs
 site_dir: site
+copyright: Copyright &copy; Gladia
 
 theme:
   name: material
+  custom_dir: overrides
+  favicon: assets/favicon.svg
+  font: false
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: blue grey
-      accent: teal
+    # Dark-first (Gladia canvas)
+    - scheme: slate
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: blue grey
-      accent: teal
-      toggle:
-        icon: material/brightness-4
+        icon: material/white-balance-sunny
         name: Switch to light mode
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
   features:
     - content.code.copy
     - content.tabs.link
@@ -37,6 +40,9 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
+extra_css:
+  - stylesheets/gladia.css
+
 plugins:
   - search
 
@@ -49,6 +55,7 @@ validation:
 markdown_extensions:
   - admonition
   - attr_list
+  - md_in_html
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
