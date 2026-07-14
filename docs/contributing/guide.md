@@ -10,7 +10,7 @@ Every pipeline runs exactly **three stages**, always in this order:
 2. **Word processing** — per-token transforms after splitting on spaces (replacements, filler removal, …)
 3. **Text post-processing** — full-text cleanup after rejoining words (placeholder restoration, digit collapsing, …)
 
-This ordering is a hard constraint — some steps depend on earlier steps having run. See the [README](../README.md) for more detail.
+This ordering is a hard constraint — some steps depend on earlier steps having run. See [How it works](../concepts.md) for more detail.
 
 ---
 
@@ -49,7 +49,7 @@ This is the central design rule. Ask: "does the _logic_ change by language, or j
 - [ ] Add unit tests in `tests/unit/steps/`
 - [ ] If it involves placeholder protection, add both protect and restore to `steps/text/placeholders.py` and update `pipeline/base.py`'s `validate()` accordingly
 - [ ] Add the step name to relevant preset YAMLs if needed (new preset version if existing presets are affected)
-- [ ] If you added or changed the class docstring, run `uv run scripts/generate_step_docs.py` to regenerate `docs/steps.md`
+- [ ] If you added or changed the class docstring, run `uv run scripts/generate_step_docs.py` to regenerate `docs/reference/steps.md`
 
 ### Choosing a base class
 

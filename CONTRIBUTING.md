@@ -20,7 +20,7 @@ A new language requires:
 4. Decorate with `@register_language` and add one import to `normalization/languages/__init__.py`
 5. Add tests under `tests/unit/languages/` and a per-language CSV in `tests/e2e/files/{preset}/` (e.g. `tests/e2e/files/gladia-3/fr.csv`)
 
-See [docs/contributing-guide.md](docs/contributing-guide.md) for the full checklist and design rules.
+See [docs/contributing/guide.md](docs/contributing/guide.md) for the full checklist and design rules.
 
 ### Add a new normalization step
 
@@ -33,9 +33,9 @@ A new step requires:
 3. Add an import to `steps/text/__init__.py` or `steps/word/__init__.py`
 4. Add unit tests under `tests/unit/steps/`
 5. Add the step name to the relevant preset YAML, or create a new preset version
-6. If you added or changed the class docstring, regenerate `docs/steps.md`: `uv run scripts/generate_step_docs.py`
+6. If you added or changed the class docstring, regenerate `docs/reference/steps.md`: `uv run scripts/generate_step_docs.py`
 
-See [docs/contributing-guide.md](docs/contributing-guide.md) for base class selection and test conventions.
+See [docs/contributing/guide.md](docs/contributing/guide.md) for base class selection and test conventions.
 
 ### Report a bug
 
@@ -52,7 +52,7 @@ Open a GitHub issue with the `question` label. We're happy to help.
 ```bash
 git clone https://github.com/gladiaio/normalization.git
 cd normalization
-uv sync
+uv sync --all-groups
 uv run pre-commit install --install-hooks   # install hooks once
 ```
 
@@ -63,6 +63,7 @@ uv run pytest               # run tests
 uv run ruff check .         # lint
 uv run ruff format .        # format
 uv run ty check             # type-check
+uv run mkdocs serve         # preview docs at http://127.0.0.1:8000
 ```
 
 ---

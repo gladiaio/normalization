@@ -157,4 +157,4 @@ Never modify a published preset YAML. Never let a preset reference a step that h
 - [ ] Add unit tests in `tests/unit/steps/`
 - [ ] If it involves placeholder protection, add both protect and restore to `steps/text/placeholders.py` and update `pipeline/base.py`'s `validate()` accordingly; use `ProtectStep`/`RestoreStep` base classes where the contract fits, otherwise use `TextStep` directly and document why in the docstring
 - [ ] Add the step name to relevant preset YAMLs if needed (new preset version if existing presets are affected)
-- [ ] If you added or changed the class docstring, run `python scripts/generate_step_docs.py` to regenerate `docs/steps.md`
+- [ ] If you added or changed the class docstring, run `python scripts/generate_step_docs.py` to regenerate `docs/reference/steps.md`
