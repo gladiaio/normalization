@@ -2,16 +2,17 @@
 
 ## Install
 
-=== "pip"
-
-    ```bash
-    pip install gladia-normalization
-    ```
 
 === "uv"
 
     ```bash
     uv add gladia-normalization
+    ```
+
+=== "pip"
+
+    ```bash
+    pip install gladia-normalization
     ```
 
 === "From source"

@@ -354,13 +354,25 @@ body {
 
 .md-typeset table:not([class]) td,
 .md-typeset table:not([class]) th {
-  border-color: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0.7em 1em;
+}
+
+.md-typeset table:not([class]) td:last-child,
+.md-typeset table:not([class]) th:last-child {
+  border-right: none;
+}
+
+.md-typeset table:not([class]) tr:last-child td {
+  border-bottom: none;
 }
 
 [data-md-color-scheme="default"] .md-typeset table:not([class]) td,
 [data-md-color-scheme="default"] .md-typeset table:not([class]) th {
-  border-color: rgba(0, 0, 0, 0.08);
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+  border-right-color: rgba(0, 0, 0, 0.08);
 }
 
 /* ── Buttons / search ────────────────────────────────────────────────────── */

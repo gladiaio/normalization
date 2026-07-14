@@ -8,21 +8,17 @@ Normalize speech-to-text transcripts before computing Word Error Rate, so format
 
 <div class="gladia-hero-center" markdown="1">
 
-| Ground truth | STT output | Without normalization |
-| --- | --- | --- |
-| It's $50 | it is fifty dollars | treated as errors |
-| 3:00 PM | 3 pm | treated as errors |
-| Mr. Smith | mister smith | treated as errors |
-
-```text
-Input:  "It's $50.9 at 3:00PM — y'know, roughly."
-Output: "it is 50 point 9 dollars at 3 pm you know roughly"
-```
+| Ground truth | STT output          | WER  |
+| ------------ | ------------------- | ---- |
+| It's $50     | it is fifty dollars | 100% |
+| 3:00 PM      | 3 pm                | 100% |
+| Mr. Smith    | mister smith        | 100% |
 
 [Get started](getting-started.md){ .md-button .md-button--primary }
 [How it works](concepts.md){ .md-button }
 
 </div>
+
 
 ## Quick example
 

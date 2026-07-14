@@ -2,6 +2,7 @@
 
 Pass a language code to `load_pipeline` or `--language`. Unknown codes fall back to a language-agnostic default (independent transforms only).
 
+<div class="gladia-hero-center" markdown="1">
 | Code | Language |
 | --- | --- |
 | `da` | Danish |
@@ -14,8 +15,9 @@ Pass a language code to `load_pipeline` or `--language`. Unknown codes fall back
 | `nl` | Dutch |
 | `no` | Norwegian |
 | `sv` | Swedish |
+</div>
 
-## What “language-aware” means
+## What "language-aware" means
 
 Each language folder under `normalization/languages/` provides:
 
