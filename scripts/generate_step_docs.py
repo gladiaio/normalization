@@ -5,7 +5,7 @@ Generate Markdown documentation for all registered normalization steps.
 Usage:
     python scripts/generate_step_docs.py [output_path]
 
-Output defaults to docs/steps.md.
+Output defaults to docs/reference/steps.md.
 """
 
 import inspect
@@ -74,5 +74,9 @@ def generate(output_path: Path) -> None:
 
 
 if __name__ == "__main__":
-    out = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "docs" / "steps.md"
+    out = (
+        Path(sys.argv[1])
+        if len(sys.argv) > 1
+        else ROOT / "docs" / "reference" / "steps.md"
+    )
     generate(out)

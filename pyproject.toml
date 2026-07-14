@@ -38,11 +38,16 @@ gladia-normalization = "normalization.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/gladiaio/normalization"
+Documentation = "https://gladiaio.github.io/normalization/"
 Repository = "https://github.com/gladiaio/normalization"
 "Bug Tracker" = "https://github.com/gladiaio/normalization/issues"
 
 [dependency-groups]
 dev = ["pre-commit>=4.5.1", "ty>=0.0.20", "pytest>=9.0.3", "pygments>=2.20.0", "ruff>=0.15.2"]
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.6",
+]
 
 [build-system]
 requires = ["hatchling"]
