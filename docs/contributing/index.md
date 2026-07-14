@@ -1,6 +1,6 @@
 # Contributing
 
-Bug reports, new steps, and new language support are welcome.
+Bug reports, new steps, and new languages are welcome. Setup and where to start are below. Check [Contributor guide](guide.md) for design rules.
 
 ## Setup
 
@@ -30,13 +30,11 @@ uv run mkdocs build
 
 ## How to help
 
-| Contribution | Start here |
-| --- | --- |
-| New language | [Checklist](guide.md#adding-a-new-language-checklist) |
-| New step | [Checklist](guide.md#adding-a-new-step-checklist) |
-| Bug report | GitHub issue with reproduce steps + expected vs actual |
-| Question | GitHub issue with the `question` label |
+| Contribution | Start here                                             |
+| ------------ | ------------------------------------------------------ |
+| New language | [Checklist](guide.md#adding-a-new-language-checklist)  |
+| New step     | [Checklist](guide.md#adding-a-new-step-checklist)      |
+| Bug report   | GitHub issue with reproduce steps + expected vs actual |
+| Question     | GitHub issue with the `question` label                 |
 
-Full design rules, base-class choice, and test conventions: [Contributor guide](guide.md).
-
-Also see [`CONTRIBUTING.md`](https://github.com/gladiaio/normalization/blob/main/CONTRIBUTING.md) in the repo root for PR workflow and commit style.
+Also see [`CONTRIBUTING.md`](https://github.com/gladiaio/normalization/blob/main/CONTRIBUTING.md) for PR workflow and commit style.
