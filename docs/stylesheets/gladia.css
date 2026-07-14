@@ -387,7 +387,16 @@ body {
   letter-spacing: 0;
   padding: 0.5em 1.25em;
   transition: transform var(--gladia-duration) var(--gladia-ease-out);
+  /* Material defaults color to --md-primary-fg-color (black in dark / white in
+     light), which makes outline buttons invisible against the page bg. */
+  color: var(--gladia-neutral-0);
+  background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+[data-md-color-scheme="default"] .md-typeset .md-button {
+  color: var(--gladia-neutral-1000);
+  border-color: rgba(0, 0, 0, 0.12);
 }
 
 .md-typeset .md-button--primary {
