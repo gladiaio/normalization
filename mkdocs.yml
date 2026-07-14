@@ -73,9 +73,10 @@ nav:
   - Usage:
       - Python API: usage/python.md
       - CLI: usage/cli.md
-  - Presets: presets.md
-  - Languages: languages.md
-  - Step reference: reference/steps.md
+  - Reference:
+    - Presets: presets.md
+    - Languages: languages.md
+    - Steps: reference/steps.md
   - Contributing:
       - Overview: contributing/index.md
       - Contributor guide: contributing/guide.md
