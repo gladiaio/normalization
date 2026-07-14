@@ -29,4 +29,4 @@ Steps stay language-agnostic: they read `operators.config.*` or call operator me
 
 ## Adding a language
 
-See the [contributor guide](contributing/guide.md#adding-a-new-language-checklist).
+See the [contributor guide](contributing/guide.md#adding-a-new-language).

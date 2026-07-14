@@ -32,8 +32,8 @@ uv run mkdocs build
 
 | Contribution | Start here                                             |
 | ------------ | ------------------------------------------------------ |
-| New language | [Checklist](guide.md#adding-a-new-language-checklist)  |
-| New step     | [Checklist](guide.md#adding-a-new-step-checklist)      |
+| New language | [Checklist](guide.md#adding-a-new-language)  |
+| New step     | [Checklist](guide.md#adding-a-new-step)      |
 | Bug report   | GitHub issue with reproduce steps + expected vs actual |
 | Question     | GitHub issue with the `question` label                 |
 
