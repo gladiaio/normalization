@@ -3,7 +3,7 @@
 Every pipeline runs **three stages**, always in this order:
 
 ```text
-text  ──►  [1] text_pre  ──►  split  ──►  [2] word  ──►  join  ──►  [3] text_post  ──►  text
+text  >  [1] text_pre  >  split  >  [2] word  >  join  >  [3] text_post  >  text
 ```
 
 | Stage | Operates on | Typical work |
