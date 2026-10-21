@@ -34,10 +34,23 @@ def test_config_code(operators: ArabicOperators) -> None:
         ("يكلف $50", "يكلف 50 دولار"),
         ("20%", "20 بالميه"),
         ("12.5", "12 فاصله 5"),
-        ("امم نعم", "نعم"),
+        ("اممم نعم", "نعم"),
     ],
 )
 def test_pipeline_symbols_and_fillers(pipeline, text: str, expected: str) -> None:
+    assert pipeline.normalize(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("أمم كثيرة", "امم كثيره"),
+        ("اه والله", "اه والله"),
+    ],
+)
+def test_pipeline_keeps_real_words_that_look_like_fillers(
+    pipeline, text: str, expected: str
+) -> None:
     assert pipeline.normalize(text) == expected
 
 
