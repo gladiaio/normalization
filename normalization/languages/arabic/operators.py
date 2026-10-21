@@ -2,6 +2,14 @@ from normalization.languages.arabic.replacements import ARABIC_REPLACEMENTS
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.registry import register_language
 
+# Short vowels, tanween, shadda, sukun and related marks (U+064B–U+065F) plus
+# the superscript alef. Transcripts rarely agree on vocalization, and
+# remove_symbols would otherwise turn each mark into a word-splitting space.
+_HARAKAT: dict[str, str] = {chr(c): "" for c in range(0x064B, 0x0660)} | {"\u0670": ""}
+
+# Tatweel / kashida: purely typographic letter elongation (عـــربي → عربي).
+_TATWEEL: dict[str, str] = {"\u0640": ""}
+
 # Words inserted by steps (symbols, currencies, fillers) are written in the
 # normalized surface form so they match the rest of the normalized text.
 ARABIC_CONFIG = LanguageConfig(
@@ -27,6 +35,7 @@ ARABIC_CONFIG = LanguageConfig(
         "£": "جنيه",
         "¥": "ين",
     },
+    character_replacements={**_HARAKAT, **_TATWEEL},
     filler_words=[
         "اه",
         "اهه",
