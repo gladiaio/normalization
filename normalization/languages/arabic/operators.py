@@ -1,3 +1,4 @@
+from normalization.languages.arabic.number_normalizer import ArabicNumberNormalizer
 from normalization.languages.arabic.replacements import ARABIC_REPLACEMENTS
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.registry import register_language
@@ -38,6 +39,25 @@ _DIGITS_AND_SEPARATORS: dict[str, str] = (
     }
 )
 
+# Digit words for digit-by-digit readings (phone numbers, codes). Only the full
+# forms: short forms like ست / سبع are also common nouns.
+_ARABIC_DIGIT_WORDS: dict[str, str] = {
+    "صفر": "0",
+    "واحد": "1",
+    "اثنين": "2",
+    "اثنان": "2",
+    "اتنين": "2",
+    "ثلاثه": "3",
+    "تلاته": "3",
+    "اربعه": "4",
+    "خمسه": "5",
+    "سته": "6",
+    "سبعه": "7",
+    "ثمانيه": "8",
+    "تمانيه": "8",
+    "تسعه": "9",
+}
+
 # Words inserted by steps (symbols, currencies, fillers) are written in the
 # normalized surface form (no hamza seats, alef maqsura or ta marbuta) so they
 # match the rest of the normalized text.
@@ -77,6 +97,7 @@ ARABIC_CONFIG = LanguageConfig(
         "اممم",
         "ممم",
     ],
+    digit_words=_ARABIC_DIGIT_WORDS,
 )
 
 
@@ -84,6 +105,13 @@ ARABIC_CONFIG = LanguageConfig(
 class ArabicOperators(LanguageOperators):
     def __init__(self) -> None:
         super().__init__(ARABIC_CONFIG)
+        self._number_normalizer = ArabicNumberNormalizer(
+            ARABIC_CONFIG.character_replacements
+        )
+
+    def expand_written_numbers(self, text: str) -> str:
+        """Convert Arabic spelled-out numbers to digits (e.g. خمسة وعشرون → 25)."""
+        return self._number_normalizer(text)
 
     def get_word_replacements(self) -> dict[str, str]:
         return ARABIC_REPLACEMENTS
