@@ -1,4 +1,5 @@
 from . import (
+    arabic,
     danish,
     dutch,
     english,
@@ -16,6 +17,7 @@ from .registry import get_language_registry, register_language
 register_language(LanguageOperators)
 
 __all__ = [
+    "arabic",
     "danish",
     "dutch",
     "english",
