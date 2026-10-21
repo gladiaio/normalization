@@ -67,10 +67,10 @@ ARABIC_CONFIG = LanguageConfig(
         **_LETTER_VARIANTS,
         **_DIGITS_AND_SEPARATORS,
     },
+    # "اه" (dialectal "yes") and "امم" ("nations" once alef is folded) are real
+    # words, so only the elongated hesitation forms are treated as fillers.
     filler_words=[
-        "اه",
         "اهه",
-        "امم",
         "اممم",
         "ممم",
     ],
