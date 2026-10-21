@@ -54,3 +54,18 @@ def test_pipeline_strips_harakat_and_tatweel(
     pipeline, text: str, expected: str
 ) -> None:
     assert pipeline.normalize(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("أنا ذهبت إلى المدرسة", "انا ذهبت الي المدرسه"),
+        ("آمن", "امن"),
+        ("ٱلله", "الله"),
+        ("مستشفى", "مستشفي"),
+        ("مستشفي", "مستشفي"),
+        ("کتاب عربی", "كتاب عربي"),
+    ],
+)
+def test_pipeline_unifies_letter_variants(pipeline, text: str, expected: str) -> None:
+    assert pipeline.normalize(text) == expected
