@@ -4,6 +4,16 @@ Auto-generated — do not edit by hand. Run `scripts/generate_step_docs.py` to u
 
 ## Text Steps
 
+### `apply_character_replacements`
+
+**Base class:** `TextStep`
+
+Replace or delete single characters using ``character_replacements`` from the language config.
+
+Runs first in the pipeline so that script-level variants (letter forms, native
+digits, vowel marks) are unified before protection, numeric, and symbol steps.
+Skipped when the language does not define ``character_replacements``.
+
 ### `apply_sentence_level_replacements`
 
 **Base class:** `TextStep`

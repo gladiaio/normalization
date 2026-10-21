@@ -2,6 +2,11 @@ name: gladia-3
 
 stages:
   text_pre:
+    # --- Phase 0: Script-level character unification ---
+    # No-op unless the language defines character_replacements. Runs first so
+    # native digits / separators are visible to every protect and numeric step.
+    - apply_character_replacements
+
     # --- Phase 1: Protect symbols from being erased by later cleanup ---
     # Run first so that email @/., phone +, time :, unit decimal/slash, and
     # number separators all survive remove_symbols later in this stage.

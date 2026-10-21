@@ -1,4 +1,5 @@
 from . import (
+    apply_character_replacements,
     apply_sentence_level_replacements,
     casefold_text,
     convert_comparison_operators_to_words,
@@ -39,6 +40,7 @@ from . import (
 )
 
 __all__ = [
+    "apply_character_replacements",
     "apply_sentence_level_replacements",
     "casefold_text",
     "convert_comparison_operators_to_words",
