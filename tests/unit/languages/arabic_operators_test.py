@@ -69,3 +69,19 @@ def test_pipeline_strips_harakat_and_tatweel(
 )
 def test_pipeline_unifies_letter_variants(pipeline, text: str, expected: str) -> None:
     assert pipeline.normalize(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("عندي ٣ كتب", "عندي 3 كتب"),
+        ("۱۲۳", "123"),
+        ("١٢٫٥ كيلو", "12 فاصله 5 كيلو"),
+        ("١٬٠٠٠ دولار", "1000 دولار"),
+        ("٢٠٪", "20 بالميه"),
+    ],
+)
+def test_pipeline_converts_native_digits_and_separators(
+    pipeline, text: str, expected: str
+) -> None:
+    assert pipeline.normalize(text) == expected
