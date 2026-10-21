@@ -23,6 +23,19 @@ _LETTER_VARIANTS: dict[str, str] = {
     "ک": "ك",  # keheh
 }
 
+# Arabic-Indic (U+0660–U+0669) and Eastern Arabic-Indic (U+06F0–U+06F9) digits
+# become ASCII so every numeric step sees them; the Arabic decimal/thousands
+# separators and percent sign map to the characters those steps expect.
+_DIGITS_AND_SEPARATORS: dict[str, str] = (
+    {chr(0x0660 + d): str(d) for d in range(10)}
+    | {chr(0x06F0 + d): str(d) for d in range(10)}
+    | {
+        "٫": ".",  # Arabic decimal separator
+        "٬": ",",  # Arabic thousands separator
+        "٪": "%",  # Arabic percent sign
+    }
+)
+
 # Words inserted by steps (symbols, currencies, fillers) are written in the
 # normalized surface form so they match the rest of the normalized text.
 ARABIC_CONFIG = LanguageConfig(
@@ -48,7 +61,12 @@ ARABIC_CONFIG = LanguageConfig(
         "£": "جنيه",
         "¥": "ين",
     },
-    character_replacements={**_HARAKAT, **_TATWEEL, **_LETTER_VARIANTS},
+    character_replacements={
+        **_HARAKAT,
+        **_TATWEEL,
+        **_LETTER_VARIANTS,
+        **_DIGITS_AND_SEPARATORS,
+    },
     filler_words=[
         "اه",
         "اهه",
