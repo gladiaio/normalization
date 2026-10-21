@@ -10,6 +10,19 @@ _HARAKAT: dict[str, str] = {chr(c): "" for c in range(0x064B, 0x0660)} | {"\u067
 # Tatweel / kashida: purely typographic letter elongation (عـــربي → عربي).
 _TATWEEL: dict[str, str] = {"\u0640": ""}
 
+# Orthographic variants that transcribers and STT engines use interchangeably.
+# Folding them is standard practice for Arabic WER scoring.
+_LETTER_VARIANTS: dict[str, str] = {
+    "أ": "ا",  # alef with hamza above
+    "إ": "ا",  # alef with hamza below
+    "آ": "ا",  # alef with madda
+    "ٱ": "ا",  # alef wasla
+    "ى": "ي",  # alef maqsura
+    "ة": "ه",  # ta marbuta
+    "ی": "ي",  # Persian yeh
+    "ک": "ك",  # keheh
+}
+
 # Words inserted by steps (symbols, currencies, fillers) are written in the
 # normalized surface form so they match the rest of the normalized text.
 ARABIC_CONFIG = LanguageConfig(
@@ -35,7 +48,7 @@ ARABIC_CONFIG = LanguageConfig(
         "£": "جنيه",
         "¥": "ين",
     },
-    character_replacements={**_HARAKAT, **_TATWEEL},
+    character_replacements={**_HARAKAT, **_TATWEEL, **_LETTER_VARIANTS},
     filler_words=[
         "اه",
         "اهه",
