@@ -37,6 +37,7 @@ def test_config_words_are_in_normalized_form(operators: ArabicOperators) -> None
         *config.symbols_to_words.values(),
         *config.currency_symbol_to_word.values(),
         *config.filler_words,
+        *(config.digit_words or {}),
         config.decimal_word,
     ]
     for word in words:
@@ -115,3 +116,25 @@ def test_pipeline_converts_native_digits_and_separators(
     pipeline, text: str, expected: str
 ) -> None:
     assert pipeline.normalize(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("words", "digits"),
+    [
+        ("عندي خمسة وعشرون كتاباً", "عندي ٢٥ كتاباً"),
+        ("سنة ألفين وخمسة وعشرين", "سنة ٢٠٢٥"),
+        ("ثلاثة فاصلة خمسة", "٣٫٥"),
+        ("عشرون بالمئة", "٢٠٪"),
+        ("ثلاثة آلاف دولار", "٣٬٠٠٠ دولار"),
+        ("ثلاثة وأربعة", "٣ و٤"),
+        ("مئة وخمسة وعشرون", "١٢٥"),
+    ],
+)
+def test_pipeline_spelled_out_numbers_match_digits(
+    pipeline, words: str, digits: str
+) -> None:
+    assert pipeline.normalize(words) == pipeline.normalize(digits)
+
+
+def test_pipeline_collapses_digit_word_sequences(pipeline) -> None:
+    assert pipeline.normalize("واحد اثنين ثلاثة أربعة") == "1234"
