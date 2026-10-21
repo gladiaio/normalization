@@ -17,6 +17,8 @@ _LETTER_VARIANTS: dict[str, str] = {
     "إ": "ا",  # alef with hamza below
     "آ": "ا",  # alef with madda
     "ٱ": "ا",  # alef wasla
+    "ؤ": "و",  # waw with hamza above
+    "ئ": "ي",  # yeh with hamza above
     "ى": "ي",  # alef maqsura
     "ة": "ه",  # ta marbuta
     "ی": "ي",  # Persian yeh
@@ -37,7 +39,8 @@ _DIGITS_AND_SEPARATORS: dict[str, str] = (
 )
 
 # Words inserted by steps (symbols, currencies, fillers) are written in the
-# normalized surface form so they match the rest of the normalized text.
+# normalized surface form (no hamza seats, alef maqsura or ta marbuta) so they
+# match the rest of the normalized text.
 ARABIC_CONFIG = LanguageConfig(
     code="ar",
     decimal_separator=".",
@@ -46,14 +49,14 @@ ARABIC_CONFIG = LanguageConfig(
     symbols_to_words={
         "@": "ات",
         ".": "نقطه",
-        "+": "زائد",
+        "+": "زايد",
         "=": "يساوي",
         ">": "اكبر من",
         "<": "اصغر من",
         "°": "درجه",
-        "°C": "درجه مئويه",
+        "°C": "درجه ميويه",
         "°F": "درجه فهرنهايت",
-        "%": "بالمئه",
+        "%": "بالميه",
     },
     currency_symbol_to_word={
         "$": "دولار",

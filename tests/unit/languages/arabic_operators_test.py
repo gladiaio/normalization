@@ -28,6 +28,21 @@ def test_config_code(operators: ArabicOperators) -> None:
     assert operators.config.code == "ar"
 
 
+def test_config_words_are_in_normalized_form(operators: ArabicOperators) -> None:
+    config = operators.config
+    assert config.character_replacements is not None
+    assert config.decimal_word is not None
+    folded = {k for k, v in config.character_replacements.items() if k != v}
+    words = [
+        *config.symbols_to_words.values(),
+        *config.currency_symbol_to_word.values(),
+        *config.filler_words,
+        config.decimal_word,
+    ]
+    for word in words:
+        assert not folded & set(word), word
+
+
 @pytest.mark.parametrize(
     ("text", "expected"),
     [
@@ -78,6 +93,8 @@ def test_pipeline_strips_harakat_and_tatweel(
         ("مستشفى", "مستشفي"),
         ("مستشفي", "مستشفي"),
         ("کتاب عربی", "كتاب عربي"),
+        ("سؤال", "سوال"),
+        ("رئيس", "رييس"),
     ],
 )
 def test_pipeline_unifies_letter_variants(pipeline, text: str, expected: str) -> None:
