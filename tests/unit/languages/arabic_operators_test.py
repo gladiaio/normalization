@@ -39,3 +39,18 @@ def test_config_code(operators: ArabicOperators) -> None:
 )
 def test_pipeline_symbols_and_fillers(pipeline, text: str, expected: str) -> None:
     assert pipeline.normalize(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("مَرْحَبًا بِكُمْ", "مرحبا بكم"),
+        ("مُحَمَّدٌ", "محمد"),
+        ("هٰذا", "هذا"),
+        ("عـــربي", "عربي"),
+    ],
+)
+def test_pipeline_strips_harakat_and_tatweel(
+    pipeline, text: str, expected: str
+) -> None:
+    assert pipeline.normalize(text) == expected
