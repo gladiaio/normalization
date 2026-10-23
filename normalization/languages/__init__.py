@@ -7,6 +7,7 @@ from . import (
     german,
     italian,
     norwegian,
+    portuguese,
     spanish,
     swedish,
 )
@@ -24,6 +25,7 @@ __all__ = [
     "german",
     "italian",
     "norwegian",
+    "portuguese",
     "spanish",
     "swedish",
     "get_language_registry",
