@@ -44,6 +44,10 @@ Repository = "https://github.com/gladiaio/normalization"
 [dependency-groups]
 dev = ["pre-commit>=4.5.1", "ty>=0.0.20", "pytest>=9.0.3", "pygments>=2.20.0", "ruff>=0.15.2"]
 
+[tool.uv]
+# Read by astral-sh/setup-uv in CI/CD. 0.13.4 ships the root store update for the eMudhra CA distrust.
+required-version = ">=0.13.4"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
