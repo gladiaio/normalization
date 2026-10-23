@@ -1,0 +1,117 @@
+from normalization.languages.arabic.number_normalizer import ArabicNumberNormalizer
+from normalization.languages.arabic.replacements import ARABIC_REPLACEMENTS
+from normalization.languages.base import LanguageConfig, LanguageOperators
+from normalization.languages.registry import register_language
+
+# Short vowels, tanween, shadda, sukun and related marks (U+064B–U+065F) plus
+# the superscript alef. Transcripts rarely agree on vocalization, and
+# remove_symbols would otherwise turn each mark into a word-splitting space.
+_HARAKAT: dict[str, str] = {chr(c): "" for c in range(0x064B, 0x0660)} | {"\u0670": ""}
+
+# Tatweel / kashida: purely typographic letter elongation (عـــربي → عربي).
+_TATWEEL: dict[str, str] = {"\u0640": ""}
+
+# Orthographic variants that transcribers and STT engines use interchangeably.
+# Folding them is standard practice for Arabic WER scoring.
+_LETTER_VARIANTS: dict[str, str] = {
+    "أ": "ا",  # alef with hamza above
+    "إ": "ا",  # alef with hamza below
+    "آ": "ا",  # alef with madda
+    "ٱ": "ا",  # alef wasla
+    "ؤ": "و",  # waw with hamza above
+    "ئ": "ي",  # yeh with hamza above
+    "ى": "ي",  # alef maqsura
+    "ة": "ه",  # ta marbuta
+    "ی": "ي",  # Persian yeh
+    "ک": "ك",  # keheh
+}
+
+# Arabic-Indic (U+0660–U+0669) and Eastern Arabic-Indic (U+06F0–U+06F9) digits
+# become ASCII so every numeric step sees them; the Arabic decimal/thousands
+# separators and percent sign map to the characters those steps expect.
+_DIGITS_AND_SEPARATORS: dict[str, str] = (
+    {chr(0x0660 + d): str(d) for d in range(10)}
+    | {chr(0x06F0 + d): str(d) for d in range(10)}
+    | {
+        "٫": ".",  # Arabic decimal separator
+        "٬": ",",  # Arabic thousands separator
+        "٪": "%",  # Arabic percent sign
+    }
+)
+
+# Digit words for digit-by-digit readings (phone numbers, codes). Only the full
+# forms: short forms like ست / سبع are also common nouns.
+_ARABIC_DIGIT_WORDS: dict[str, str] = {
+    "صفر": "0",
+    "واحد": "1",
+    "اثنين": "2",
+    "اثنان": "2",
+    "اتنين": "2",
+    "ثلاثه": "3",
+    "تلاته": "3",
+    "اربعه": "4",
+    "خمسه": "5",
+    "سته": "6",
+    "سبعه": "7",
+    "ثمانيه": "8",
+    "تمانيه": "8",
+    "تسعه": "9",
+}
+
+# Words inserted by steps (symbols, currencies, fillers) are written in the
+# normalized surface form (no hamza seats, alef maqsura or ta marbuta) so they
+# match the rest of the normalized text.
+ARABIC_CONFIG = LanguageConfig(
+    code="ar",
+    decimal_separator=".",
+    decimal_word="فاصله",
+    thousand_separator=",",
+    symbols_to_words={
+        "@": "ات",
+        ".": "نقطه",
+        "+": "زايد",
+        "=": "يساوي",
+        ">": "اكبر من",
+        "<": "اصغر من",
+        "°": "درجه",
+        "°C": "درجه ميويه",
+        "°F": "درجه فهرنهايت",
+        "%": "بالميه",
+    },
+    currency_symbol_to_word={
+        "$": "دولار",
+        "€": "يورو",
+        "£": "جنيه",
+        "¥": "ين",
+    },
+    character_replacements={
+        **_HARAKAT,
+        **_TATWEEL,
+        **_LETTER_VARIANTS,
+        **_DIGITS_AND_SEPARATORS,
+    },
+    # "اه" (dialectal "yes") and "امم" ("nations" once alef is folded) are real
+    # words, so only the elongated hesitation forms are treated as fillers.
+    filler_words=[
+        "اهه",
+        "اممم",
+        "ممم",
+    ],
+    digit_words=_ARABIC_DIGIT_WORDS,
+)
+
+
+@register_language
+class ArabicOperators(LanguageOperators):
+    def __init__(self) -> None:
+        super().__init__(ARABIC_CONFIG)
+        self._number_normalizer = ArabicNumberNormalizer(
+            ARABIC_CONFIG.character_replacements
+        )
+
+    def expand_written_numbers(self, text: str) -> str:
+        """Convert Arabic spelled-out numbers to digits (e.g. خمسة وعشرون → 25)."""
+        return self._number_normalizer(text)
+
+    def get_word_replacements(self) -> dict[str, str]:
+        return ARABIC_REPLACEMENTS
