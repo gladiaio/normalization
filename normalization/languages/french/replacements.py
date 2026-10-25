@@ -25,4 +25,14 @@ FRENCH_REPLACEMENTS = {
     "porte-monnaie": "portemonnaie",
     "porte-feuille": "portefeuille",
     "extra-terrestre": "extraterrestre",
+    # ASR / WER canonicalizations
+    "kraker": "craker",
+    "paie": "paye",
+    "kw": "kilowatts",
+    "alpiq": "alpic",
+    "traitee": "traite",
+    "kilowattheures": "kilowattheure",
+    "metres": "m2",
+    "monsieur": "m",
+    "ouais": "oui",
 }
