@@ -87,6 +87,16 @@ def _singular_spoken_unit(trailing_word: str) -> str:
     return trailing_word
 
 
+def _currency_symbol_pattern(symbol: str) -> str:
+    """Match currency tokens; ``R$`` ends with ``$`` so ``\\b`` after it is unreliable."""
+    esc = re.escape(symbol)
+    if len(symbol) == 1:
+        return esc
+    if symbol[-1].isalnum():
+        return rf"\b{esc}\b"
+    return rf"(?<!\w){esc}(?!\w)"
+
+
 def _normalize_currency_symbols(
     text: str,
     currency_symbol_to_word: dict[str, str] | None,
@@ -99,8 +109,7 @@ def _normalize_currency_symbols(
         currency_symbol_to_word.items(), key=lambda item: len(item[0]), reverse=True
     ):
         singular = _singular_spoken_unit(trailing)
-        esc = re.escape(symbol)
-        sym = rf"\b{esc}\b" if len(symbol) > 1 else esc
+        sym = _currency_symbol_pattern(symbol)
         text = re.sub(rf"{sym}\s*({num})", rf"\1 {singular}", text, flags=re.IGNORECASE)
         text = re.sub(rf"({num})\s*{sym}", rf"\1 {singular}", text, flags=re.IGNORECASE)
     return text

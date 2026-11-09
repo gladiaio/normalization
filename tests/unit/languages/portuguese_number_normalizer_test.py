@@ -5,19 +5,6 @@ from normalization.languages.portuguese.number_normalizer import (
 )
 from normalization.languages.portuguese.operators import PORTUGUESE_CONFIG
 
-_DIGIT_WORDS = {
-    "zero": "0",
-    "um": "1",
-    "dois": "2",
-    "tres": "3",
-    "quatro": "4",
-    "cinco": "5",
-    "seis": "6",
-    "sete": "7",
-    "oito": "8",
-    "nove": "9",
-}
-
 
 @pytest.fixture
 def normalizer():
