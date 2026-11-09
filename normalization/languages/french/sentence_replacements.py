@@ -13,4 +13,8 @@ FRENCH_SENTENCE_REPLACEMENTS: dict[str, str] = {
     # ASR / WER canonicalizations
     "my people doc": "mypeopledoc",
     "releve d heure": "releve d heures",
+    # Surface area: converge spoken form and symbol (not bare ``metres``)
+    "metres carres": "m2",
+    "metre carre": "m2",
+    "metres carre": "m2",
 }

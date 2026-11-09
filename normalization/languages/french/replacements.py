@@ -32,7 +32,6 @@ FRENCH_REPLACEMENTS = {
     "alpiq": "alpic",
     "traitee": "traite",
     "kilowattheures": "kilowattheure",
-    "metres": "m2",
     "monsieur": "m",
     "ouais": "oui",
 }
