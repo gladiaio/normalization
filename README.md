@@ -29,6 +29,13 @@ These aren't transcription errors — they're formatting differences. Without no
 
 `gladia-normalization` solves this by reducing both the ground truth and the STT output to a shared canonical form _before_ WER is computed, so that only genuine recognition errors affect the score.
 
+## Used in Gladia's benchmarks
+
+This library is the normalization step behind the WER figures Gladia publishes. Every reference and every provider's output goes through the `gladia-3` preset before WER is computed, so engines are compared on recognition errors, not formatting.
+
+- [Speech-to-text benchmarks](https://www.gladia.io/competitors/benchmarks): WER per dataset and provider.
+- [Speech-to-text API comparison](https://www.gladia.io/speech-to-text-api-comparison): blind test and ELO leaderboard.
+
 ## What it does
 
 The library runs your text through a configurable pipeline of normalization steps — expanding contractions, converting symbols to words, removing fillers, casefolding, and more — to produce a clean, canonical output.
