@@ -39,7 +39,9 @@ _MULTIPLIER_SCALE: dict[str, int] = {
 def _fold_accents(word: str) -> str:
     lowered = word.lower()
     return "".join(
-        c for c in unicodedata.normalize("NFD", lowered) if unicodedata.category(c) != "Mn"
+        c
+        for c in unicodedata.normalize("NFD", lowered)
+        if unicodedata.category(c) != "Mn"
     )
 
 
