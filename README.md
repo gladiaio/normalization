@@ -103,6 +103,30 @@ If you don't want a permanent installation, run it directly with `uvx`:
 uvx gladia-normalization "A tea cost £2 at 3:30PM" --language en
 ```
 
+### Compute WER
+
+Normalize both the reference and the hypothesis with the same pipeline, then score them. This example uses [jiwer](https://github.com/jitsi/jiwer):
+
+```bash
+pip install gladia-normalization jiwer
+```
+
+```python
+import jiwer
+from normalization import load_pipeline
+
+pipeline = load_pipeline("gladia-3", language="en")
+
+reference = "It's $50 at 3:00PM, Mr. Smith."
+hypothesis = "it is fifty dollars at 3 pm mister smith"
+
+jiwer.wer(reference, hypothesis)
+# => 1.33 (formatting differences counted as errors)
+
+jiwer.wer(pipeline.normalize(reference), pipeline.normalize(hypothesis))
+# => 0.0
+```
+
 ## How it works
 
 Every pipeline runs exactly **three stages**, always in this order:
