@@ -29,6 +29,13 @@ These aren't transcription errors — they're formatting differences. Without no
 
 `gladia-normalization` solves this by reducing both the ground truth and the STT output to a shared canonical form _before_ WER is computed, so that only genuine recognition errors affect the score.
 
+## Used in Gladia's benchmarks
+
+This library is the normalization step behind the WER figures Gladia publishes. Every reference and every provider's output goes through the `gladia-3` preset before WER is computed, so engines are compared on recognition errors, not formatting.
+
+- [Speech-to-text benchmarks](https://www.gladia.io/competitors/benchmarks): WER per dataset and provider.
+- [Speech-to-text API comparison](https://www.gladia.io/speech-to-text-api-comparison): blind test and ELO leaderboard.
+
 ## What it does
 
 The library runs your text through a configurable pipeline of normalization steps — expanding contractions, converting symbols to words, removing fillers, casefolding, and more — to produce a clean, canonical output.
@@ -94,6 +101,30 @@ If you don't want a permanent installation, run it directly with `uvx`:
 
 ```bash
 uvx gladia-normalization "A tea cost £2 at 3:30PM" --language en
+```
+
+### Compute WER
+
+Normalize both the reference and the hypothesis with the same pipeline, then score them. This example uses [jiwer](https://github.com/jitsi/jiwer):
+
+```bash
+pip install gladia-normalization jiwer
+```
+
+```python
+import jiwer
+from normalization import load_pipeline
+
+pipeline = load_pipeline("gladia-3", language="en")
+
+reference = "It's $50 at 3:00PM, Mr. Smith."
+hypothesis = "it is fifty dollars at 3 pm mister smith"
+
+jiwer.wer(reference, hypothesis)
+# => 1.33 (formatting differences counted as errors)
+
+jiwer.wer(pipeline.normalize(reference), pipeline.normalize(hypothesis))
+# => 0.0
 ```
 
 ## How it works
@@ -191,7 +222,7 @@ uv run ty check            # type-check
 
 ## About
 
-`gladia-normalization` grew out of internal tooling at [Gladia](https://gladia.io), where we are building an audio intelligence platform powered by speech recognition. When benchmarking ASR systems, we kept hitting the same problem: computing WER from raw transcript penalizes formatting differences that have nothing to do with the quality itself. We built this library to solve it for ourselves, then open-sourced it so the broader speech community doesn't have to solve it again.
+`gladia-normalization` grew out of internal tooling at [Gladia](https://www.gladia.io), where we are building an audio intelligence platform powered by speech recognition. When benchmarking ASR systems, we kept hitting the same problem: computing WER from raw transcript penalizes formatting differences that have nothing to do with the quality itself. We built this library to solve it for ourselves, then open-sourced it so the broader speech community doesn't have to solve it again.
 
 Sharing it felt like the right next step: the problem is universal, and community contributions are the best way to make reliable normalization available for every language, not just the ones we support today.
 
