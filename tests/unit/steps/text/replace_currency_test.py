@@ -1,4 +1,5 @@
 from normalization.languages.english import EnglishOperators
+from normalization.languages.portuguese.operators import PortugueseOperators
 from normalization.languages.swedish.operators import SwedishOperators
 from normalization.steps.text.replace_currency import ReplaceCurrencyStep
 
@@ -16,6 +17,12 @@ def test_replace_currency_step_replaces_currency(english_operators: EnglishOpera
     text = "100€"
     replaced_text = ReplaceCurrencyStep()(text, english_operators)
     assert replaced_text == "100 euros"
+
+
+def test_replace_currency_brazilian_real_symbol() -> None:
+    step = ReplaceCurrencyStep()
+    op = PortugueseOperators()
+    assert step("R$ 50", op) == "50 reais"
 
 
 def test_replace_currency_kr_uses_word_boundaries() -> None:

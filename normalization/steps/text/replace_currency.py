@@ -8,11 +8,19 @@ from normalization.steps.registry import register_step
 _CURRENCY_NUM = rf"\d+(?:{ProtectPlaceholder.DECIMAL_SEPARATOR.value}\d+)?"
 
 
+def _currency_symbol_pattern(symbol: str) -> str:
+    escaped = re.escape(symbol)
+    if len(symbol) == 1:
+        return escaped
+    if symbol[-1].isalnum():
+        return rf"\b{escaped}\b"
+    return rf"(?<!\w){escaped}(?!\w)"
+
+
 def _make_currency_patterns(
     symbol: str,
 ) -> tuple[re.Pattern[str], re.Pattern[str]]:
-    escaped = re.escape(symbol)
-    sym = rf"\b{escaped}\b" if len(symbol) > 1 else escaped
+    sym = _currency_symbol_pattern(symbol)
     before = re.compile(rf"{sym}\s*({_CURRENCY_NUM})", re.IGNORECASE)
     after = re.compile(rf"({_CURRENCY_NUM})\s*{sym}", re.IGNORECASE)
     return before, after
