@@ -13,7 +13,12 @@ FRENCH_SENTENCE_REPLACEMENTS: dict[str, str] = {
     # ASR / WER canonicalizations
     "my people doc": "mypeopledoc",
     "releve d heure": "releve d heures",
-    # Surface area: converge spoken form and symbol (not bare ``metres``)
+    # Surface area: converge spoken form and symbol (not bare ``metres``).
+    # apply_sentence_level_replacements runs before remove_diacritics, so both
+    # accented and ASCII forms must be listed (IGNORECASE covers casing only).
+    "mètres carrés": "m2",
+    "mètre carré": "m2",
+    "mètres carré": "m2",
     "metres carres": "m2",
     "metre carre": "m2",
     "metres carre": "m2",
