@@ -28,6 +28,12 @@ Example (English): {'zero': '0', 'oh': '0', 'o': '0', 'one': '1', ..., 'nine': '
 CurrencySymbols: TypeAlias = dict[str, str]
 """Maps currency symbols to their corresponding words."""
 
+CharacterReplacements: TypeAlias = dict[str, str]
+"""Maps single characters to their canonical replacement (possibly empty to delete).
+Applied character by character, before any other text step.
+Example (Arabic): {'أ': 'ا', 'ـ': '', '٣': '3'}
+"""
+
 
 @dataclass
 class LanguageConfig:
@@ -91,3 +97,8 @@ class LanguageConfig:
     pm_word: str | None = None
     """Canonical PM time designator (e.g. "pm" for English).
     Used by am/pm time formatting steps. None = am/pm steps are skipped."""
+    character_replacements: CharacterReplacements | None = None
+    """Maps single characters to their canonical form; an empty value deletes the character.
+    Used by apply_character_replacements to unify script-level variants (letter forms,
+    native digits, vowel marks) before any other step sees the text.
+    None = step is skipped."""

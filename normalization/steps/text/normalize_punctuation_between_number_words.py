@@ -24,7 +24,9 @@ class NormalizePunctuationBetweenNumberWordsStep(TextStep):
         alternation = "|".join(re.escape(w) for w in sorted_words)
         number_group = f"(?:{alternation})"
         pattern = re.compile(
-            rf"({number_group})\s*[,.\-…]+\s*(?={number_group})",
+            # Include Arabic comma (U+060C) so digit-by-digit ASR like
+            # "صفر، خمسة" collapses the same way as "zero, five".
+            rf"({number_group})\s*[,.\-…\u060c]+\s*(?={number_group})",
             flags=re.IGNORECASE,
         )
         return pattern.sub(r"\1 ", text)
