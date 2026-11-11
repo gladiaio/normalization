@@ -1,0 +1,89 @@
+site_name: Normalization
+site_description: Normalize speech-to-text transcripts for fair WER comparison
+site_url: https://gladiaio.github.io/normalization/
+repo_url: https://github.com/gladiaio/normalization
+repo_name: gladiaio/normalization
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: site
+copyright: Copyright &copy; Gladia
+
+theme:
+  name: material
+  custom_dir: overrides
+  favicon: assets/favicon.svg
+  font: false
+  palette:
+    # Dark-first (Gladia canvas)
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/white-balance-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  features:
+    - content.code.copy
+    - content.tabs.link
+    - navigation.footer
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+extra_css:
+  - stylesheets/gladia.css
+
+plugins:
+  - search
+
+validation:
+  omitted_files: warn
+  absolute_links: info
+  unrecognized_links: warn
+  anchors: warn
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - How it works: concepts.md
+  - Usage:
+      - Python API: usage/python.md
+      - CLI: usage/cli.md
+  - Reference:
+    - Presets: presets.md
+    - Languages: languages.md
+    - Steps: reference/steps.md
+  - Contributing:
+      - Overview: contributing/index.md
+      - Contributor guide: contributing/guide.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/gladiaio/normalization
+    - icon: fontawesome/solid/globe
+      link: https://gladia.io
