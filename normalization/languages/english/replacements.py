@@ -1,6 +1,7 @@
 ENGLISH_REPLACEMENTS: dict[str, str] = {
     "okay": "ok",
     "preexisting": "pre existing",
+    "nonfiction": "non fiction",
     "vs": "versus",
     "accessorise": "accessorize",
     "accessorised": "accessorized",
