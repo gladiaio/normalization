@@ -114,3 +114,44 @@ def test_kroner_word_not_treated_as_currency_suffix(
     normalizer: DanishNumberNormalizer,
 ) -> None:
     assert normalizer("25 kroner") == "25 kroner"
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        # Simple ordinals (standalone)
+        ("første", "1."),
+        ("anden", "2."),
+        ("tredje", "3."),
+        ("tiende", "10."),
+        ("tyvende", "20."),
+        # Glued og-compound ordinals (e.g. "enogtyvende" = 21st)
+        ("enogtyvende", "21."),
+        ("toogtyvende", "22."),
+        ("fireogfyrrende", "44."),
+        # Cardinal + ordinal suffix (e.g. "hundrede tyvende" = 120th)
+        ("hundrede tyvende", "120."),
+        ("hundrede enogtyvende", "121."),
+    ],
+)
+def test_danish_ordinals(
+    normalizer: DanishNumberNormalizer, text: str, expected: str
+) -> None:
+    assert normalizer(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        # "tusinde" (with -e) should be treated the same as "tusind"
+        ("tusinde", "1000"),
+        ("et tusinde", "1000"),
+        ("to tusinde", "2000"),
+        ("to tusinde tre hundrede", "2300"),
+        ("to tusinde fem og tyve", "2025"),
+    ],
+)
+def test_tusinde_variant(
+    normalizer: DanishNumberNormalizer, text: str, expected: str
+) -> None:
+    assert normalizer(text) == expected
