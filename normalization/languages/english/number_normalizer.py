@@ -2,6 +2,8 @@ import re
 from fractions import Fraction
 from typing import Iterator, Match
 
+from words2num2 import words2num_sentence
+
 
 class EnglishNumberNormalizer:
     """Convert any spelled-out numbers into arabic numbers, while handling:
@@ -161,6 +163,31 @@ class EnglishNumberNormalizer:
             for key in mapping
         }
         self.literal_words = {"one", "ones"}
+        # The written numbers themselves, without the glue ("and", "point", "double") and
+        # without the literals this class turns a trailing digit into ("2.5.1" -> "2.5.one"):
+        # what the second pass has left to read, if anything (see __call__).
+        written = {
+            key
+            for mapping in [
+                self.zeros,
+                self.ones,
+                self.ones_suffixed,
+                self.tens,
+                self.tens_suffixed,
+                self.multipliers,
+                self.multipliers_suffixed,
+            ]
+            for key in mapping
+        } - self.literal_words
+        # longest first, so that "seventeen" is tried before "seven"
+        alternatives: list[str] = sorted(
+            (re.escape(word) for word in written),
+            key=lambda word: len(word),
+            reverse=True,
+        )
+        self._written_number = re.compile(
+            r"\b(?:" + "|".join(alternatives) + r")\b", re.IGNORECASE
+        )
 
     def process_words(self, words: list[str]) -> Iterator[str]:  # noqa: C901
         prefix: str | None = None
@@ -509,4 +536,13 @@ class EnglishNumberNormalizer:
         s = self.preprocess(s)
         s = " ".join(word for word in self.process_words(s.split()) if word is not None)
         s = self.postprocess(s)
-        return s
+        # What this class leaves alone because of the punctuation around it, or because two
+        # written numbers sit side by side, words2num2's sentence mode still reads ("that is
+        # fifty." -> "that is 50.", "sixty, seventy" -> "60, 70"). It runs on this class's
+        # output, so the mixed digit-and-word forms it does not read ("20 thirteen" -> 2013,
+        # "25 hundred" -> 2500) keep the value this class gave them. It only runs when a
+        # written number is left: on digits and punctuation alone it reads a version or an IP
+        # address as a decimal ("2 dot 5 dot 1" -> "2 dot 50 point 1").
+        if self._written_number.search(s) is None:
+            return s
+        return words2num_sentence(s)
