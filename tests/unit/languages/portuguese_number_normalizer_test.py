@@ -1,0 +1,31 @@
+import pytest
+
+from normalization.languages.portuguese.number_normalizer import (
+    PortugueseNumberNormalizer,
+)
+from normalization.languages.portuguese.operators import PORTUGUESE_CONFIG
+
+
+@pytest.fixture
+def normalizer():
+    return PortugueseNumberNormalizer(PORTUGUESE_CONFIG.currency_symbol_to_word)
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("vinte e tres", "23"),
+        ("cem", "100"),
+        ("duzentos", "200"),
+        ("3 milhoes", "3000000"),
+        ("25 mil euros", "25000 euros"),
+        ("12 milhões", "12000000"),
+        ("100 mil", "100000"),
+        ("um", "um"),
+        ("uma pessoa", "uma pessoa"),
+        ("R$ 50", "50 reais"),
+        ("r$ 50", "50 reais"),
+    ],
+)
+def test_portuguese_number_normalizer(normalizer, text: str, expected: str):
+    assert normalizer(text) == expected

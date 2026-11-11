@@ -1,5 +1,8 @@
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.danish.number_normalizer import DanishNumberNormalizer
+from normalization.languages.danish.sentence_replacements import (
+    DANISH_SENTENCE_REPLACEMENTS,
+)
 from normalization.languages.registry import register_language
 
 _DANISH_DIGIT_WORDS: dict[str, str] = {
@@ -79,6 +82,7 @@ DANISH_CONFIG = LanguageConfig(
         "halvfems",
         "hundrede",
         "tusind",
+        "tusinde",
         "million",
         "millioner",
         "milliard",
@@ -87,6 +91,7 @@ DANISH_CONFIG = LanguageConfig(
         "billioner",
     ],
     plus_word="plus",
+    sentence_replacements=DANISH_SENTENCE_REPLACEMENTS,
 )
 
 

@@ -169,6 +169,29 @@ def test_standalone_ordinal_still_keeps_suffix(
     assert normalizer("first") == "1st"
 
 
+def test_ninth_ordinal_normalizes(
+    normalizer: EnglishNumberNormalizer,
+) -> None:
+    # "nine" is irregular: the ordinal is "ninth", not "nineth". It was missing
+    # from the ordinal table, so the generic "<word>th" rule produced the key
+    # "nineth" and real "ninth" input was left unconverted.
+    assert normalizer("ninth") == "9th"
+    assert normalizer("twenty ninth") == "29th"
+
+
+@pytest.mark.parametrize(
+    "text, expected",
+    [
+        ("ninth", "9th"),
+        ("twenty ninth", "29th"),
+        ("one hundred ninth", "109th"),
+    ],
+)
+def test_ninth_ordinal_through_gladia_3_pipeline(text: str, expected: str) -> None:
+    pipeline = load_pipeline("gladia-3", "en")
+    assert pipeline.normalize(text) == expected
+
+
 def test_for_not_rewritten_outside_number_point_context(
     normalizer: EnglishNumberNormalizer,
 ) -> None:

@@ -3,7 +3,7 @@
   <p align="center">
     A lightweight library for normalizing speech transcripts before computing WER.
     <br />
-    <a href="#quick-start">Quick Start</a> &middot; <a href="docs/steps.md">Step Reference</a> &middot; <a href="CONTRIBUTING.md">Contributing</a>
+    <a href="#quick-start">Quick Start</a> &middot; <a href="https://gladiaio.github.io/normalization/">Documentation</a> &middot; <a href="CONTRIBUTING.md">Contributing</a>
   </p>
 </p>
 
@@ -137,12 +137,13 @@ Every pipeline runs exactly **three stages**, always in this order:
 
 This ordering is a hard constraint. Some steps depend on earlier steps having run (e.g. a placeholder protecting a decimal point in Stage 1 must be restored in Stage 3, so that `remove_symbols` doesn't destroy it in between).
 
-Pipelines are defined declaratively in **YAML presets**. Each preset lists the steps that run in each stage and the order they run in. See the full [step reference](docs/steps.md) for every available step.
+Pipelines are defined declaratively in **YAML presets**. Each preset lists the steps that run in each stage and the order they run in. See the full [step reference](https://gladiaio.github.io/normalization/reference/steps/) for every available step.
 
 ## Supported languages
 
 | Code | Language |
 | ---- | -------- |
+| `ar` | Arabic   |
 | `da` | Danish   |
 | `de` | German   |
 | `en` | English  |
@@ -151,6 +152,8 @@ Pipelines are defined declaratively in **YAML presets**. Each preset lists the s
 | `fr` | French   |
 | `it` | Italian  |
 | `nl` | Dutch    |
+| `no` | Norwegian |
+| `pt` | Portuguese |
 | `ro` | Romanian |
 | `sv` | Swedish  |
 
@@ -172,7 +175,6 @@ stages:
     - casefold_text
     - remove_symbols
     - remove_diacritics
-    - normalize_whitespace
 
   word:
     - apply_word_replacements
@@ -180,7 +182,6 @@ stages:
   text_post:
     - restore_email_at_symbol_with_word
     - restore_email_dot_symbol_with_word
-    - normalize_whitespace
 ```
 
 _Load from your custom configuration:_
