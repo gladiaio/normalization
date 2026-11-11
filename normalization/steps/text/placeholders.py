@@ -228,30 +228,31 @@ class RestoreUnitDecimalAsWordStep(RestoreStep):
 # Number separator commas  (1, 2, 3 -> 1 ¤ 2 ¤ 3)
 # ---------------------------------------------------------------------------
 
+# Multi-digit list commas first ("60, 70") so they are not treated as joinable
+# digit-sequence separators.
+_RE_MULTI_DIGIT_LIST_COMMA = re.compile(r"(\d{2,}),\s+(?=\d{2,})")
 _RE_COMMA_SEP = re.compile(r"(\d+),\s+(?=\d)")
 _RE_DOT_SEP = re.compile(r"(\d+)\.\s+(?=\d)")
 
 
 @register_step
 class ProtectNumberSeparatorCommasStep(TextStep):
-    """Replace comma/dot+space between digits with ¤ marker. (1, 2, 3 -> 1 ¤ 2 ¤ 3)
+    """Protect commas/dots between digits before remove_symbols.
 
-    Two independent patterns (comma-separated and
-    dot-separated) both collapse to the same marker. ProtectStep handles a
-    single pattern mapping to a single placeholder.
+    - Multi-digit list commas ("60, 70") -> ¶ (restored as space after digit
+      collapsing, so the groups stay separate).
+    - Single-digit / mixed lists ("1, 2, 3") and spaced dots -> ¤ (stripped so
+      the groups join).
     """
 
     name = "protect_number_separator_commas"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        text = _RE_COMMA_SEP.sub(
-            rf"\1 {ProtectPlaceholder.NUMBER_SEPARATOR.value} ",
-            text,
-        )
-        text = _RE_DOT_SEP.sub(
-            rf"\1 {ProtectPlaceholder.NUMBER_SEPARATOR.value} ",
-            text,
-        )
+        list_sep = ProtectPlaceholder.NUMBER_LIST_COMMA.value
+        join_sep = ProtectPlaceholder.NUMBER_SEPARATOR.value
+        text = _RE_MULTI_DIGIT_LIST_COMMA.sub(rf"\1 {list_sep} ", text)
+        text = _RE_COMMA_SEP.sub(rf"\1 {join_sep} ", text)
+        text = _RE_DOT_SEP.sub(rf"\1 {join_sep} ", text)
         return text
 
 
@@ -270,6 +271,20 @@ class RemoveNumberSeparatorMarkersStep(TextStep):
         return re.sub(
             rf"\s*{re.escape(ProtectPlaceholder.NUMBER_SEPARATOR.value)}\s*",
             "",
+            text,
+        )
+
+
+@register_step
+class RestoreNumberListCommasStep(TextStep):
+    """Restore ¶ list-comma markers as a single space after digit collapsing."""
+
+    name = "restore_number_list_commas"
+
+    def __call__(self, text: str, operators: LanguageOperators) -> str:
+        return re.sub(
+            rf"\s*{re.escape(ProtectPlaceholder.NUMBER_LIST_COMMA.value)}\s*",
+            " ",
             text,
         )
 

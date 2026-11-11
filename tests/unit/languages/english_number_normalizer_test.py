@@ -206,7 +206,7 @@ def test_for_not_rewritten_outside_number_point_context(
         ("That's fifty.", "that is 50"),
         ("I paid fifty dollars.", "i paid 50 dollars"),
         # Two written numbers side by side, of which this class alone expanded only the first.
-        ("where people hit sixty, seventy.", "where people hit 6070"),
+        ("where people hit sixty, seventy.", "where people hit 60 70"),
     ],
 )
 def test_words_to_num_across_punctuation_through_gladia_3_pipeline(

@@ -319,7 +319,6 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "contractions" },
-    { name = "num2words2" },
     { name = "pyyaml" },
     { name = "text2num" },
     { name = "words2num2" },
@@ -327,6 +326,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "num2words2" },
     { name = "pre-commit" },
     { name = "pygments" },
     { name = "pytest" },
@@ -342,7 +342,6 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "contractions", specifier = ">=0.1.73" },
-    { name = "num2words2", specifier = ">=1.0.21" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "text2num", specifier = ">=3.0.0" },
     { name = "words2num2", specifier = ">=0.5.0" },
@@ -350,6 +349,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "num2words2", specifier = ">=1.0.21" },
     { name = "pre-commit", specifier = ">=4.5.1" },
     { name = "pygments", specifier = ">=2.20.0" },
     { name = "pytest", specifier = ">=9.0.3" },

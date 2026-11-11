@@ -10,6 +10,9 @@ class ProtectPlaceholder(str, Enum):
     UNIT_SLASH = "†"
     UNIT_DECIMAL = "‡"
     NUMBER_SEPARATOR = "¤"
+    # Comma between multi-digit numbers ("60, 70"): kept until after digit
+    # collapsing so the groups are not glued into "6070", then restored as space.
+    NUMBER_LIST_COMMA = "¶"
     SPELLING_SUFFIX = "xltrx"
 
 

@@ -83,7 +83,10 @@ class NormalizationPipeline:
             "protect_time_colon": {"restore_time_colon"},
             "protect_unit_decimal": {"restore_unit_decimal_as_word"},
             "protect_unit_slash": {"restore_unit_slash"},
-            "protect_number_separator_commas": {"remove_number_separator_markers"},
+            "protect_number_separator_commas": {
+                "remove_number_separator_markers",
+                "restore_number_list_commas",
+            },
             "protect_decimal_separator": {"restore_decimal_separator_with_word"},
             "protect_hyphenated_letter_spelling": {"remove_letter_spelling_markers"},
             "protect_space_separated_letter_spelling": {

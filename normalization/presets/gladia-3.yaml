@@ -122,3 +122,6 @@ stages:
     # Final digit-collapse pass: late restores above (phone plus, unit slash)
     # can produce new adjacent-digit sequences that need collapsing.
     - remove_spaces_between_adjacent_digits # 3rd run: after late restores
+    # After every digit-collapse pass: turn ¶ list commas into spaces so
+    # "sixty, seventy" / "60, 70" stay "60 70" instead of "6070".
+    - restore_number_list_commas

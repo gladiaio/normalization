@@ -20,7 +20,10 @@ class RemoveSpacesBetweenAdjacentDigitsStep(TextStep):
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
         decimal_word = operators.config.decimal_word
-        sep = ProtectPlaceholder.NUMBER_SEPARATOR.value
+        boundaries = (
+            ProtectPlaceholder.NUMBER_SEPARATOR.value,
+            ProtectPlaceholder.NUMBER_LIST_COMMA.value,
+        )
 
         if decimal_word is not None:
             text = text.replace(f" {decimal_word} ", "XDECWORDX")
@@ -38,12 +41,18 @@ class RemoveSpacesBetweenAdjacentDigitsStep(TextStep):
 
             text = ordinal_re.sub(_protect_ordinal, text)
 
-        if sep not in text:
+        present = [b for b in boundaries if b in text]
+        if not present:
             text = _RE_SPACES_BETWEEN_DIGITS.sub(r"\1", text)
         else:
-            parts = text.split(sep)
-            parts = [_RE_SPACES_BETWEEN_DIGITS.sub(r"\1", p) for p in parts]
-            text = sep.join(parts)
+            # Split on every boundary marker so collapse cannot cross list commas
+            # ("60 ¶ 70") or joinable separators ("1 ¤ 2").
+            pattern = "|".join(re.escape(b) for b in present)
+            bits = re.split(f"({pattern})", text)
+            text = "".join(
+                bit if bit in present else _RE_SPACES_BETWEEN_DIGITS.sub(r"\1", bit)
+                for bit in bits
+            )
 
         for i, ordinal in enumerate(ordinals):
             text = text.replace(f"XORDINAL{i}X", ordinal.strip())
