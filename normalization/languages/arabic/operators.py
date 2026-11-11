@@ -98,6 +98,10 @@ ARABIC_CONFIG = LanguageConfig(
         "ممم",
     ],
     digit_words=_ARABIC_DIGIT_WORDS,
+    # Same vocabulary as digit_words: used by
+    # normalize_punctuation_between_number_words so "صفر، خمسة" becomes
+    # "صفر خمسة" before convert_digit_word_sequences_to_digits.
+    number_words=list(_ARABIC_DIGIT_WORDS),
 )
 
 
