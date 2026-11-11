@@ -26,7 +26,6 @@ license = { file = "LICENSE" }
 requires-python = ">=3.10"
 dependencies = [
     "contractions>=0.1.73",
-    "num2words2>=1.0.21",
     "pyyaml>=6.0.3",
     "text2num>=3.0.0",
     "words2num2>=0.5.0",
@@ -45,7 +44,14 @@ Repository = "https://github.com/gladiaio/normalization"
 "Bug Tracker" = "https://github.com/gladiaio/normalization/issues"
 
 [dependency-groups]
-dev = ["pre-commit>=4.5.1", "ty>=0.0.20", "pytest>=9.0.3", "pygments>=2.20.0", "ruff>=0.15.2"]
+dev = [
+    "pre-commit>=4.5.1",
+    "ty>=0.0.20",
+    "pytest>=9.0.3",
+    "pygments>=2.20.0",
+    "ruff>=0.15.2",
+    "num2words2>=1.0.21",
+]
 docs = [
     "mkdocs>=1.6.1",
     "mkdocs-material>=9.7.6",
