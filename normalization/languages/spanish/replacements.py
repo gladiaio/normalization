@@ -27,4 +27,6 @@ SPANISH_REPLACEMENTS: dict[str, str] = {
     "vds": "ustedes",
     "versus": "versus",
     "vs": "versus",
+    # ASR / WER canonicalizations
+    "ahorita": "ahora",
 }

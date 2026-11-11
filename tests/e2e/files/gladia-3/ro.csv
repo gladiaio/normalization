@@ -1,0 +1,98 @@
+input,expected
+Mai am douăzeci și cinci la sută baterie.,mai am 25 la suta baterie
+Mai am douăzecișicinci la sută baterie.,mai am 25 la suta baterie
+Mai am 25% baterie.,mai am 25 la suta baterie
+Acum e cu 25% mai scump.,acum e cu 25 la suta mai scump
+Am o reducere de 25%.,am o reducere de 25 la suta
+Afară sunt douăzeci de grade.,afara sunt 20 grade
+Afară sunt 20 de grade.,afara sunt 20 grade
+Afară sunt 20°.,afara sunt 20 grade
+Afară sunt 20°C.,afara sunt 20 grade celsius
+Afară sunt cinci grade.,afara sunt 5 grade
+Ajung în cincisprezece minute.,ajung in 15 minute
+Ajung în cincișpe minute.,ajung in 15 minute
+Laptopul costă o mie două sute de euro.,laptopul costa 1200 euro
+Laptopul costă 1.200 de euro.,laptopul costa 1200 euro
+Laptopul costă 1.200 €.,laptopul costa 1200 euro
+Laptopul costă €1.200.,laptopul costa 1200 euro
+Costă cincizeci de dolari.,costa 50 dolari
+Costă 50 $.,costa 50 dolari
+Am plătit trei sute de lei.,am platit 300 lei
+Am plătit 300 de lei.,am platit 300 lei
+Casa costă un milion de lei.,casa costa 1000000 lei
+Casa costă 1.000.000 de lei.,casa costa 1000000 lei
+Am primit douăzeci de la bunica.,am primit 20 de la bunica
+Am slăbit trei virgulă cinci kilograme.,am slabit 3 virgula 5 kg
+"Am slăbit 3,5 kilograme.",am slabit 3 virgula 5 kg
+E al treilea din clasă.,e al 3 din clasa
+E al 3-lea din clasă.,e al 3 din clasa
+A doua zi am plecat.,a 2 zi am plecat
+A 2-a zi am plecat.,a 2 zi am plecat
+Ne vedem la ora opt și un sfert.,ne vedem la ora 8:15
+Au venit mii de oameni.,au venit mii de oameni
+Ştefan are şase ani.,stefan are 6 ani
+Știi că mâine e ziua lui?,stii ca maine e ziua lui
+"Acuma e acum, aicea nu e aici.",acuma e acum aicea nu e aici
+"Ăă, okay, mm, gata.",ok gata
+Îi spun ceva.,ii spun ceva
+Am un câine și o pisică.,am un caine si o pisica
+2 < 5,2 mai mic decat 5
+Scrie-mi la ion@exemplu.ro,scrie mi la ion arond exemplu punct ro
+Ne vedem la ora opt și jumătate.,ne vedem la ora 8:30
+Ne vedem la opt jumate.,ne vedem la 8:30
+Ne vedem la ora 8:30.,ne vedem la ora 8:30
+Ne vedem la ora 8.30.,ne vedem la ora 8:30
+Vin la opt și-un sfert.,vin la 8:15
+Vin la opt fără un sfert.,vin la 7:45
+Vin la șapte patruzeci și cinci.,vin la 7:45
+Vin la 7:45.,vin la 7:45
+Plecăm la opt fără zece.,plecam la 7:50
+Am luat trei kile jumate.,am luat 3 virgula 5 kg
+Am luat trei kilograme și jumătate.,am luat 3 virgula 5 kg
+"Am luat 3,5 kg.",am luat 3 virgula 5 kg
+Am dormit opt ore și jumătate.,am dormit 8 virgula 5 ore
+Mai vreau jumătate de pâine.,mai vreau jumatate de paine
+Două virgulă trei.,2 virgula 3
+Am 50 RON.,am 50 ron
+E ora douășpe.,e ora 12
+Am doișpe lei.,am 12 lei
+Costă patrușcinci de lei.,costa 45 lei
+Nu-i bine.,nu i bine
+Inflația a crescut la trei și jumătate la sută.,inflatia a crescut la 3 virgula 5 la suta
+Inflația e trei și jumătate la sută.,inflatia e 3 virgula 5 la suta
+"Inflația a urcat la 3,5%.",inflatia a urcat la 3 virgula 5 la suta
+Rata a scăzut la doi și un sfert la sută.,rata a scazut la 2 virgula 25 la suta
+"Rata a scăzut la 2,25%.",rata a scazut la 2 virgula 25 la suta
+Prețul a urcat la doi și jumătate milioane.,pretul a urcat la 2 virgula 5 milioane
+"Prețul a urcat la 2,5 milioane.",pretul a urcat la 2 virgula 5 milioane
+Am cumpărat 5 € 2 kilograme de mere.,am cumparat 5 euro 2 kg de mere
+Am cumpărat 5 euro 2 kilograme de mere.,am cumparat 5 euro 2 kg de mere
+Am alergat două ore și un sfert.,am alergat 2 virgula 25 ore
+Am cumpărat trei kilograme și jumătate de mere.,am cumparat 3 virgula 5 kg de mere
+"Am cumpărat 3,5 kilograme de mere.",am cumparat 3 virgula 5 kg de mere
+Am dormit o oră și jumătate.,am dormit 1 virgula 5 ore
+"Am dormit 1,5 ore.",am dormit 1 virgula 5 ore
+Au investit două milioane și jumătate de euro.,au investit 2 virgula 5 milioane de euro
+"Au investit 2,5 milioane de euro.",au investit 2 virgula 5 milioane de euro
+Dobânda a crescut de la trei și jumătate la cinci la sută.,dobanda a crescut de la 3 virgula 5 la 5 la suta
+"Dobânda a crescut de la 3,5 la 5%.",dobanda a crescut de la 3 virgula 5 la 5 la suta
+Este opt și jumătate.,este 8:30
+Ne vedem la ora opt și cincisprezece.,ne vedem la ora 8:15
+E în clasa a opta.,e in clasa a 8
+E în clasa a 8-a.,e in clasa a 8
+E al douăzecilea pe listă.,e al 20 pe lista
+E al 20-lea pe listă.,e al 20 pe lista
+Ne vedem pe întâi decembrie.,ne vedem pe 1 decembrie
+Ne vedem pe 1 decembrie.,ne vedem pe 1 decembrie
+Biletele costă €50 €100.,biletele costa 50 euro 100 euro
+Costă 20 de €.,costa 20 euro
+"Costă €12,50.",costa 12 virgula 50 euro
+"Costă 12,50 €.",costa 12 virgula 50 euro
+Am dat cinci € 2 kilograme.,am dat 5 euro 2 kg
+Cei doi vor jumătate.,cei 2 vor jumatate
+În 2024 de exemplu am plecat.,in 2024 de exemplu am plecat
+De ce nu vii?,de ce nu vii
+Capitolul VII.,capitolul 7
+Inflația a crescut la trei și jumătate.,inflatia a crescut la 3 virgula 5
+"Inflația a crescut la 3,5.",inflatia a crescut la 3 virgula 5
+Rata a scăzut de la patru la trei și jumătate.,rata a scazut de la 4 la 3 virgula 5

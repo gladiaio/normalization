@@ -1771,4 +1771,15 @@ ENGLISH_REPLACEMENTS: dict[str, str] = {
     "woulda": "would have",
     "coulda": "could have",
     "shoulda": "should have",
+    # ASR / WER canonicalizations
+    "itchys": "itches",
+    "cannot": "could not",
+    "peoples": "people",
+    "telephone": "cell phone",
+    "talk": "talked",
+    "rudolph": "rudolf",
+    "pound": "pounds",
+    "because": "cuz",
+    "solution": "solutions",
+    "motherfuka": "motherfucker",
 }

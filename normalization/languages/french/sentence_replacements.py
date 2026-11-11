@@ -10,4 +10,10 @@ FRENCH_SENTENCE_REPLACEMENTS: dict[str, str] = {
     "t shirt": "tshirt",
     "pour 100": "pourcent",
     "pour cent": "pourcent",
+    # ASR / WER canonicalizations
+    "my people doc": "mypeopledoc",
+    "bulletins de salaires": "bulletins de salaire",
+    "zaka nino": "zaccanino",
+    "c est cher": "c'est cher",
+    "releve d heure": "releve d heures",
 }

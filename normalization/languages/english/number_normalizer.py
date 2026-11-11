@@ -56,11 +56,12 @@ class EnglishNumberNormalizer:
             "second": (2, "nd"),
             "third": (3, "rd"),
             "fifth": (5, "th"),
+            "ninth": (9, "th"),
             "twelfth": (12, "th"),
             **{
                 name + ("h" if name.endswith("t") else "th"): (value, "th")
                 for name, value in self.ones.items()
-                if value > 3 and value != 5 and value != 12
+                if value > 3 and value not in (5, 9, 12)
             },
         }
         self.ones_suffixed: dict[str, tuple[int, str]] = {
@@ -196,10 +197,69 @@ class EnglishNumberNormalizer:
             next_lower = next.lower() if next is not None else None
 
             next_is_numeric = next is not None and re.match(r"^\d+(\.\d+)?$", next)
+            next_next = words[i + 2] if i + 2 < len(words) else None
+            next_next_lower = next_next.lower() if next_next is not None else None
+
+            # ASR homophone: "40 for point 5" → "40 four point 5" → 44.5
+            if (
+                current_lower == "for"
+                and next_lower == "point"
+                and (
+                    value is not None or (prev is not None and re.match(r"^\d+$", prev))
+                )
+            ):
+                current = "four"
+                current_lower = "four"
+
+            look_next = next_lower
+            if next_lower == "for" and next_next_lower == "point":
+                look_next = "four"
+
+            def next_continues_number() -> bool:
+                return bool(
+                    next_is_numeric
+                    or next_lower in self.ones
+                    or next_lower in self.tens
+                    or next_lower in self.zeros
+                    or next_lower in self.multipliers
+                    or next_lower in self.ones_suffixed
+                    or next_lower in self.tens_suffixed
+                    or next_lower == "and"
+                    or (next_lower == "for" and next_next_lower == "point")
+                )
 
             if re.match(r"^\d+$", current):
                 if value is not None:
+                    # "44." + "5" → "44.5" (digit after spoken/decimal point)
+                    if isinstance(value, str) and value.endswith("."):
+                        value = str(value) + current
+                        continue
                     yield output(value)
+                    value = None
+                # "10 thousand" / "25 hundred" → 10000 / 2500, not bare digits
+                # then a leftover multiplier.
+                if look_next in self.multipliers:
+                    value = int(current)
+                    continue
+                # "44 point 5" → keep 44 in value so "point" can append "."
+                if look_next == "point":
+                    value = current
+                    continue
+                # "2000 and twelve" → keep digits for the following connector.
+                if look_next == "and":
+                    value = int(current)
+                    continue
+                # Ones 1–9 after a digit: keep as int so "40 four" → 44.
+                # Teens / tens / zeros: keep as string so "20 thirteen" → 2013.
+                if look_next in self.ones:
+                    if self.ones[look_next] < 10:
+                        value = int(current)
+                    else:
+                        value = current
+                    continue
+                if look_next in self.tens or look_next in self.zeros:
+                    value = current
+                    continue
                 yield output(current)
                 continue
 
@@ -250,6 +310,11 @@ class EnglishNumberNormalizer:
                         value = str(value) + str(ones)
             elif current_lower in self.ones_suffixed:
                 ones, suffix = self.ones_suffixed[current_lower]
+                # "eleventh 2000 and twelve" → keep cardinal 11 in-phrase so
+                # later digit collapsing can form IDs like 112012.
+                if value is None and next_continues_number():
+                    value = ones
+                    continue
                 if value is None:
                     yield output(str(ones) + suffix)
                 elif isinstance(value, str) or prev_lower in self.ones:
@@ -358,7 +423,19 @@ class EnglishNumberNormalizer:
                         yield output(value)
                     yield output(current)
                 elif current_lower == "and":
-                    if prev_lower not in self.multipliers:
+                    # Keep "and" inside a number phrase after multipliers
+                    # ("two thousand and twelve") or bare digits
+                    # ("2000 and twelve" → 2012).
+                    keeps_number_phrase = prev_lower in self.multipliers or (
+                        value is not None
+                        and isinstance(value, int)
+                        and (
+                            next_lower in self.ones
+                            or next_lower in self.tens
+                            or next_lower in self.zeros
+                        )
+                    )
+                    if not keeps_number_phrase:
                         if value is not None:
                             yield output(value)
                         yield output(current)
@@ -400,6 +477,8 @@ class EnglishNumberNormalizer:
                     results.append("and a half")
 
         s = " ".join(results)
+        # Common ASR misspelling of "thousand".
+        s = re.sub(r"\bthousaond\b", "thousand", s, flags=re.IGNORECASE)
         s = re.sub(r"([a-z])([0-9])", r"\1 \2", s)
         s = re.sub(r"([0-9])([a-z])", r"\1 \2", s)
         s = re.sub(r"([0-9])\s+(st|nd|rd|th|s)\b", r"\1\2", s)
