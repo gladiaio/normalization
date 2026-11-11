@@ -62,8 +62,7 @@ Pick the narrowest one that fits your step.
 class MyWordStep(WordStep):
     name = "my_word_step"
 
-    def __call__(self, word: str, operators: LanguageOperators) -> str:
-        ...
+    def __call__(self, word: str, operators: LanguageOperators) -> str: ...
 ```
 
 **`TextStep`** : the general-purpose base for Stage 1 and Stage 3. Use it when your transformation needs to see the full string, or when none of the more specific bases below fit.
@@ -73,8 +72,7 @@ class MyWordStep(WordStep):
 class MyTextStep(TextStep):
     name = "my_text_step"
 
-    def __call__(self, text: str, operators: LanguageOperators) -> str:
-        ...
+    def __call__(self, text: str, operators: LanguageOperators) -> str: ...
 ```
 
 **`ProtectStep`** : a specialization of `TextStep` for replacing a character with a placeholder token. Implement `_pattern`, which returns a compiled regex with **exactly two capture groups** (what comes before and after the character being replaced). The `__call__` is fixed: it applies the pattern as `\1{placeholder}\2`.
