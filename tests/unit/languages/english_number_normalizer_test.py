@@ -1,7 +1,18 @@
+from functools import lru_cache
+
 import pytest
+from num2words2 import num2words
 
 from normalization.languages.english.number_normalizer import EnglishNumberNormalizer
+from normalization.pipeline.base import NormalizationPipeline
 from normalization.pipeline.loader import load_pipeline
+
+
+@lru_cache(maxsize=1)
+def _pipeline() -> NormalizationPipeline:
+    """The published preset, built once for the whole module (it is read-only)."""
+    return load_pipeline("gladia-3", "en")
+
 
 _ONES_UNITS: dict[str, int] = {
     "one": 1,
@@ -163,3 +174,36 @@ def test_for_not_rewritten_outside_number_point_context(
 ) -> None:
     assert normalizer("for example") == "for example"
     assert normalizer("40 for example") == "40 for example"
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        # A number word that ends the sentence, which this class alone left as words.
+        ("That's fifty.", "that is 50"),
+        ("I paid fifty dollars.", "i paid 50 dollars"),
+        # Two written numbers side by side, of which this class alone expanded only the first.
+        ("where people hit sixty, seventy.", "where people hit 6070"),
+    ],
+)
+def test_words_to_num_across_punctuation_through_gladia_3_pipeline(
+    text: str, expected: str
+) -> None:
+    assert _pipeline().normalize(text) == expected
+
+
+@pytest.mark.parametrize("text", ["version 2.5.1", "192.168.1.1", "1.1.1.1"])
+def test_digits_and_dots_are_not_read_as_numbers(text: str) -> None:
+    """The second pass reads written numbers only: a version or an address keeps its dots."""
+    assert _pipeline().normalize(text) == text.replace(".", " dot ")
+
+
+@pytest.mark.parametrize(
+    "number", [n for n in range(0, 121) if n != 1] + [999, 1234, 10000]
+)
+def test_every_number_num2words2_writes_expands_to_its_digits(number: int) -> None:
+    """words2num2 reads back what num2words2 writes, through the published preset. 1 is left
+    out: a lone "one" is a pronoun as often as a number, and this class keeps it."""
+    written = num2words(number, lang="en")
+    assert written is not None
+    assert _pipeline().normalize(written) == str(number)

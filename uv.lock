@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.10"
 
 [[package]]
@@ -54,7 +54,7 @@ name = "exceptiongroup"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "typing-extensions" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/50/79/66800aadf48771f6b62f7eb014e352e5d06856655206165d775e675a02c9/exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219", size = 30371, upload-time = "2025-11-21T23:01:54.787Z" }
 wheels = [
@@ -76,8 +76,10 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "contractions" },
+    { name = "num2words2" },
     { name = "pyyaml" },
     { name = "text2num" },
+    { name = "words2num2" },
 ]
 
 [package.dev-dependencies]
@@ -92,8 +94,10 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "contractions", specifier = ">=0.1.73" },
+    { name = "num2words2", specifier = ">=1.0.21" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "text2num", specifier = ">=3.0.0" },
+    { name = "words2num2", specifier = ">=0.5.0" },
 ]
 
 [package.metadata.requires-dev]
@@ -130,6 +134,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/24/bf/d1bda4f6168e0b2e9e5958945e01910052158313224ada5ce1fb2e1113b8/nodeenv-1.10.0.tar.gz", hash = "sha256:996c191ad80897d076bdfba80a41994c2b47c68e224c542b48feba42ba00f8bb", size = 55611, upload-time = "2025-12-20T14:08:54.006Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/88/b2/d0896bdcdc8d28a7fc5717c305f1a861c26e18c05047949fb371034d98bd/nodeenv-1.10.0-py2.py3-none-any.whl", hash = "sha256:5bb13e3eed2923615535339b3c620e76779af4cb4c6a90deccc9e36b274d3827", size = 23438, upload-time = "2025-12-20T14:08:52.782Z" },
+]
+
+[[package]]
+name = "num2words2"
+version = "1.0.21"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/46/7f/96f60ad3091401205041c64679be2bdce639d01bbf48110c7567f4349b4d/num2words2-1.0.21.tar.gz", hash = "sha256:a1c57b15c257db6059a57f2293c3aa8d29b5e8d955c3bbcfe6deacff06b4dcdf", size = 2811817, upload-time = "2026-11-09T13:13:46.1Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/23/1a/b3e32d20dbb0b853bd3b4b8ab84a5839c24a4a9f44550bc7c29191c54750/num2words2-1.0.21-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:2fb9b10631369514f5a2d955c81a9d17193a589e7d524d721f38a37216ee0fc1", size = 3597789, upload-time = "2026-11-09T13:13:36.565Z" },
+    { url = "https://files.pythonhosted.org/packages/7b/25/e4f82a116e08cc691b7ecd01ac0516f84288c68fbc2311740cef98a6e886/num2words2-1.0.21-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:1ebe0195b382171aa6f671216fc48dbd6951287b3f057789d3ae577dcc65af77", size = 3297647, upload-time = "2026-11-09T13:13:38.477Z" },
+    { url = "https://files.pythonhosted.org/packages/79/aa/e33fd0ec229b5159d06d54e6f1974b2f453be326309e24424f281b3edbd3/num2words2-1.0.21-cp38-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:e24fc22041f7c02a355f044445d6ca49bbad2e8e395e529d7469f1ae0095c1bf", size = 3456334, upload-time = "2026-11-09T13:13:40.478Z" },
+    { url = "https://files.pythonhosted.org/packages/a9/89/bb6235237a0370a431e152c827f6c08ce557b23144efb44bb5cb4eb80913/num2words2-1.0.21-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:a8db28e6782d4f2776c2e9418cd63f11dc529ac4763692b4de6dc2b610aba494", size = 3732982, upload-time = "2026-11-09T13:13:42.387Z" },
+    { url = "https://files.pythonhosted.org/packages/a4/cc/2b2361e52e3c60687c4e4bc2d81706fb4805b17079f305306e35ff438acd/num2words2-1.0.21-cp38-abi3-win_amd64.whl", hash = "sha256:99470993bd562f57b17a694e251380ee55a3c6731835fc1bc51161bdf161c7d6", size = 4116950, upload-time = "2026-11-09T13:13:44.438Z" },
 ]
 
 [[package]]
@@ -531,4 +548,17 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ed/54/809199edc537dbace273495ac0884d13df26436e910a5ed4d0ec0a69806b/virtualenv-20.39.0.tar.gz", hash = "sha256:a15f0cebd00d50074fd336a169d53422436a12dfe15149efec7072cfe817df8b", size = 5869141, upload-time = "2026-02-23T18:09:13.349Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f7/b4/8268da45f26f4fe84f6eae80a6ca1485ffb490a926afecff75fc48f61979/virtualenv-20.39.0-py3-none-any.whl", hash = "sha256:44888bba3775990a152ea1f73f8e5f566d49f11bbd1de61d426fd7732770043e", size = 5839121, upload-time = "2026-02-23T18:09:11.173Z" },
+]
+
+[[package]]
+name = "words2num2"
+version = "0.5.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/74/39/d76fe36a22755a520aaec24016d52124d9da26dcd280266b8c67bb35c45e/words2num2-0.5.0.tar.gz", hash = "sha256:a549d3d7392950b09b90ec0a4da2f4c885fe82686f447b24071029eeb6578129", size = 443017, upload-time = "2026-11-09T22:13:33.734Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/85/7e/1124dd5525b82dfe94f438875d79f8cf3aa9557bf1d53ca39e8935894695/words2num2-0.5.0-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:31da57a63dec36030dbd2e727d7734dab5deb167bb1f533cfee140b843da5cb5", size = 3980421, upload-time = "2026-11-09T22:13:25.215Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/e1/8b30953b501c2f895b00659bab3c88e48eacb6b9a82e4518c79e743cc464/words2num2-0.5.0-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:e5f585dc1411222b835d98a666843073a7b32a02e5a22c7562f5c11e4aae8061", size = 3635139, upload-time = "2026-11-09T22:13:26.986Z" },
+    { url = "https://files.pythonhosted.org/packages/82/11/b97ffc407fdcd69eb7efea28bfee40ff55edb148cbaab965b58d5331b565/words2num2-0.5.0-cp38-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:632a725339c1bfa74c9dc2d94cf05d79b7ee9d5031b5c56c6e4d4252078c420a", size = 3962602, upload-time = "2026-11-09T22:13:28.481Z" },
+    { url = "https://files.pythonhosted.org/packages/ad/3d/b7b8d253a1536d8464d02939661781f003d5a21e38c8c36d1c8587ce1207/words2num2-0.5.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:6b506455e07c0aefd1d1ad7271a1b872494165fb21b3f50bb26432eb9d3ea1e7", size = 4183549, upload-time = "2026-11-09T22:13:30.382Z" },
+    { url = "https://files.pythonhosted.org/packages/23/94/ccf8df95d4eb5672e425baa8510d38647a631094d171ea7a6336ff127022/words2num2-0.5.0-cp38-abi3-win_amd64.whl", hash = "sha256:f8ce2ea7fe2104e12bcc9b7d709d5779c8dc2167b4963b30e4fa933afc85e2df", size = 4085072, upload-time = "2026-11-09T22:13:31.959Z" },
 ]
