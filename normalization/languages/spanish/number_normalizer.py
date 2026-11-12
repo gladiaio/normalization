@@ -126,17 +126,25 @@ class SpanishNumberNormalizer:
                     end, v2 = tail
                     return end, base + v2
                 return j, base
-            if h == 100:
-                sub = self._parse_0_99(words, j, n)
-                if sub is not None:
-                    je, v = sub
-                    return je, 100 + v
-                return j, 100
+            # Hundred block optionally followed by a 0–99 remainder
+            # (e.g. "ciento cincuenta" → 150, "doscientos uno" → 201).
+            hundreds_value = h
             sub = self._parse_0_99(words, j, n)
             if sub is not None:
                 je, v = sub
-                return je, h + v
-            return j, h
+                hundreds_value = h + v
+                j = je
+            # The whole hundred block may itself be a "mil" multiplier
+            # (e.g. "ciento cincuenta mil" → 150000).
+            if j < n and _fold(words[j]) == "mil":
+                base = hundreds_value * 1000
+                j += 1
+                tail = self._parse_number(words, j, n)
+                if tail is not None:
+                    end, v2 = tail
+                    return end, base + v2
+                return j, base
+            return j, hundreds_value
 
         # --- 0–99 or leading multiplier for "mil" ---
         sub99 = self._parse_0_99(words, i, n)
