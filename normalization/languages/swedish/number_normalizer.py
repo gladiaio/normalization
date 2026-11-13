@@ -322,7 +322,7 @@ class SwedishNumberNormalizer:
             return i + 1, 0
 
         if _fold(words[i]) == "hundra":
-            tail = self._parse_0_99(words, i + 1, n)
+            tail = self._parse_0_99_after_hundred(words, i + 1, n)
             if tail is not None:
                 je, tv = tail
                 return je, 100 + tv
@@ -334,13 +334,30 @@ class SwedishNumberNormalizer:
                 return None
             base = m * 100
             j = i + 2
-            tail = self._parse_0_99(words, j, n)
+            tail = self._parse_0_99_after_hundred(words, j, n)
             if tail is not None:
                 je, tv = tail
                 return je, base + tv
             return j, base
 
         return self._parse_0_99(words, i, n)
+
+    def _parse_0_99_after_hundred(
+        self, words: list[str], i: int, n: int
+    ) -> tuple[int, int] | None:
+        """Parse 0–99, additionally accepting standalone ``en``/``ett`` as 1.
+
+        A bare ``en``/``ett`` is ambiguous with the article elsewhere, so
+        ``_parse_0_99`` leaves it as a word. After a hundreds block it can only
+        be the unit 1 (``hundra ett`` = 101, ``hundra ett tusen`` = 101000), so
+        it is safe to read here.
+        """
+        result = self._parse_0_99(words, i, n)
+        if result is not None:
+            return result
+        if i < n and _fold(words[i]) in ("en", "ett"):
+            return i + 1, 1
+        return None
 
     def _continues_number(self, word: str) -> bool:
         fw = _fold(word)
