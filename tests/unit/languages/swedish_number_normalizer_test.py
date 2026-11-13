@@ -67,3 +67,21 @@ def test_kronor_word_not_treated_as_currency_suffix(
     normalizer: SwedishNumberNormalizer,
 ) -> None:
     assert normalizer("25 kronor") == "25 kronor"
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("hundra ett", "101"),
+        ("två hundra en", "201"),
+        ("hundra ett tusen", "101000"),
+        ("två hundra ett tusen", "201000"),
+        ("tre hundra ett tusen fem", "301005"),
+    ],
+)
+def test_unit_one_after_hundred_keeps_grouping(
+    normalizer: SwedishNumberNormalizer, text: str, expected: str
+) -> None:
+    """``en``/``ett`` as the ones part after a hundreds block is the unit 1, so
+    the thousands multiplier is not dropped (``hundra ett tusen`` = 101000)."""
+    assert normalizer(text) == expected
