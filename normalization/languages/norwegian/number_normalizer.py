@@ -348,7 +348,7 @@ class NorwegianNumberNormalizer:
 
         if _fold(words[i]) == "hundre":
             j = _skip_optional_og(words, i + 1, n)
-            tail = self._parse_0_99(words, j, n)
+            tail = self._parse_0_99_after_hundred(words, j, n)
             if tail is not None:
                 je, tv = tail
                 return je, 100 + tv
@@ -361,13 +361,32 @@ class NorwegianNumberNormalizer:
             base = m * 100
             j = i + 2
             j = _skip_optional_og(words, j, n)
-            tail = self._parse_0_99(words, j, n)
+            tail = self._parse_0_99_after_hundred(words, j, n)
             if tail is not None:
                 je, tv = tail
                 return je, base + tv
             return j, base
 
         return self._parse_0_99(words, i, n)
+
+    def _parse_0_99_after_hundred(
+        self, words: list[str], i: int, n: int
+    ) -> tuple[int, int] | None:
+        """Parse 0–99, additionally accepting standalone ``en``/``ett``/``ein`` as 1.
+
+        A bare ``en``/``ett``/``ein`` is ambiguous with the article elsewhere, so
+        ``_parse_0_99`` leaves it as a word. After a hundreds block it can only be
+        the unit 1 (``hundre en`` = 101, ``hundre en tusen`` = 101000), so it is
+        safe to read here. Without this, the trailing unit is dropped and a
+        following ``tusen`` multiplier attaches to nothing (``hundre en tusen``
+        would wrongly become ``100 1000``).
+        """
+        result = self._parse_0_99(words, i, n)
+        if result is not None:
+            return result
+        if i < n and _fold(words[i]) in ("en", "ett", "ein"):
+            return i + 1, 1
+        return None
 
     def _continues_number(self, word: str) -> bool:
         fw = _fold(word)
