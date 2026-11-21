@@ -1,3 +1,6 @@
+from dataclasses import replace as _dataclass_replace
+
+from normalization.languages.base.diacritics import remove_diacritics
 from normalization.languages.base.language_config import LanguageConfig
 
 _DEFAULT_CONFIG = LanguageConfig(code="default")
@@ -20,7 +23,18 @@ class LanguageOperators:
     """
 
     def __init__(self, config: LanguageConfig | None = None):
-        self.config = config if config is not None else _DEFAULT_CONFIG
+        config = config if config is not None else _DEFAULT_CONFIG
+        # gladia-3 runs remove_diacritics before remove_filler_words, so a filler
+        # listed with a diacritic ("äh", "öh", "öö") could never match the
+        # already-stripped token. Fold each entry with the same remove_diacritics
+        # the pipeline applies, at operator build time: lists stay written in
+        # their natural accented form and every entry — current or future —
+        # matches the form it is seen in. The folded list lives on a copy, so the
+        # shared module-level config keeps the configured (accented) entries.
+        folded_fillers = [remove_diacritics(word) for word in config.filler_words]
+        if folded_fillers != config.filler_words:
+            config = _dataclass_replace(config, filler_words=folded_fillers)
+        self.config = config
 
     def expand_contractions(self, text: str) -> str:
         """Expand contractions (e.g. it's -> it is). No-op by default."""

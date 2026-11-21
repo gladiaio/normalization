@@ -1,5 +1,8 @@
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.finnish.number_normalizer import FinnishNumberNormalizer
+from normalization.languages.finnish.sentence_replacements import (
+    FINNISH_SENTENCE_REPLACEMENTS,
+)
 from normalization.languages.registry import register_language
 
 _FINNISH_DIGIT_WORDS: dict[str, str] = {
@@ -53,6 +56,9 @@ FINNISH_CONFIG = LanguageConfig(
         "aha",
         "aa",
     ],
+    # "oo" -> "ole" runs at sentence level (before remove_diacritics), so the
+    # folded filler "öö" -> "oo" cannot swallow the genuine colloquial verb.
+    sentence_replacements=FINNISH_SENTENCE_REPLACEMENTS,
     digit_words=_FINNISH_DIGIT_WORDS,
     number_words=[
         *_FINNISH_DIGIT_WORDS,
