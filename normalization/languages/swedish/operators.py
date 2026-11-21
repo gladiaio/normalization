@@ -42,20 +42,22 @@ SWEDISH_CONFIG = LanguageConfig(
         "kr": "kronor",
     },
     filler_words=[
+        # Post-diacritics forms: remove_diacritics runs before remove_filler_words,
+        # so ä→a, ö→o and å→a conversions have already happened at match time.
         "eh",
-        "äh",
-        "öh",
+        "ah",  # from "äh"
+        "oh",  # from "öh"
         "hm",
         "hmm",
         "mm",
         "mhm",
-        "asså",
-        "alltså",
+        "assa",  # from "asså"
+        "alltsa",  # from "alltså"
         "liksom",
         "typ",
         "ba",
         "va",
-        "nå",
+        "na",  # from "nå"
     ],
     digit_words=_SWEDISH_DIGIT_WORDS,
     number_words=[

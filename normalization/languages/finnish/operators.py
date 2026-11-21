@@ -40,8 +40,11 @@ FINNISH_CONFIG = LanguageConfig(
         "¥": "yens",
     },
     filler_words=[
+        # Post-diacritics forms: remove_diacritics runs before remove_filler_words,
+        # so ö→o conversions have already happened at match time. Removing "oo"
+        # here also keeps it away from the "oo" → "ole" replacement.
         "eh",
-        "öö",
+        "oo",  # from "öö"
         "hm",
         "hmm",
         "mm",

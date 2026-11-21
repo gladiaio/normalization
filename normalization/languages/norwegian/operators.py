@@ -49,16 +49,18 @@ NORWEGIAN_CONFIG = LanguageConfig(
         "kr": "kroner",
     },
     filler_words=[
+        # Post-diacritics forms: remove_diacritics runs before remove_filler_words,
+        # so ø→o and å→a conversions have already happened at match time.
         "eh",
-        "øh",
+        "oh",  # from "øh"
         "hm",
         "hmm",
         "mm",
         "mhm",
-        "altså",
+        "altsa",  # from "altså"
         "liksom",
         "bare",
-        "nå",
+        "na",  # from "nå"
         "a",
         "aa",
         "mmm",

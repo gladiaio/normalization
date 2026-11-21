@@ -44,7 +44,16 @@ GERMAN_CONFIG = LanguageConfig(
         "¢": "cents",
         "¥": "yens",
     },
-    filler_words=["äh", "ähm", "hm", "also", "naja", "halt"],
+    filler_words=[
+        # Post-diacritics forms: remove_diacritics runs before remove_filler_words,
+        # so ä→a conversions have already happened at match time.
+        "ah",  # from "äh"
+        "ahm",  # from "ähm"
+        "hm",
+        "also",
+        "naja",
+        "halt",
+    ],
     sentence_replacements=GERMAN_SENTENCE_REPLACEMENTS,
     digit_words=_GERMAN_DIGIT_WORDS,
     number_words=[
