@@ -25,7 +25,10 @@ FINNISH_REPLACEMENTS: dict[str, str] = {
     "naa": "nama",
     "olis": "olisi",
     "ois": "olisi",
-    "oo": "ole",
+    # "oo" -> "ole" lives in sentence_replacements.py instead: it must be applied
+    # before remove_diacritics / remove_filler_words, otherwise the filler "öö"
+    # (folded to "oo" at operator build time) would swallow the genuine
+    # colloquial verb "oo" before the replacement could map it to "ole".
     "ollu": "ollut",
     "onks": "onko",
     "oliks": "oliko",
