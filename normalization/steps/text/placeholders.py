@@ -308,14 +308,19 @@ class ProtectDecimalSeparatorStep(ProtectStep):
 
 @register_step
 class RestoreDecimalSeparatorWithWordStep(RestoreStep):
-    """Restore XDECIMALX placeholder with the language-specific decimal word."""
+    """Restore XDECIMALX placeholder with the language-specific decimal word.
+
+    A language with no decimal word gets its separator back ("6.5" stays
+    "6.5"): a space would be joined by remove_spaces_between_adjacent_digits
+    and read the decimal as an integer ("65").
+    """
 
     name = "restore_decimal_separator_with_word"
     placeholder = ProtectPlaceholder.DECIMAL_SEPARATOR
 
     def _replacement(self, operators: LanguageOperators) -> str:
         if operators.config.decimal_word is None:
-            return " "
+            return operators.config.decimal_separator
         return f" {operators.config.decimal_word} "
 
 
