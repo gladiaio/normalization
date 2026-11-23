@@ -207,6 +207,14 @@ is unset. No-op when number_words is empty.
 
 Protect the decimal separator from being removed by RemoveSymbolsStep.
 
+The language's own decimal separator is protected between any two digit
+groups. The other separator ("." when the language writes ",", and the
+reverse) is protected too when one or two digits follow it and the number
+goes no further ("6.5" in Finnish, "6,5" in a language without a module):
+such a group cannot be a thousands group, and it would otherwise be joined
+into an integer ("65"). Numbers with more groups ("1.2.3", "192.168.1.1")
+are left alone.
+
 ### `protect_email_symbols`
 
 **Base class:** `TextStep`
