@@ -11,6 +11,7 @@ Pass a language code to `load_pipeline` or `--language`. Unknown codes fall back
 | `es` | Spanish |
 | `fi` | Finnish |
 | `fr` | French |
+| `he` | Hebrew |
 | `it` | Italian |
 | `nl` | Dutch |
 | `no` | Norwegian |
