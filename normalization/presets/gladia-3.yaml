@@ -6,6 +6,9 @@ stages:
     # No-op unless the language defines character_replacements. Runs first so
     # native digits / separators are visible to every protect and numeric step.
     - apply_character_replacements
+    # No-op unless the language overrides normalize_spelling_variants: folds
+    # that need context (Hindi nasal + virama -> anusvara), on the unified text.
+    - normalize_spelling_variants
 
     # --- Phase 1: Protect symbols from being erased by later cleanup ---
     # Run first so that email @/., phone +, time :, unit decimal/slash, and

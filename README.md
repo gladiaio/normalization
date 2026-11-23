@@ -144,12 +144,14 @@ Pipelines are defined declaratively in **YAML presets**. Each preset lists the s
 | Code | Language |
 | ---- | -------- |
 | `ar` | Arabic   |
+| `bn` | Bengali  |
 | `da` | Danish   |
 | `de` | German   |
 | `en` | English  |
 | `es` | Spanish  |
 | `fi` | Finnish  |
 | `fr` | French   |
+| `hi` | Hindi    |
 | `it` | Italian  |
 | `nl` | Dutch    |
 | `no` | Norwegian |

@@ -188,10 +188,28 @@ Delegates to operators.normalize_numeric_time_formats().
 
 **Base class:** `TextStep`
 
-Replace commas, dots, hyphens between number words with a single space.
+Normalize punctuation between spelled number words.
 
-Handles: 'seven, zero' -> 'seven zero', 'two-one-three' -> 'two one three'.
-Reads operators.config.number_words. No-op when None.
+- Hyphens between any number_words: 'ninety-nine' -> 'ninety nine',
+  'two-one-three' -> 'two one three'.
+- Commas after scale words: 'thousand, two' -> 'thousand two' (British
+  long form).
+- Commas / dots / ellipsis / Arabic comma only between digit_words (0-9):
+  'seven, zero' -> 'seven zero'. Tens like 'sixty, seventy' keep their
+  comma so expand + list-comma protect yield '60 70', not '6070'.
+
+Falls back to number_words for the digit comma/dot class when digit_words
+is unset. No-op when number_words is empty.
+
+### `normalize_spelling_variants`
+
+**Base class:** `TextStep`
+
+Fold context-dependent spelling variants of the same word. Delegates to operators.normalize_spelling_variants().
+
+Runs right after apply_character_replacements, so that every later step
+(numbers, symbols, word replacements) sees one spelling. No-op for a
+language that does not override the operator method.
 
 ### `protect_decimal_separator`
 
@@ -219,11 +237,12 @@ Uses TextStep directly: the replacement is a per-match function that splits on '
 
 **Base class:** `TextStep`
 
-Replace comma/dot+space between digits with ¤ marker. (1, 2, 3 -> 1 ¤ 2 ¤ 3)
+Protect commas/dots between digits before remove_symbols.
 
-Two independent patterns (comma-separated and
-dot-separated) both collapse to the same marker. ProtectStep handles a
-single pattern mapping to a single placeholder.
+- Multi-digit list commas ("60, 70") -> ¶ (restored as space after digit
+  collapsing, so the groups stay separate).
+- Single-digit / mixed lists ("1, 2, 3") and spaced dots -> ¤ (stripped so
+  the groups join).
 
 ### `protect_phone_plus_symbol`
 
@@ -295,6 +314,12 @@ Remove periods from acronyms (U.S.A. -> USA, U.S. -> US).
 
 Normalize text by removing diacritics and converting special accented letters to their ASCII equivalents. (é -> e, ê -> e, etc.)
 
+A nonspacing mark is removed only on a Latin, Greek, Cyrillic, Hebrew or
+Arabic letter (accents, niqqud, harakat). In the other scripts it is part
+of the letter and is kept (Hindi "लूना", Bengali "বাংলা", Japanese "です"),
+and so is the breve of Russian "й". A letter that keeps a mark is
+recomposed (NFC).
+
 ### `remove_filler_words`
 
 **Base class:** `TextStep`
@@ -357,9 +382,12 @@ only whitespace in between, so ordinary words are not corrupted.
 
 **Base class:** `TextStep`
 
-Replace markers, symbols, and punctuation with spaces.
+Replace symbols and punctuation with spaces.
 
-Preserves letters, digits, and all placeholder characters. When
+Preserves letters, digits, combining marks (removed or kept with their
+letter by ``remove_diacritics``) and all placeholder characters. A geresh
+or gershayim between two Hebrew letters is removed, which keeps the word
+whole (``צה"ל`` -> ``צהל``). When
 ``symbols_to_words`` defines a word for ``%``, expands ``%`` only when it
 follows a decimal or integer literal (e.g. ``8,75%``), so other ``%`` uses
 stay unchanged.
@@ -432,6 +460,12 @@ Restore XDOTX placeholder with the language-specific 'dot' word.
 
 When no word is configured for '.', restores the original '.' character
 so that placeholders never leak into the final output.
+
+### `restore_number_list_commas`
+
+**Base class:** `TextStep`
+
+Restore ¶ list-comma markers as a single space after digit collapsing.
 
 ### `restore_phone_plus_symbol`
 
