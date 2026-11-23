@@ -1,3 +1,7 @@
+import re
+import sys
+import unicodedata
+
 from normalization.languages.arabic.number_normalizer import ArabicNumberNormalizer
 from normalization.languages.arabic.replacements import ARABIC_REPLACEMENTS
 from normalization.languages.base import LanguageConfig, LanguageOperators
@@ -18,12 +22,39 @@ _LETTER_VARIANTS: dict[str, str] = {
     "إ": "ا",  # alef with hamza below
     "آ": "ا",  # alef with madda
     "ٱ": "ا",  # alef wasla
-    "ؤ": "و",  # waw with hamza above
-    "ئ": "ي",  # yeh with hamza above
     "ى": "ي",  # alef maqsura
     "ة": "ه",  # ta marbuta
     "ی": "ي",  # Persian yeh
     "ک": "ك",  # keheh
+}
+
+# Hamza seats, folded by normalize_spelling_variants rather than character by
+# character: the seat before و varies by country and must be read with the next
+# letter first (see _RE_HAMZA_BEFORE_WAW).
+_HAMZA_SEATS: dict[str, str] = {
+    "ؤ": "و",  # waw with hamza above
+    "ئ": "ي",  # yeh with hamza above
+}
+
+# A hamza before و inside a word is written on a waw (مسؤول, رؤوس), on a yeh
+# (مسئول, the usual Egyptian spelling) or on the line (رءوس, يقرءون): grammars
+# give these as alternatives when a long ū follows the hamza. All three are
+# written as و so that ؤ → و then folds them to one word. A ئ before another
+# letter (بيئة, هيئة) and a word-final ء (سماء) are not matched.
+_RE_HAMZA_BEFORE_WAW = re.compile(r"(?<=\w)[ئءؤ](?=و)")
+
+# Upper bound of the code points scanned for format characters: the last
+# Unicode plane that holds any (tags, U+E0001-U+E007F, are in plane 14).
+_LAST_FORMAT_CODE_POINT = 0xE007F
+
+# Every format character (General_Category Cf): direction marks (LRM, RLM,
+# ALM U+061C, the embeddings and isolates), ZWSP, ZWNJ, ZWJ, word joiner, BOM,
+# the end-of-ayah sign. They steer display, never spell a letter, and an
+# editor inserts them silently around mixed Arabic and Latin text.
+_FORMAT_CHARACTERS: dict[str, str] = {
+    chr(c): ""
+    for c in range(min(sys.maxunicode, _LAST_FORMAT_CODE_POINT) + 1)
+    if unicodedata.category(chr(c)) == "Cf"
 }
 
 # Arabic-Indic (U+0660–U+0669) and Eastern Arabic-Indic (U+06F0–U+06F9) digits
@@ -85,6 +116,7 @@ ARABIC_CONFIG = LanguageConfig(
         "¥": "ين",
     },
     character_replacements={
+        **_FORMAT_CHARACTERS,
         **_HARAKAT,
         **_TATWEEL,
         **_LETTER_VARIANTS,
@@ -104,14 +136,29 @@ ARABIC_CONFIG = LanguageConfig(
     number_words=list(_ARABIC_DIGIT_WORDS),
 )
 
+# Every single-letter fold the text has been through when the number normalizer
+# reads it: character_replacements, then the hamza seats of
+# normalize_spelling_variants. Number tables are folded with it.
+ARABIC_SPELLING_FOLDS: dict[str, str] = {
+    **(ARABIC_CONFIG.character_replacements or {}),
+    **_HAMZA_SEATS,
+}
+
 
 @register_language
 class ArabicOperators(LanguageOperators):
     def __init__(self) -> None:
         super().__init__(ARABIC_CONFIG)
-        self._number_normalizer = ArabicNumberNormalizer(
-            ARABIC_CONFIG.character_replacements
-        )
+        self._number_normalizer = ArabicNumberNormalizer(ARABIC_SPELLING_FOLDS)
+        self._hamza_seats = str.maketrans(_HAMZA_SEATS)
+
+    def normalize_spelling_variants(self, text: str) -> str:
+        """Write every hamza seat before و as و, then fold ؤ → و and ئ → ي.
+
+        مسؤول / مسئول, شؤون / شئون, رؤوس / رءوس and يقرؤون / يقرءون become one word each.
+        """
+        text = _RE_HAMZA_BEFORE_WAW.sub("و", text)
+        return text.translate(self._hamza_seats)
 
     def expand_written_numbers(self, text: str) -> str:
         """Convert Arabic spelled-out numbers to digits (e.g. خمسة وعشرون → 25)."""
