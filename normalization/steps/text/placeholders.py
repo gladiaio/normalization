@@ -294,9 +294,24 @@ class RestoreNumberListCommasStep(TextStep):
 # ---------------------------------------------------------------------------
 
 
+# The two characters a number is written with as a decimal separator. A language
+# expects one of them; the other one, followed by one or two digits, cannot be a
+# thousands group (always three digits) and is read as a decimal too (#53).
+_DECIMAL_SEPARATOR_CHARACTERS = (".", ",")
+
+
 @register_step
 class ProtectDecimalSeparatorStep(ProtectStep):
-    """Protect the decimal separator from being removed by RemoveSymbolsStep."""
+    """Protect the decimal separator from being removed by RemoveSymbolsStep.
+
+    The language's own decimal separator is protected between any two digit
+    groups. The other separator ("." when the language writes ",", and the
+    reverse) is protected too when one or two digits follow it and the number
+    goes no further ("6.5" in Finnish, "6,5" in a language without a module):
+    such a group cannot be a thousands group, and it would otherwise be joined
+    into an integer ("65"). Numbers with more groups ("1.2.3", "192.168.1.1")
+    are left alone.
+    """
 
     name = "protect_decimal_separator"
     placeholder = ProtectPlaceholder.DECIMAL_SEPARATOR
@@ -305,17 +320,33 @@ class ProtectDecimalSeparatorStep(ProtectStep):
         safe_separator = re.escape(operators.config.decimal_separator)
         return re.compile(rf"(\d+){safe_separator}(\d+)")
 
+    def __call__(self, text: str, operators: LanguageOperators) -> str:
+        text = super().__call__(text, operators)
+        decimal_separator = operators.config.decimal_separator
+        if decimal_separator not in _DECIMAL_SEPARATOR_CHARACTERS:
+            return text
+        (other,) = set(_DECIMAL_SEPARATOR_CHARACTERS) - {decimal_separator}
+        other_decimal = re.compile(
+            rf"(?<![\w.,])(\d+){re.escape(other)}(\d{{1,2}})(?![\d]|[.,]\d)"
+        )
+        return other_decimal.sub(rf"\1{self.placeholder.value}\2", text)
+
 
 @register_step
 class RestoreDecimalSeparatorWithWordStep(RestoreStep):
-    """Restore XDECIMALX placeholder with the language-specific decimal word."""
+    """Restore XDECIMALX placeholder with the language-specific decimal word.
+
+    A language with no decimal word gets its separator back ("6.5" stays
+    "6.5"): a space would be joined by remove_spaces_between_adjacent_digits
+    and read the decimal as an integer ("65").
+    """
 
     name = "restore_decimal_separator_with_word"
     placeholder = ProtectPlaceholder.DECIMAL_SEPARATOR
 
     def _replacement(self, operators: LanguageOperators) -> str:
         if operators.config.decimal_word is None:
-            return " "
+            return operators.config.decimal_separator
         return f" {operators.config.decimal_word} "
 
 
