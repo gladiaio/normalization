@@ -18,6 +18,8 @@ abbreviation and never the other way:
 
 - units of measurement (ГОСТ 8.417): ``километров`` -> ``км``, ``метра`` -> ``м``,
   ``сантиметров`` -> ``см``, ``килограммов`` -> ``кг``;
+- millimetre: ``мм`` and ``миллиметров`` -> ``миллиметров``, a word, because
+  the symbol ``мм`` is also a hesitation filler;
 - the year: ``году`` / ``года`` / ``год`` after a number -> ``г``, the form of the
   abbreviation ``г.`` once ``remove_symbols`` drops its period;
 - ``процент`` / ``процента`` / ``процентов`` -> ``процентов``, the word
@@ -88,6 +90,13 @@ _UNITS: dict[str, str] = {
 _YEAR_FORMS = r"(?:год|года|году|годом|годе)"
 _YEAR_ABBREVIATION = "г"
 
+# Millimetre is the one unit folded to a word: its symbol "мм" is also a
+# hesitation filler, which would delete it ("5 мм" -> "5"). After a number, the
+# symbol and every case form of "миллиметр" become "миллиметров", a token the
+# filler list cannot match. A standalone "мм" stays a filler.
+_MILLIMETRE_FORMS = r"мм\.?|миллиметр" + _NOUN_ENDINGS
+_MILLIMETRE_WORD = "миллиметров"
+
 _PERCENT_FORMS = r"процент(?:а|у|ом|е|ы|ов|ам|ами|ах)?"
 _PERCENT_WORD = "процентов"
 
@@ -124,6 +133,7 @@ _FOLDS: tuple[tuple[re.Pattern, str], ...] = (
         _fold_after_number(spoken + _NOUN_ENDINGS, abbreviation)
         for spoken, abbreviation in _UNITS.items()
     ),
+    _fold_after_number(_MILLIMETRE_FORMS, _MILLIMETRE_WORD),
     _fold_after_number(_YEAR_FORMS, _YEAR_ABBREVIATION),
     _fold_after_number(_PERCENT_FORMS, _PERCENT_WORD),
 )

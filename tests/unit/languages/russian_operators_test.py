@@ -52,3 +52,9 @@ def test_fillers_are_removed(filler: str) -> None:
 @pytest.mark.parametrize("text", ["ну я думаю", "а я думаю", "в к с"])
 def test_words_are_kept(text: str) -> None:
     assert load_pipeline("gladia-3", "ru").normalize(text) == text
+
+
+def test_millimetre_is_not_a_filler_after_a_number() -> None:
+    ru = load_pipeline("gladia-3", "ru")
+    assert ru.normalize("5 мм") == ru.normalize("пять миллиметров") == "5 миллиметров"
+    assert ru.normalize("мм ну я думаю") == "ну я думаю"
