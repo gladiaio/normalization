@@ -1,11 +1,13 @@
 from . import (
     arabic,
+    bengali,
     danish,
     dutch,
     english,
     finnish,
     french,
     german,
+    hindi,
     italian,
     norwegian,
     portuguese,
@@ -20,12 +22,14 @@ register_language(LanguageOperators)
 
 __all__ = [
     "arabic",
+    "bengali",
     "danish",
     "dutch",
     "english",
     "finnish",
     "french",
     "german",
+    "hindi",
     "italian",
     "norwegian",
     "portuguese",

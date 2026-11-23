@@ -5,12 +5,14 @@ Pass a language code to `load_pipeline` or `--language`. Unknown codes fall back
 <div class="gladia-hero-center" markdown="1">
 | Code | Language |
 | --- | --- |
+| `bn` | Bengali |
 | `da` | Danish |
 | `de` | German |
 | `en` | English |
 | `es` | Spanish |
 | `fi` | Finnish |
 | `fr` | French |
+| `hi` | Hindi |
 | `it` | Italian |
 | `nl` | Dutch |
 | `no` | Norwegian |
