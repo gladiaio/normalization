@@ -6,6 +6,10 @@ stages:
     # No-op unless the language defines character_replacements. Runs first so
     # native digits / separators are visible to every protect and numeric step.
     - apply_character_replacements
+    # No-op unless the language overrides fold_script_variants (Japanese:
+    # katakana to hiragana, 々, word-final ー, ヶ/ヵ/か). Runs before any mark
+    # or symbol removal, on the composed text.
+    - fold_script_variants
 
     # --- Phase 1: Protect symbols from being erased by later cleanup ---
     # Run first so that email @/., phone +, time :, unit decimal/slash, and

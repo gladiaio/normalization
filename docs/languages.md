@@ -12,6 +12,7 @@ Pass a language code to `load_pipeline` or `--language`. Unknown codes fall back
 | `fi` | Finnish |
 | `fr` | French |
 | `it` | Italian |
+| `ja` | Japanese |
 | `nl` | Dutch |
 | `no` | Norwegian |
 | `sv` | Swedish |
