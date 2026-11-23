@@ -167,6 +167,17 @@ Example (English): '10 one one' -> '10 1 1', 'one 5' -> '1 5'
 
 Collapse space between 'v' and digit (v 2 -> v2). 'v' must be followed by a digit.
 
+### `fold_script_variants`
+
+**Base class:** `TextStep`
+
+Fold spellings of one word that differ only by script or writing convention.
+
+Delegates to ``operators.fold_script_variants``; a no-op for every language
+that does not override it. Japanese folds katakana to hiragana, expands the
+iteration mark 々, drops a word-final ー and unifies the counter ヶ/ヵ/か.
+Runs first, on the composed text, before any mark or symbol removal.
+
 ### `format_time_patterns_with_ampm`
 
 **Base class:** `TextStep`

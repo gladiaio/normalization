@@ -39,6 +39,14 @@ class LanguageOperators:
         """
         return text
 
+    def fold_script_variants(self, text: str) -> str:
+        """Fold spellings of one word that differ only by script or writing convention.
+
+        Example (Japanese): 'コロコロ' and 'ころころ' -> 'ころころ', '人々' -> '人人'.
+        A fold for scoring only. No-op by default.
+        """
+        return text
+
     def get_word_replacements(self) -> dict[str, str]:
         """Return the word-level replacement dict for this language. Empty by default."""
         return {}
