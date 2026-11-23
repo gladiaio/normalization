@@ -14,6 +14,7 @@ Pass a language code to `load_pipeline` or `--language`. Unknown codes fall back
 | `it` | Italian |
 | `nl` | Dutch |
 | `no` | Norwegian |
+| `ru` | Russian |
 | `sv` | Swedish |
 </div>
 

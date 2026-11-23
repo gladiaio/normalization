@@ -27,7 +27,8 @@ def test_decimal_kept_without_a_decimal_word(
 @pytest.mark.parametrize(
     ("language", "dot", "comma", "expected"),
     [
-        ("ru", "6.5 балла", "6,5 балла", "6.5 балла"),
+        # Russian has its own module (#52): its decimal separator is the comma.
+        ("ru", "6.5 балла", "6,5 балла", "6,5 балла"),
         ("he", "6.5", "6,5", "6.5"),
         ("hi", "6.5", "6,5", "6.5"),
         ("bn", "6.5", "6,5", "6.5"),
@@ -57,7 +58,7 @@ def test_either_separator_gives_the_same_decimal(
         # Lists keep their own handling.
         ("en", "60, 70", "60 70"),
         # A version number keeps its value instead of becoming one integer.
-        ("ru", "802.11a", "802.11a"),
+        ("ru", "802.11a", "802,11a"),
     ],
 )
 def test_thousands_and_lists_unaffected(
