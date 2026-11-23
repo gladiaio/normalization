@@ -55,6 +55,17 @@ class LanguageOperators:
         """
         return {}
 
+    def normalize_spelling_variants(self, text: str) -> str:
+        """
+        Fold spellings of the same word that need context to recognize.
+
+        Single-character variants belong in ``LanguageConfig.character_replacements``;
+        this hook is for folds that depend on the neighbouring characters (Hindi
+        "केन्द्रीय" -> "केंद्रीय", a nasal consonant with virama before a consonant of
+        its class written as anusvara). No-op by default.
+        """
+        return text
+
     def expand_written_numbers(self, text: str) -> str:
         """
         Expand written-out number expressions to digit form.

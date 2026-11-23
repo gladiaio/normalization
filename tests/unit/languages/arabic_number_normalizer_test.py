@@ -1,12 +1,12 @@
 import pytest
 
 from normalization.languages.arabic.number_normalizer import ArabicNumberNormalizer
-from normalization.languages.arabic.operators import ARABIC_CONFIG
+from normalization.languages.arabic.operators import ARABIC_SPELLING_FOLDS
 
 
 @pytest.fixture(scope="module")
 def normalizer() -> ArabicNumberNormalizer:
-    return ArabicNumberNormalizer(ARABIC_CONFIG.character_replacements)
+    return ArabicNumberNormalizer(ARABIC_SPELLING_FOLDS)
 
 
 @pytest.mark.parametrize(

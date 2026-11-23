@@ -138,3 +138,62 @@ def test_pipeline_spelled_out_numbers_match_digits(
 
 def test_pipeline_collapses_digit_word_sequences(pipeline) -> None:
     assert pipeline.normalize("واحد اثنين ثلاثة أربعة") == "1234"
+
+
+# --- #68: format characters and hamza seats ---
+
+
+@pytest.mark.parametrize(
+    "marked",
+    [
+        "‏مرحبا",  # RLM
+        "مرحبا‎",  # LRM
+        "؜مرحبا",  # Arabic letter mark
+        "⁨مرحبا⁩",  # first strong isolate ... pop directional isolate
+        "﻿مرحبا",  # BOM / zero width no-break space
+        "‫مرحبا‬",  # right-to-left embedding ... pop directional formatting
+        "مرحبا۝",  # end of ayah
+    ],
+)
+def test_format_characters_removed(pipeline, marked: str) -> None:
+    assert pipeline.normalize(marked) == pipeline.normalize("مرحبا")
+
+
+def test_zero_width_space_is_not_a_word_break(pipeline) -> None:
+    assert pipeline.normalize("مرحبا​بك") == pipeline.normalize("مرحبابك")
+
+
+@pytest.mark.parametrize(
+    ("waw_seat", "other_seat"),
+    [
+        ("مسؤول", "مسئول"),
+        ("شؤون", "شئون"),
+        ("رؤوس", "رءوس"),
+        ("يقرؤون", "يقرءون"),
+    ],
+)
+def test_hamza_seat_before_waw_folded(pipeline, waw_seat: str, other_seat: str) -> None:
+    assert pipeline.normalize(waw_seat) == pipeline.normalize(other_seat)
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("بيئة", "بييه"),  # ئ before another letter: plain ئ → ي
+        ("هيئة", "هييه"),
+        ("سماء", "سماء"),  # word-final ء untouched
+        ("سؤال", "سوال"),  # ؤ before another letter: plain ؤ → و
+        ("رئيس", "رييس"),
+    ],
+)
+def test_hamza_seat_elsewhere_unchanged(pipeline, text: str, expected: str) -> None:
+    assert pipeline.normalize(text) == expected
+
+
+def test_spelling_variants_leave_other_text_alone(operators: ArabicOperators) -> None:
+    assert operators.normalize_spelling_variants("hello 123") == "hello 123"
+
+
+def test_numbers_with_hamza_still_read(pipeline) -> None:
+    assert pipeline.normalize("ثلاثمئة وخمسة") == "305"
+    assert pipeline.normalize("مئتين") == "200"
