@@ -201,6 +201,16 @@ Normalize punctuation between spelled number words.
 Falls back to number_words for the digit comma/dot class when digit_words
 is unset. No-op when number_words is empty.
 
+### `normalize_spelling_variants`
+
+**Base class:** `TextStep`
+
+Fold context-dependent spelling variants of the same word. Delegates to operators.normalize_spelling_variants().
+
+Runs right after apply_character_replacements, so that every later step
+(numbers, symbols, word replacements) sees one spelling. No-op for a
+language that does not override the operator method.
+
 ### `protect_decimal_separator`
 
 **Base class:** `ProtectStep`
