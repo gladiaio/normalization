@@ -22,7 +22,7 @@ See the full [step reference](reference/steps.md).
 
 ## Presets
 
-A preset is a YAML file that lists which steps run in each stage and in what order. Published presets are **immutable** — new behavior means a new preset file (e.g. `gladia-4`).
+A preset is a YAML file that lists which steps run in each stage and in what order. Published presets are **immutable** — new behavior means a new preset file (e.g. `gladia-4`, which adds ordinal normalization to `gladia-3`).
 
 Details and custom YAML: [Presets](presets.md).
 

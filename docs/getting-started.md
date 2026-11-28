@@ -35,7 +35,7 @@ print(pipeline.normalize("It's $50 at 3:00PM"))
 # it is 50 dollars at 3 pm
 ```
 
-- First argument: built-in preset name (`"gladia-3"`) or path to a YAML file
+- First argument: built-in preset name (`"gladia-3"`, `"gladia-4"`, see [Presets](presets.md)) or path to a YAML file
 - Second argument: language code (`"en"`, `"fr"`, …) — see [Languages](languages.md)
 
 ## CLI
