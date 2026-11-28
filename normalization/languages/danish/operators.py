@@ -1,5 +1,6 @@
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.danish.number_normalizer import DanishNumberNormalizer
+from normalization.languages.danish.ordinals import ORDINAL_SUFFIXES
 from normalization.languages.danish.sentence_replacements import (
     DANISH_SENTENCE_REPLACEMENTS,
 )
@@ -92,6 +93,8 @@ DANISH_CONFIG = LanguageConfig(
     ],
     plus_word="plus",
     sentence_replacements=DANISH_SENTENCE_REPLACEMENTS,
+    ordinal_suffixes=ORDINAL_SUFFIXES,
+    strip_ordinal_suffixes=True,
 )
 
 

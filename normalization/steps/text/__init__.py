@@ -18,6 +18,7 @@ from . import (
     fix_dot_adjacent_number_words,
     fix_one_word_in_numeric_contexts,
     fix_version_number_v_prefix,
+    fold_spelled_ordinals,
     format_time_patterns_with_ampm,
     normalize_numeric_time_formats,
     normalize_punctuation_between_number_words,
@@ -37,6 +38,7 @@ from . import (
     remove_trailing_period,
     remove_zero_minutes_from_time,
     replace_currency,
+    strip_ordinal_suffixes,
 )
 
 __all__ = [
@@ -59,6 +61,7 @@ __all__ = [
     "fix_dot_adjacent_number_words",
     "fix_one_word_in_numeric_contexts",
     "fix_version_number_v_prefix",
+    "fold_spelled_ordinals",
     "format_time_patterns_with_ampm",
     "normalize_numeric_time_formats",
     "normalize_punctuation_between_number_words",
@@ -78,4 +81,5 @@ __all__ = [
     "remove_trailing_period",
     "remove_zero_minutes_from_time",
     "replace_currency",
+    "strip_ordinal_suffixes",
 ]

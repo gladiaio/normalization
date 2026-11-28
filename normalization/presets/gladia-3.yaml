@@ -51,6 +51,8 @@ stages:
     - convert_digit_word_sequences_to_digits
 
     # --- Phase 4: Written-number expansion ---
+    # fold_spelled_ordinals runs first so a glued ordinal compound is read whole.
+    - fold_spelled_ordinals
     - expand_written_numbers_to_digits
     # Re-protect after expansion: expand_written_numbers_to_digits can produce
     # new decimal numbers (e.g. "three point five" → "3.5"), new phone-number-
@@ -66,6 +68,9 @@ stages:
     # to prevent "VIII" from being spaced out to "V I I I" instead of "8".
     - expand_www_abbreviation
     - convert_roman_numerals_to_digits
+    # strip_ordinal_suffixes must run before expand_alphanumeric_codes so "1er"
+    # becomes "1" instead of "1 e r", and before remove_diacritics turns "º" into "o".
+    - strip_ordinal_suffixes
     - expand_alphanumeric_codes
 
     # --- Phase 6: Casefold and cleanup ---

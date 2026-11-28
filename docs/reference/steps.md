@@ -167,6 +167,16 @@ Example (English): '10 one one' -> '10 1 1', 'one 5' -> '1 5'
 
 Collapse space between 'v' and digit (v 2 -> v2). 'v' must be followed by a digit.
 
+### `fold_spelled_ordinals`
+
+**Base class:** `TextStep`
+
+Write spelled ordinals as the digits of their number (fr 'premier' -> '1').
+
+Reads ``operators.config.spelled_ordinals``: whole words, matched case-insensitively,
+longest first. Runs before expand_written_numbers_to_digits so a glued compound
+('tjugoförsta') is read whole, not split into a cardinal and an ordinal.
+
 ### `format_time_patterns_with_ampm`
 
 **Base class:** `TextStep`
@@ -188,10 +198,18 @@ Delegates to operators.normalize_numeric_time_formats().
 
 **Base class:** `TextStep`
 
-Replace commas, dots, hyphens between number words with a single space.
+Normalize punctuation between spelled number words.
 
-Handles: 'seven, zero' -> 'seven zero', 'two-one-three' -> 'two one three'.
-Reads operators.config.number_words. No-op when None.
+- Hyphens between any number_words: 'ninety-nine' -> 'ninety nine',
+  'two-one-three' -> 'two one three'.
+- Commas after scale words: 'thousand, two' -> 'thousand two' (British
+  long form).
+- Commas / dots / ellipsis / Arabic comma only between digit_words (0-9):
+  'seven, zero' -> 'seven zero'. Tens like 'sixty, seventy' keep their
+  comma so expand + list-comma protect yield '60 70', not '6070'.
+
+Falls back to number_words for the digit comma/dot class when digit_words
+is unset. No-op when number_words is empty.
 
 ### `protect_decimal_separator`
 
@@ -219,11 +237,12 @@ Uses TextStep directly: the replacement is a per-match function that splits on '
 
 **Base class:** `TextStep`
 
-Replace comma/dot+space between digits with ¤ marker. (1, 2, 3 -> 1 ¤ 2 ¤ 3)
+Protect commas/dots between digits before remove_symbols.
 
-Two independent patterns (comma-separated and
-dot-separated) both collapse to the same marker. ProtectStep handles a
-single pattern mapping to a single placeholder.
+- Multi-digit list commas ("60, 70") -> ¶ (restored as space after digit
+  collapsing, so the groups stay separate).
+- Single-digit / mixed lists ("1, 2, 3") and spaced dots -> ¤ (stripped so
+  the groups join).
 
 ### `protect_phone_plus_symbol`
 
@@ -433,6 +452,12 @@ Restore XDOTX placeholder with the language-specific 'dot' word.
 When no word is configured for '.', restores the original '.' character
 so that placeholders never leak into the final output.
 
+### `restore_number_list_commas`
+
+**Base class:** `TextStep`
+
+Restore ¶ list-comma markers as a single space after digit collapsing.
+
 ### `restore_phone_plus_symbol`
 
 **Base class:** `TextStep`
@@ -458,6 +483,18 @@ Restore ‡ placeholder with the language-specific decimal word.
 **Base class:** `RestoreStep`
 
 Restore † placeholder back to /.
+
+### `strip_ordinal_suffixes`
+
+**Base class:** `TextStep`
+
+Drop the suffix of a digit ordinal (fr '1er' -> '1', sv '1:a' -> '1', es '1º' -> '1').
+
+Only when ``operators.config.strip_ordinal_suffixes`` is True, with the suffixes of
+``operators.config.ordinal_suffixes``. The token must be digits then a suffix, alone:
+a digit or letter before it ('AF1er') or a letter after it ('1e5') leaves it a code.
+Runs before expand_alphanumeric_codes, which would space the suffix out letter by
+letter, and before remove_diacritics, which turns 'º' into 'o'.
 
 ## Word Steps
 

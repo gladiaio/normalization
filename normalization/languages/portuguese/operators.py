@@ -5,6 +5,10 @@ from normalization.languages.portuguese.clitics import merge_hyphenated_clitics
 from normalization.languages.portuguese.number_normalizer import (
     PortugueseNumberNormalizer,
 )
+from normalization.languages.portuguese.ordinals import (
+    ORDINAL_SUFFIXES,
+    SPELLED_ORDINALS,
+)
 from normalization.languages.portuguese.replacements import PORTUGUESE_REPLACEMENTS
 from normalization.languages.portuguese.sentence_replacements import (
     PORTUGUESE_SENTENCE_REPLACEMENTS,
@@ -101,6 +105,9 @@ PORTUGUESE_CONFIG = LanguageConfig(
         "bilhões",
     ],
     plus_word="mais",
+    ordinal_suffixes=ORDINAL_SUFFIXES,
+    strip_ordinal_suffixes=True,
+    spelled_ordinals=SPELLED_ORDINALS,
 )
 
 

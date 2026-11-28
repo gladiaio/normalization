@@ -28,6 +28,11 @@ Example (English): {'zero': '0', 'oh': '0', 'o': '0', 'one': '1', ..., 'nine': '
 CurrencySymbols: TypeAlias = dict[str, str]
 """Maps currency symbols to their corresponding words."""
 
+SpelledOrdinals: TypeAlias = dict[str, str]
+"""Maps spelled-out ordinal words to the digits of their number.
+Matched as whole words, case-insensitively. Example (German): {'ersten': '1', 'zweite': '2'}
+"""
+
 CharacterReplacements: TypeAlias = dict[str, str]
 """Maps single characters to their canonical replacement (possibly empty to delete).
 Applied character by character, before any other text step.
@@ -81,6 +86,16 @@ class LanguageConfig:
     ordinal_suffixes: list[str] | None = None
     """Ordinal number suffixes for this language (e.g. ["st", "nd", "rd", "th"] for English).
     Used by steps that need to detect ordinal numbers. None = ordinal detection is skipped."""
+    strip_ordinal_suffixes: bool = False
+    """When True, a digit ordinal loses its suffix (fr '1er' -> '1', sv '1:a' -> '1'), so it
+    meets the spelled ordinal, which this language writes as the bare number.
+    Used by strip_ordinal_suffixes with ``ordinal_suffixes``. False keeps the suffix
+    (English writes both 'first' and '1st' as '1st')."""
+    spelled_ordinals: SpelledOrdinals | None = None
+    """Spelled ordinals the language's number expansion leaves as words, mapped to their digits.
+    Used by fold_spelled_ordinals so a spelled ordinal and its digit form normalize alike.
+    Words that also mean something else (sv 'andra' = other, fr 'seconde' = the time unit)
+    are left out. None = step is skipped."""
     roman_numerals_uppercase_only: bool = False
     """When True, only treat Roman numerals as digits if they appear in ALL CAPS (e.g. VI, VIII).
 

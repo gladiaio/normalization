@@ -5,6 +5,7 @@ from normalization.languages.base import (
     LanguageOperators,
 )
 from normalization.languages.dutch.number_normalizer import DutchNumberNormalizer
+from normalization.languages.dutch.ordinals import ORDINAL_SUFFIXES, SPELLED_ORDINALS
 from normalization.languages.dutch.sentence_replacements import (
     DUTCH_SENTENCE_REPLACEMENTS,
 )
@@ -122,6 +123,9 @@ DUTCH_CONFIG = LanguageConfig(
         "biljoenen",
     ],
     plus_word="plus",
+    ordinal_suffixes=ORDINAL_SUFFIXES,
+    strip_ordinal_suffixes=True,
+    spelled_ordinals=SPELLED_ORDINALS,
 )
 
 
