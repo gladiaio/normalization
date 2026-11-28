@@ -120,6 +120,9 @@ class EnglishOperators(LanguageOperators):
     def __init__(self):
         super().__init__(ENGLISH_CONFIG)
         self._number_normalizer = EnglishNumberNormalizer()
+        self._ordinal_keeping_number_normalizer = EnglishNumberNormalizer(
+            keep_ordinal_before_number=True
+        )
 
     def expand_contractions(self, text: str) -> str:
         text = re.sub(
@@ -197,3 +200,8 @@ class EnglishOperators(LanguageOperators):
 
     def expand_written_numbers(self, text: str) -> str:
         return self._number_normalizer(text)
+
+    def expand_written_numbers_protecting_ordinals(self, text: str) -> str:
+        """Like expand_written_numbers, but an ordinal before a number stays an ordinal
+        ("the first 2 May" -> "the 1st 2 May", not "the 1 2 May")."""
+        return self._ordinal_keeping_number_normalizer(text)

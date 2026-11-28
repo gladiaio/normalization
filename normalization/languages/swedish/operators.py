@@ -3,6 +3,7 @@ from normalization.languages.registry import register_language
 from normalization.languages.swedish.number_normalizer import SwedishNumberNormalizer
 from normalization.languages.swedish.ordinals import (
     CANONICAL_SUFFIX,
+    CANONICAL_SUFFIX_BY_ENDING,
     ORDINAL_SUFFIXES,
     SPELLED_ORDINALS,
 )
@@ -97,6 +98,7 @@ SWEDISH_CONFIG = LanguageConfig(
     plus_word="plus",
     digit_ordinal_suffixes=ORDINAL_SUFFIXES,
     canonical_ordinal_suffix=CANONICAL_SUFFIX,
+    canonical_ordinal_suffix_by_ending=CANONICAL_SUFFIX_BY_ENDING,
     spelled_ordinals=SPELLED_ORDINALS,
 )
 

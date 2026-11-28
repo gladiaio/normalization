@@ -494,8 +494,8 @@ Restore ¶ list-comma markers as a single space after digit collapsing.
 Write each ordinal placeholder as digits plus the language's canonical suffix.
 
 Uses TextStep directly: the digits come from the placeholder and the suffix from
-``operators.config.canonical_ordinal_suffix`` and
-``canonical_ordinal_suffix_by_number`` (fr 'xordxbx' -> '1er', 'xordxcx' -> '2e').
+``operators.config.canonical_ordinal_suffix``, ``canonical_ordinal_suffix_by_number``
+and ``canonical_ordinal_suffix_by_ending`` (fr 'xordxbx' -> '1er', 'xordxcx' -> '2e').
 Runs last, so no later step can space out, strip or glue the suffix.
 
 ### `restore_phone_plus_symbol`

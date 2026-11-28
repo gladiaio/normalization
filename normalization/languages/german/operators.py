@@ -1,3 +1,6 @@
+import re
+
+from normalization.constants.protectors import ordinal_placeholder
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.german.number_normalizer import GermanNumberNormalizer
 from normalization.languages.german.ordinals import (
@@ -88,6 +91,13 @@ GERMAN_CONFIG = LanguageConfig(
 )
 
 
+# A period before a space or the end of the text, hidden from alpha2digit during
+# expand_written_numbers_protecting_ordinals. The space keeps the word before it whole.
+_RE_SENTENCE_PERIOD = re.compile(r"\.(?=\s|$)")
+_HIDDEN_PERIOD = " \u01c2"
+_RE_WRITTEN_ORDINAL = re.compile(r"(?<![\w.,])(\d+)\.(?!\d)")
+
+
 @register_language
 class GermanOperators(LanguageOperators):
     def __init__(self):
@@ -99,3 +109,20 @@ class GermanOperators(LanguageOperators):
 
     def expand_written_numbers(self, text: str) -> str:
         return self._number_normalizer(text)
+
+    def expand_written_numbers_protecting_ordinals(self, text: str) -> str:
+        """Like expand_written_numbers, with each ordinal it reads as an ordinal placeholder.
+
+        alpha2digit writes a spelled ordinal as "N." ("dritten" -> "3."), like a
+        cardinal before a period ("drei." -> "3."). Periods already in the text are
+        hidden behind a spaced mark first, so every "N." alpha2digit writes is an
+        ordinal; the marks are put back as periods afterwards, apart from a number before
+        them.
+        """
+        text = _RE_SENTENCE_PERIOD.sub(_HIDDEN_PERIOD, text)
+        text = self._number_normalizer(text)
+        text = _RE_WRITTEN_ORDINAL.sub(lambda m: ordinal_placeholder(m.group(1)), text)
+        # A period back after a number ("drei." -> "3 .") is kept apart from it, so
+        # protect_digit_ordinals does not read the cardinal as an ordinal.
+        text = text.replace(_HIDDEN_PERIOD, " .")
+        return re.sub(r"(?<=\D) \.", ".", text)

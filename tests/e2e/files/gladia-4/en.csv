@@ -145,9 +145,9 @@ fire fire,firefires
 paul s,pauls
 40 for point 5,44 point 5
 40 four point 5,44 point 5
-eleventh 2000 and twelve,112012
-eleventh 2 thousand and twelve,112012
-eleventh 2 thousaond and twelve,112012
+eleventh 2000 and twelve,11th 2012
+eleventh 2 thousand and twelve,11th 2012
+eleventh 2 thousaond and twelve,11th 2012
 25 hundred,2500
 35 hundred,3500
 20 hundred,2000
@@ -164,3 +164,5 @@ the first of May,the 1st of may
 the 1st of May,the 1st of may
 on the third floor,on the 3rd floor
 on the 3rd floor,on the 3rd floor
+the first 2 May,the 1st 2 may
+the 1st 2 May,the 1st 2 may

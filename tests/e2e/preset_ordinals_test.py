@@ -14,6 +14,8 @@ from normalization.pipeline.loader import load_pipeline
         ("fr", "le premier mai", "le premier mai", "le 1er mai"),
         ("da", "den første 2 maj", "den 12 maj", "den 1. 2 maj"),
         ("nl", "de 1ste mei", "de 1 is het e mei", "de 1e mei"),
+        ("en", "the first 2 May", "the 12 may", "the 1st 2 may"),
+        ("de", "am 1. 2 Mai", "am 12 mai", "am 1. 2 mai"),
     ],
 )
 def test_ordinals_by_preset(

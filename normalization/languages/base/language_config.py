@@ -100,6 +100,11 @@ class LanguageConfig:
     canonical_ordinal_suffix_by_number: dict[str, str] | None = None
     """Numbers whose canonical suffix differs from ``canonical_ordinal_suffix``
     (fr {'1': 'er'}: '1er', but '21e'). Read by restore_ordinals."""
+    canonical_ordinal_suffix_by_ending: dict[str, str] | None = None
+    """Endings of the digits whose canonical suffix differs from
+    ``canonical_ordinal_suffix``, the longest ending that matches winning
+    (sv {'1': ':a', '2': ':a', '11': ':e', '12': ':e'}: '1:a', '22:a', '11:e', '3:e').
+    Read by restore_ordinals after ``canonical_ordinal_suffix_by_number``."""
     spelled_ordinals: SpelledOrdinals | None = None
     """Spelled ordinals the language's number expansion leaves as words, mapped to their digits.
     Used by fold_spelled_ordinals so a spelled ordinal and its digit form normalize alike

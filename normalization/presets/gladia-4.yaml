@@ -6,6 +6,10 @@ stages:
     # No-op unless the language defines character_replacements. Runs first so
     # native digits / separators are visible to every protect and numeric step.
     - apply_character_replacements
+    # Hold digit ordinals ("1er", "1.", "1:a") before any step reads their mark:
+    # protect_number_separator_commas would turn da "1. 2" into "1 ¤ 2" -> "12",
+    # and convert_dots_to_words_in_technical_contexts es "1.er" into "1 punto er".
+    - protect_digit_ordinals
 
     # --- Phase 1: Protect symbols from being erased by later cleanup ---
     # Run first so that email @/., phone +, time :, unit decimal/slash, and
@@ -70,9 +74,10 @@ stages:
     # to prevent "VIII" from being spaced out to "V I I I" instead of "8".
     - expand_www_abbreviation
     - convert_roman_numerals_to_digits
-    # protect_digit_ordinals must run before expand_alphanumeric_codes so "1er" is
-    # not spaced out to "1 e r", and before remove_diacritics turns "º" into "o".
-    - protect_digit_ordinals
+    # 2nd run: the ordinals written by the number expansion (fr "5ème", nl "4e",
+    # it "3ª"). Before expand_alphanumeric_codes, which would space out "5ème",
+    # and remove_diacritics, which turns "º" into "o".
+    - protect_digit_ordinals # 2nd run
     - expand_alphanumeric_codes
 
     # --- Phase 6: Casefold and cleanup ---

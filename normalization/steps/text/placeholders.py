@@ -436,8 +436,8 @@ class RestoreOrdinalsStep(TextStep):
     """Write each ordinal placeholder as digits plus the language's canonical suffix.
 
     Uses TextStep directly: the digits come from the placeholder and the suffix from
-    ``operators.config.canonical_ordinal_suffix`` and
-    ``canonical_ordinal_suffix_by_number`` (fr 'xordxbx' -> '1er', 'xordxcx' -> '2e').
+    ``operators.config.canonical_ordinal_suffix``, ``canonical_ordinal_suffix_by_number``
+    and ``canonical_ordinal_suffix_by_ending`` (fr 'xordxbx' -> '1er', 'xordxcx' -> '2e').
     Runs last, so no later step can space out, strip or glue the suffix.
     """
 
@@ -448,9 +448,22 @@ class RestoreOrdinalsStep(TextStep):
             return text
         default = operators.config.canonical_ordinal_suffix or ""
         by_number = operators.config.canonical_ordinal_suffix_by_number or {}
+        by_ending = sorted(
+            (operators.config.canonical_ordinal_suffix_by_ending or {}).items(),
+            key=lambda item: len(item[0]),
+            reverse=True,
+        )
+
+        def _suffix(digits: str) -> str:
+            if digits in by_number:
+                return by_number[digits]
+            for ending, suffix in by_ending:
+                if digits.endswith(ending):
+                    return suffix
+            return default
 
         def _restore(match: re.Match) -> str:
             digits = ordinal_placeholder_digits(match.group(1))
-            return digits + by_number.get(digits, default)
+            return digits + _suffix(digits)
 
         return _RE_ORDINAL_PLACEHOLDER.sub(_restore, text)

@@ -19,7 +19,11 @@ class EnglishNumberNormalizer:
     class living in the English language folder.
     """
 
-    def __init__(self):
+    def __init__(self, *, keep_ordinal_before_number: bool = False):
+        # keep_ordinal_before_number: "the first 2 May" -> "the 1st 2 May". Off by
+        # default: gladia-3 keeps the cardinal so digit collapsing forms "112012" from
+        # "eleventh 2000 and twelve", and a published preset keeps its output.
+        self._keep_ordinal_before_number = keep_ordinal_before_number
         self.zeros = {"o", "oh", "zero"}
         self.ones: dict[str, int] = {
             name: i
@@ -339,7 +343,11 @@ class EnglishNumberNormalizer:
                 ones, suffix = self.ones_suffixed[current_lower]
                 # "eleventh 2000 and twelve" → keep cardinal 11 in-phrase so
                 # later digit collapsing can form IDs like 112012.
-                if value is None and next_continues_number():
+                if (
+                    value is None
+                    and next_continues_number()
+                    and not self._keep_ordinal_before_number
+                ):
                     value = ones
                     continue
                 if value is None:

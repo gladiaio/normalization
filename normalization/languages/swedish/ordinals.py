@@ -1,13 +1,23 @@
 """Swedish ordinal data: digit suffixes (1:a, 3:e) and spelled ordinals (första, tjugonde).
 
-Every ordinal is written as its number plus ":a": "första" and "1:a" become "1:a",
-"3:e" becomes "3:a". "andra" and "andre" (second) are left out: they
+Every ordinal is written with the standard Swedish suffix: ":a" after 1 and 2 (not 11
+and 12), ":e" otherwise. "första" and "1:a" become "1:a"; "tredje", "3:e" and "3:a"
+become "3:e". "andra" and "andre" (second) are left out: they
 are also "other" ("de andra barnen"), so folding them would turn "other" into 2.
 """
 
 ORDINAL_SUFFIXES: list[str] = [":a", ":e"]
 
-CANONICAL_SUFFIX = ":a"
+# The Swedish rule: ":a" after 1 and 2 (1:a, 22:a), but ":e" after 11 and 12, and
+# after every other number (3:e, 11:e).
+CANONICAL_SUFFIX = ":e"
+
+CANONICAL_SUFFIX_BY_ENDING: dict[str, str] = {
+    "1": ":a",
+    "2": ":a",
+    "11": ":e",
+    "12": ":e",
+}
 
 _ONES: dict[str, int] = {
     "första": 1,
