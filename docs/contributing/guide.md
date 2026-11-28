@@ -168,12 +168,13 @@ tests/e2e/files/
     da.csv
     de.csv
     en.csv
-    es.csv
-    fi.csv
-    fr.csv
-    it.csv
-    nl.csv
-    sv.csv
+    ...
+  gladia-4/
+    default.csv
+    da.csv
+    de.csv
+    en.csv
+    ...
 ```
 
 **CSV format** : two columns (`input,expected`), no quoting needed unless the value contains a comma:
@@ -187,20 +188,9 @@ hello world,hello world
 
 **Adding test cases for an existing preset** : drop rows into the appropriate `{language_code}.csv` file, or create a new CSV if the language isn't covered yet. Tests are discovered automatically.
 
-**Registering a new preset** : add a block to `normalization_test.py` following the existing pattern:
+**Registering a new preset** : create `tests/e2e/files/{preset}/` with one CSV per language. The folder name is the preset name; `normalization_test.py` discovers every folder and generates `test_{preset}_{language}` (e.g. `test_gladia_4_fr`). Copy the previous preset's CSVs and change only the rows whose output the new preset changes, so every language stays covered.
 
-```python
-_MY_PRESET_DIR = _FILES_DIR / "my-preset"
-_MY_PRESET_BY_LANGUAGE = _discover_preset_tests(_MY_PRESET_DIR)
-_MY_PRESET_PIPELINES: dict[str, NormalizationPipeline] = {}
-
-for _language in sorted(_MY_PRESET_BY_LANGUAGE):
-    globals()[f"test_my_preset_{_language}"] = _make_test(
-        "my-preset", _language, _MY_PRESET_BY_LANGUAGE[_language], _MY_PRESET_PIPELINES
-    )
-```
-
-> Pipelines are cached per language to avoid reloading for each parametrized case.
+> Pipelines are cached per preset and language to avoid reloading for each parametrized case.
 
 ---
 

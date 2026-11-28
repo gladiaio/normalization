@@ -2,6 +2,11 @@ from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.norwegian.number_normalizer import (
     NorwegianNumberNormalizer,
 )
+from normalization.languages.norwegian.ordinals import (
+    CANONICAL_SUFFIX,
+    ORDINAL_SUFFIXES,
+    SPELLED_ORDINALS,
+)
 from normalization.languages.registry import register_language
 
 _NORWEGIAN_DIGIT_WORDS: dict[str, str] = {
@@ -97,6 +102,9 @@ NORWEGIAN_CONFIG = LanguageConfig(
         "billioner",
     ],
     plus_word="plus",
+    digit_ordinal_suffixes=ORDINAL_SUFFIXES,
+    canonical_ordinal_suffix=CANONICAL_SUFFIX,
+    spelled_ordinals=SPELLED_ORDINALS,
 )
 
 

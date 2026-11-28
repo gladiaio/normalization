@@ -1,5 +1,10 @@
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.italian.number_normalizer import ItalianNumberNormalizer
+from normalization.languages.italian.ordinals import (
+    CANONICAL_SUFFIX,
+    ORDINAL_SUFFIXES,
+    SPELLED_ORDINALS,
+)
 from normalization.languages.italian.replacements import ITALIAN_REPLACEMENTS
 from normalization.languages.italian.sentence_replacements import (
     ITALIAN_SENTENCE_REPLACEMENTS,
@@ -91,6 +96,9 @@ ITALIAN_CONFIG = LanguageConfig(
         "miliardi",
     ],
     plus_word="più",
+    digit_ordinal_suffixes=ORDINAL_SUFFIXES,
+    canonical_ordinal_suffix=CANONICAL_SUFFIX,
+    spelled_ordinals=SPELLED_ORDINALS,
 )
 
 

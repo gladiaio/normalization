@@ -3,6 +3,11 @@ import re
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.registry import register_language
 from normalization.languages.spanish.number_normalizer import SpanishNumberNormalizer
+from normalization.languages.spanish.ordinals import (
+    CANONICAL_SUFFIX,
+    ORDINAL_SUFFIXES,
+    SPELLED_ORDINALS,
+)
 from normalization.languages.spanish.replacements import SPANISH_REPLACEMENTS
 
 _ONE_TO_NINE: dict[str, str] = {
@@ -113,6 +118,9 @@ SPANISH_CONFIG = LanguageConfig(
         "billones",
     ],
     plus_word="más",
+    digit_ordinal_suffixes=ORDINAL_SUFFIXES,
+    canonical_ordinal_suffix=CANONICAL_SUFFIX,
+    spelled_ordinals=SPELLED_ORDINALS,
 )
 
 

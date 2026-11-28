@@ -5,6 +5,12 @@ from normalization.languages.base import (
     LanguageOperators,
 )
 from normalization.languages.french.number_normalizer import FrenchNumberNormalizer
+from normalization.languages.french.ordinals import (
+    CANONICAL_SUFFIX,
+    CANONICAL_SUFFIX_BY_NUMBER,
+    ORDINAL_SUFFIXES,
+    SPELLED_ORDINALS,
+)
 from normalization.languages.french.replacements import FRENCH_REPLACEMENTS
 from normalization.languages.french.sentence_replacements import (
     FRENCH_SENTENCE_REPLACEMENTS,
@@ -91,6 +97,10 @@ FRENCH_CONFIG = LanguageConfig(
         "trillions",
     ],
     plus_word="plus",
+    digit_ordinal_suffixes=ORDINAL_SUFFIXES,
+    canonical_ordinal_suffix=CANONICAL_SUFFIX,
+    canonical_ordinal_suffix_by_number=CANONICAL_SUFFIX_BY_NUMBER,
+    spelled_ordinals=SPELLED_ORDINALS,
 )
 
 

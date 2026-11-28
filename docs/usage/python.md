@@ -14,7 +14,7 @@ load_pipeline(preset: str | Path, language: str) -> NormalizationPipeline
 
 | Argument | Meaning |
 | --- | --- |
-| `preset` | Built-in name (`"gladia-3"`) or path to a YAML file |
+| `preset` | Built-in name (`"gladia-3"`, `"gladia-4"`, see [Presets](../presets.md)) or path to a YAML file |
 | `language` | Language code (`"en"`, `"fr"`, …). Unknown codes use the safe default |
 
 Raises `FileNotFoundError` if the preset cannot be resolved. Validates protect/restore pairing at load time.

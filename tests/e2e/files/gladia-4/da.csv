@@ -1,0 +1,43 @@
+input,expected
+ti euro,10 euro
+2 < 5,2 mindre end 5
+50°C,50 grader celsius
+Det koster €50,det koster 50 euro
+en og tyve kroner,21 kroner
+10 kr,10 kroner
+øh hej,hej
+test@example.com,test snabel a example punktum com
+x = 5,x er lig med 5
+"1.234,56",1234 komma 56
+"3,14",3 komma 14
+en million,1000000
+ping pong,ping pong
+handikap,handicap
+dvs,det vil sige
+pct,procent
+selv om,selvom
+til lykke,tillykke
+første,1.
+enogtyvende,21.
+tusinde,1000
+den første maj,den 1. maj
+den 1. maj,den 1. maj
+den 1ste maj,den 1. maj
+for første gang,for 1. gang
+for 1. gang,for 1. gang
+på tredje sal,pa 3. sal
+på 3. sal,pa 3. sal
+på 3dje sal,pa 3. sal
+den tyvende maj,den 20. maj
+den 20ende maj,den 20. maj
+den enogtyvende maj,den 21. maj
+den 21. maj,den 21. maj
+den første maj 2024,den 1. maj 2024
+den 1. maj 2024,den 1. maj 2024
+den første 2 maj,den 1. 2 maj
+jeg har 3.,jeg har 3
+1 2 3,123
+ring til 12 34 56 78,ring til 12345678
+den 2en dag,den 2. dag
+den 1. 2 maj,den 1. 2 maj
+den 1 maj,den 1 maj

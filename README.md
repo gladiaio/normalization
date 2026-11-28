@@ -200,6 +200,15 @@ pipeline.describe()
 # {'name': 'my-preset-v1', 'language': 'en', 'text_pre_steps': [...], ...}
 ```
 
+**Built-in presets:**
+
+| Name | What it adds |
+| --- | --- |
+| `gladia-3` | The preset behind Gladia's published WER figures |
+| `gladia-4` | `gladia-3`, plus digit and spelled ordinals normalized to the same form, digits plus one suffix per language (fr `premier` and `1re` → `1er`; da, de, es, fr, it, nl, no, pt, sv) |
+
+See [Presets](https://gladiaio.github.io/normalization/presets/) for details.
+
 **Preset rules:**
 
 - Step names must match the `name` attribute of a registered step class.

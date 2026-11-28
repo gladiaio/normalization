@@ -1,5 +1,6 @@
 import pytest
 
+from normalization.constants.protectors import ordinal_placeholder
 from normalization.languages.danish.number_normalizer import DanishNumberNormalizer
 from normalization.languages.danish.operators import DANISH_CONFIG
 
@@ -137,6 +138,24 @@ def test_kroner_word_not_treated_as_currency_suffix(
 def test_danish_ordinals(
     normalizer: DanishNumberNormalizer, text: str, expected: str
 ) -> None:
+    assert normalizer(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("første", ordinal_placeholder("1")),
+        ("enogtyvende", ordinal_placeholder("21")),
+        ("hundrede enogtyvende", ordinal_placeholder("121")),
+        ("den første 2 maj", f"den {ordinal_placeholder('1')} 2 maj"),
+        # Cardinals are not held.
+        ("en og tyve", "21"),
+    ],
+)
+def test_danish_ordinals_protected(text: str, expected: str) -> None:
+    normalizer = DanishNumberNormalizer(
+        DANISH_CONFIG.currency_symbol_to_word, protect_ordinals=True
+    )
     assert normalizer(text) == expected
 
 
