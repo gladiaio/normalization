@@ -10,9 +10,9 @@ from normalization.steps.registry import register_step
 class StripOrdinalSuffixesStep(TextStep):
     """Drop the suffix of a digit ordinal (fr '1er' -> '1', sv '1:a' -> '1', es '1º' -> '1').
 
-    Only when ``operators.config.strip_ordinal_suffixes`` is True, with the suffixes of
-    ``operators.config.ordinal_suffixes``. The token must be digits then a suffix, alone:
-    a digit or letter before it ('AF1er') or a letter after it ('1e5') leaves it a code.
+    Reads the suffixes of ``operators.config.stripped_ordinal_suffixes``. The token
+    must be digits then a suffix, alone: a digit or letter before it ('AF1er') or a
+    letter after it ('1e5') leaves it a code.
     Runs before expand_alphanumeric_codes, which would space the suffix out letter by
     letter, and before remove_diacritics, which turns 'º' into 'o'.
     The digits sit between ¶ marks, so no digit-collapse pass glues them to a number
@@ -23,8 +23,8 @@ class StripOrdinalSuffixesStep(TextStep):
     name = "strip_ordinal_suffixes"
 
     def __call__(self, text: str, operators: LanguageOperators) -> str:
-        suffixes = operators.config.ordinal_suffixes
-        if not operators.config.strip_ordinal_suffixes or not suffixes:
+        suffixes = operators.config.stripped_ordinal_suffixes
+        if not suffixes:
             return text
         alternation = "|".join(
             re.escape(suffix)

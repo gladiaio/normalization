@@ -64,8 +64,9 @@ _TENS: dict[str, int] = {
 }
 
 # In Danish the ordinal indicator is a trailing period, e.g. "første" → "1.".
-# The ordinal is written between ¶ marks (SEPARATE_NUMBER_TEMPLATE) so a number
-# next to it is not glued to it: "første 2 maj" → "1 2 maj", not "12 maj".
+# With separate_ordinals, the ordinal is written between ¶ marks
+# (SEPARATE_NUMBER_TEMPLATE) so a number next to it is not glued to it:
+# "første 2 maj" → "1 2 maj", not "12 maj".
 _ORDINALS: dict[str, tuple[int, str]] = {
     "første": (1, "."),
     "anden": (2, "."),
@@ -253,10 +254,22 @@ def _hundred_multiplier(word: str) -> int | None:
 
 
 class DanishNumberNormalizer:
-    """Convert Danish spelled-out numbers to digits."""
+    """Convert Danish spelled-out numbers to digits.
 
-    def __init__(self, currency_symbol_to_word: dict[str, str] | None = None) -> None:
+    ``separate_ordinals`` writes each ordinal between ¶ marks, so the digit-collapse
+    passes keep it apart from a number next to it. It is off by default: the
+    gladia-3 preset glues them ("første 2 maj" → "12 maj"), and a published preset
+    keeps its output.
+    """
+
+    def __init__(
+        self,
+        currency_symbol_to_word: dict[str, str] | None = None,
+        *,
+        separate_ordinals: bool = False,
+    ) -> None:
         self._currency_symbol_to_word = currency_symbol_to_word
+        self._separate_ordinals = separate_ordinals
         self._currency_plural_fixes = _currency_plural_fix_patterns(
             currency_symbol_to_word
         )
@@ -282,11 +295,7 @@ class DanishNumberNormalizer:
                         ordinal = _try_parse_og_compound_ordinal(words[end])
                     if ordinal is not None:
                         ord_val, suffix = ordinal
-                        out.append(
-                            SEPARATE_NUMBER_TEMPLATE.format(
-                                str(value + ord_val) + suffix
-                            )
-                        )
+                        out.append(self._ordinal(str(value + ord_val) + suffix))
                         i = end + 1
                         continue
                 out.append(str(value))
@@ -299,7 +308,7 @@ class DanishNumberNormalizer:
                     ordinal = _try_parse_og_compound_ordinal(words[i])
                 if ordinal is not None:
                     ord_val, suffix = ordinal
-                    out.append(SEPARATE_NUMBER_TEMPLATE.format(str(ord_val) + suffix))
+                    out.append(self._ordinal(str(ord_val) + suffix))
                     i += 1
                     continue
                 out.append(words[i])
@@ -307,6 +316,11 @@ class DanishNumberNormalizer:
         text = " ".join(out)
         text = _apply_currency_plural_fixes(text, self._currency_plural_fixes)
         return text
+
+    def _ordinal(self, ordinal: str) -> str:
+        if self._separate_ordinals:
+            return SEPARATE_NUMBER_TEMPLATE.format(ordinal)
+        return ordinal
 
     def _parse_number(self, words: list[str], i: int, n: int) -> tuple[int, int] | None:
         if i >= n:

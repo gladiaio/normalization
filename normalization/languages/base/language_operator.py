@@ -63,3 +63,14 @@ class LanguageOperators:
         Return the text unchanged if not applicable for this language.
         """
         return text
+
+    def expand_written_numbers_separating_ordinals(self, text: str) -> str:
+        """
+        Expand written-out numbers like expand_written_numbers, writing each ordinal
+        the expansion produces between NUMBER_LIST_COMMA marks so a number next to it
+        is not glued to it.
+
+        Only a language whose number expansion itself writes ordinals overrides this
+        (Danish: "første 2 maj" -> "¶ 1. ¶ 2 maj"); the rest expand as usual.
+        """
+        return self.expand_written_numbers(text)

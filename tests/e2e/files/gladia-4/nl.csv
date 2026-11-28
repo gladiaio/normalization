@@ -1,0 +1,44 @@
+input,expected
+tien euro,10 euros
+2 < 5,2 kleiner dan 5
+50°C,50 graden celsius
+ca kost €50,ca kost 50 euros
+"1.234,56",1234 komma 56
+dertien appels,13 appels
+kollega zegt hallo,collega zegt hallo
+ge weet da,je weet dat
+ik zeg 't zo,ik zeg het zo
+honderd euro,100 euros
+vijf dollar,5 dollars
+honderd euro's,100 euros
+"3,14",3 komma 14
+192.168.1.1,192 punt 168 punt 1 punt 1
+test@example.com,test apenstaartje example punt com
+www.example.com,w w w punt example punt com
+x = 5,x gelijk aan 5
+Het woord [inaudible] is hier,het woord inaudible is hier
+hallo eh daar,hallo daar
+mein  naam is Bob,mein naam is bob
+twee duizend,2000
+'s ochtends vroeg,des ochtends vroeg
+ping pong,ping pong
+vijf en twintig euro,25 euros
+drie appels,3 appels
+twintig,20
+twee honderd,200
+duizend,1000
+negen en negentig,99
+zes en zestig,66
+drie miljoen,3000000
+drie miljard,3000000000
+tweehonderd eenendertig,231
+2 miljoen,2000000
+de eerste mei,de 1 mei
+de 1ste mei,de 1 mei
+de 1e mei,de 1 mei
+de tweede mei,de 2 mei
+de 2de mei,de 2 mei
+de vierde mei,de 4 mei
+de 20ste mei,de 20 mei
+de eerste 2 mei,de 1 2 mei
+de 1ste 2 mei,de 1 2 mei

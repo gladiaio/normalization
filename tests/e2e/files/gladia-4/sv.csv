@@ -1,0 +1,28 @@
+input,expected
+tio euro,10 euros
+2 < 5,2 mindre an 5
+50°C,50 grader celsius
+Det kostar €50,det kostar 50 euros
+tjugo fem kronor,25 kronor
+10 kr,10 kronor
+mej heter Anna,mig heter anna
+hallo eh där,hallo dar
+test@example.com,test snabel a example punkt com
+www.example.com,w w w punkt example punkt com
+x = 5,x ar lika med 5
+Het woord [inaudible] is hier,het woord inaudible is hier
+"1.234,56",1234 komma 56
+"3,14",3 komma 14
+192.168.1.1,192 punkt 168 punkt 1 punkt 1
+ping pong,ping pong
+"8,75%",8 komma 75 procent
+den första maj,den 1 maj
+den 1:a maj,den 1 maj
+den tredje maj,den 3 maj
+den 3:e maj,den 3 maj
+den tjugonde maj,den 20 maj
+den 20:e maj,den 20 maj
+den tjugoförsta maj,den 21 maj
+de andra barnen,de andra barnen
+den första 2 maj,den 1 2 maj
+den 1:a 2 maj,den 1 2 maj

@@ -120,23 +120,42 @@ def test_kroner_word_not_treated_as_currency_suffix(
     ("text", "expected"),
     [
         # Simple ordinals (standalone)
-        ("første", "¶ 1. ¶"),
-        ("anden", "¶ 2. ¶"),
-        ("tredje", "¶ 3. ¶"),
-        ("tiende", "¶ 10. ¶"),
-        ("tyvende", "¶ 20. ¶"),
+        ("første", "1."),
+        ("anden", "2."),
+        ("tredje", "3."),
+        ("tiende", "10."),
+        ("tyvende", "20."),
         # Glued og-compound ordinals (e.g. "enogtyvende" = 21st)
-        ("enogtyvende", "¶ 21. ¶"),
-        ("toogtyvende", "¶ 22. ¶"),
-        ("fireogfyrrende", "¶ 44. ¶"),
+        ("enogtyvende", "21."),
+        ("toogtyvende", "22."),
+        ("fireogfyrrende", "44."),
         # Cardinal + ordinal suffix (e.g. "hundrede tyvende" = 120th)
-        ("hundrede tyvende", "¶ 120. ¶"),
-        ("hundrede enogtyvende", "¶ 121. ¶"),
+        ("hundrede tyvende", "120."),
+        ("hundrede enogtyvende", "121."),
     ],
 )
 def test_danish_ordinals(
     normalizer: DanishNumberNormalizer, text: str, expected: str
 ) -> None:
+    assert normalizer(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("første", "¶ 1. ¶"),
+        ("enogtyvende", "¶ 21. ¶"),
+        ("hundrede enogtyvende", "¶ 121. ¶"),
+        # The marks keep the ordinal apart from the number after it.
+        ("den første 2 maj", "den ¶ 1. ¶ 2 maj"),
+        # Cardinals are not marked.
+        ("en og tyve", "21"),
+    ],
+)
+def test_danish_ordinals_separated(text: str, expected: str) -> None:
+    normalizer = DanishNumberNormalizer(
+        DANISH_CONFIG.currency_symbol_to_word, separate_ordinals=True
+    )
     assert normalizer(text) == expected
 
 

@@ -92,8 +92,7 @@ FRENCH_CONFIG = LanguageConfig(
         "trillions",
     ],
     plus_word="plus",
-    ordinal_suffixes=ORDINAL_SUFFIXES,
-    strip_ordinal_suffixes=True,
+    stripped_ordinal_suffixes=ORDINAL_SUFFIXES,
     spelled_ordinals=SPELLED_ORDINALS,
 )
 

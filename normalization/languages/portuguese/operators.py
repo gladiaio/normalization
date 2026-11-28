@@ -105,8 +105,7 @@ PORTUGUESE_CONFIG = LanguageConfig(
         "bilhões",
     ],
     plus_word="mais",
-    ordinal_suffixes=ORDINAL_SUFFIXES,
-    strip_ordinal_suffixes=True,
+    stripped_ordinal_suffixes=ORDINAL_SUFFIXES,
     spelled_ordinals=SPELLED_ORDINALS,
 )
 

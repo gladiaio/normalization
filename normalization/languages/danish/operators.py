@@ -93,8 +93,7 @@ DANISH_CONFIG = LanguageConfig(
     ],
     plus_word="plus",
     sentence_replacements=DANISH_SENTENCE_REPLACEMENTS,
-    ordinal_suffixes=ORDINAL_SUFFIXES,
-    strip_ordinal_suffixes=True,
+    stripped_ordinal_suffixes=ORDINAL_SUFFIXES,
 )
 
 
@@ -105,10 +104,19 @@ class DanishOperators(LanguageOperators):
         self._number_normalizer = DanishNumberNormalizer(
             DANISH_CONFIG.currency_symbol_to_word,
         )
+        self._separate_ordinals_number_normalizer = DanishNumberNormalizer(
+            DANISH_CONFIG.currency_symbol_to_word,
+            separate_ordinals=True,
+        )
 
     def expand_written_numbers(self, text: str) -> str:
         """Convert Danish spelled-out numbers to digits (e.g. en og tyve → 21)."""
         return self._number_normalizer(text)
+
+    def expand_written_numbers_separating_ordinals(self, text: str) -> str:
+        """Like expand_written_numbers, with each ordinal between ¶ marks
+        ("første 2 maj" → "¶ 1. ¶ 2 maj"), so it is not glued to the next number."""
+        return self._separate_ordinals_number_normalizer(text)
 
     def get_word_replacements(self) -> dict[str, str]:
         from normalization.languages.danish.replacements import DANISH_REPLACEMENTS

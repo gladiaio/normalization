@@ -86,11 +86,11 @@ class LanguageConfig:
     ordinal_suffixes: list[str] | None = None
     """Ordinal number suffixes for this language (e.g. ["st", "nd", "rd", "th"] for English).
     Used by steps that need to detect ordinal numbers. None = ordinal detection is skipped."""
-    strip_ordinal_suffixes: bool = False
-    """When True, a digit ordinal loses its suffix (fr '1er' -> '1', sv '1:a' -> '1'), so it
-    meets the spelled ordinal, which this language writes as the bare number.
-    Used by strip_ordinal_suffixes with ``ordinal_suffixes``. False keeps the suffix
-    (English writes both 'first' and '1st' as '1st')."""
+    stripped_ordinal_suffixes: list[str] | None = None
+    """Suffixes of a digit ordinal that strip_ordinal_suffixes removes (fr '1er' -> '1',
+    sv '1:a' -> '1'), so it meets the spelled ordinal, which this language writes as the
+    bare number. Kept apart from ``ordinal_suffixes``, which steps of earlier presets read.
+    None = step is skipped (English writes both 'first' and '1st' as '1st')."""
     spelled_ordinals: SpelledOrdinals | None = None
     """Spelled ordinals the language's number expansion leaves as words, mapped to their digits.
     Used by fold_spelled_ordinals so a spelled ordinal and its digit form normalize alike.

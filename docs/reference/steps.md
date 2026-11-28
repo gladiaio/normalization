@@ -128,6 +128,17 @@ Delegates to operators.expand_contractions().
 
 Convert written numbers to digits (fifty -> 50, twenty three -> 23). Delegates to operators.expand_written_numbers().
 
+### `expand_written_numbers_to_digits_separating_ordinals`
+
+**Base class:** `TextStep`
+
+Convert written numbers to digits, keeping an ordinal apart from the next number.
+
+Same as expand_written_numbers_to_digits, except that an ordinal the expansion
+writes sits between ¶ marks (da 'første 2 maj' -> '1 2 maj', not '12 maj').
+Delegates to operators.expand_written_numbers_separating_ordinals();
+restore_number_list_commas turns the marks into spaces.
+
 ### `expand_www_abbreviation`
 
 **Base class:** `TextStep`
@@ -493,9 +504,9 @@ Restore † placeholder back to /.
 
 Drop the suffix of a digit ordinal (fr '1er' -> '1', sv '1:a' -> '1', es '1º' -> '1').
 
-Only when ``operators.config.strip_ordinal_suffixes`` is True, with the suffixes of
-``operators.config.ordinal_suffixes``. The token must be digits then a suffix, alone:
-a digit or letter before it ('AF1er') or a letter after it ('1e5') leaves it a code.
+Reads the suffixes of ``operators.config.stripped_ordinal_suffixes``. The token
+must be digits then a suffix, alone: a digit or letter before it ('AF1er') or a
+letter after it ('1e5') leaves it a code.
 Runs before expand_alphanumeric_codes, which would space the suffix out letter by
 letter, and before remove_diacritics, which turns 'º' into 'o'.
 The digits sit between ¶ marks, so no digit-collapse pass glues them to a number
