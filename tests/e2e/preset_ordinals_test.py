@@ -23,3 +23,31 @@ def test_ordinals_by_preset(
 ) -> None:
     assert load_pipeline("gladia-3", language).normalize(text) == gladia_3
     assert load_pipeline("gladia-4", language).normalize(text) == gladia_4
+
+
+@pytest.mark.parametrize(
+    ("language", "text"),
+    [
+        ("fr", "le un mai"),
+        ("fr", "le deux mai"),
+        ("fr", "le 2 mai"),
+        ("fr", "chapitre un"),
+        ("fr", "page 3"),
+        ("en", "May one"),
+        ("en", "page one"),
+        ("de", "am 1 Mai"),
+        ("da", "den 1 maj"),
+        ("es", "el uno de mayo"),
+        ("es", "el 2 de mayo"),
+        ("it", "il 2 maggio"),
+        ("nl", "1 mei"),
+        ("sv", "den 1 maj"),
+        ("no", "den 1 mai"),
+        ("pt", "o 2 de maio"),
+    ],
+)
+def test_cardinal_stays_a_cardinal(language: str, text: str) -> None:
+    """A cardinal is never turned into an ordinal: gladia-4 gives gladia-3's output."""
+    assert load_pipeline("gladia-4", language).normalize(text) == (
+        load_pipeline("gladia-3", language).normalize(text)
+    )
