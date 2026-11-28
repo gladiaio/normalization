@@ -176,6 +176,9 @@ Write spelled ordinals as the digits of their number (fr 'premier' -> '1').
 Reads ``operators.config.spelled_ordinals``: whole words, matched case-insensitively,
 longest first. Runs before expand_written_numbers_to_digits so a glued compound
 ('tjugoförsta') is read whole, not split into a cardinal and an ordinal.
+The digits sit between ¶ marks, so no digit-collapse pass glues them to a number
+next to them ('premier 93' -> '1 93', not '193'); restore_number_list_commas
+turns the marks into spaces.
 
 ### `format_time_patterns_with_ampm`
 
@@ -495,6 +498,9 @@ Only when ``operators.config.strip_ordinal_suffixes`` is True, with the suffixes
 a digit or letter before it ('AF1er') or a letter after it ('1e5') leaves it a code.
 Runs before expand_alphanumeric_codes, which would space the suffix out letter by
 letter, and before remove_diacritics, which turns 'º' into 'o'.
+The digits sit between ¶ marks, so no digit-collapse pass glues them to a number
+next to them ('1er 93' -> '1 93', not '193'); restore_number_list_commas turns the
+marks into spaces.
 
 ## Word Steps
 

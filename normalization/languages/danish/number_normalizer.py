@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import re
 
+from normalization.constants.protectors import SEPARATE_NUMBER_TEMPLATE
+
 
 def _fold(s: str) -> str:
     return s.lower()
@@ -61,7 +63,9 @@ _TENS: dict[str, int] = {
     "halvfems": 90,
 }
 
-# In Danish the ordinal indicator is a trailing period, e.g. "første" → "1."
+# In Danish the ordinal indicator is a trailing period, e.g. "første" → "1.".
+# The ordinal is written between ¶ marks (SEPARATE_NUMBER_TEMPLATE) so a number
+# next to it is not glued to it: "første 2 maj" → "1 2 maj", not "12 maj".
 _ORDINALS: dict[str, tuple[int, str]] = {
     "første": (1, "."),
     "anden": (2, "."),
@@ -278,7 +282,11 @@ class DanishNumberNormalizer:
                         ordinal = _try_parse_og_compound_ordinal(words[end])
                     if ordinal is not None:
                         ord_val, suffix = ordinal
-                        out.append(str(value + ord_val) + suffix)
+                        out.append(
+                            SEPARATE_NUMBER_TEMPLATE.format(
+                                str(value + ord_val) + suffix
+                            )
+                        )
                         i = end + 1
                         continue
                 out.append(str(value))
@@ -291,7 +299,7 @@ class DanishNumberNormalizer:
                     ordinal = _try_parse_og_compound_ordinal(words[i])
                 if ordinal is not None:
                     ord_val, suffix = ordinal
-                    out.append(str(ord_val) + suffix)
+                    out.append(SEPARATE_NUMBER_TEMPLATE.format(str(ord_val) + suffix))
                     i += 1
                     continue
                 out.append(words[i])

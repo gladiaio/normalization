@@ -1,5 +1,6 @@
 import re
 
+from normalization.constants.protectors import SEPARATE_NUMBER_TEMPLATE
 from normalization.languages.base import LanguageOperators
 from normalization.steps.base import TextStep
 from normalization.steps.registry import register_step
@@ -14,6 +15,9 @@ class StripOrdinalSuffixesStep(TextStep):
     a digit or letter before it ('AF1er') or a letter after it ('1e5') leaves it a code.
     Runs before expand_alphanumeric_codes, which would space the suffix out letter by
     letter, and before remove_diacritics, which turns 'º' into 'o'.
+    The digits sit between ¶ marks, so no digit-collapse pass glues them to a number
+    next to them ('1er 93' -> '1 93', not '193'); restore_number_list_commas turns the
+    marks into spaces.
     """
 
     name = "strip_ordinal_suffixes"
@@ -29,4 +33,4 @@ class StripOrdinalSuffixesStep(TextStep):
         pattern = re.compile(
             rf"(?<![\w.,])(\d+)(?:{alternation})(?![\w])", re.IGNORECASE
         )
-        return pattern.sub(r"\1", text)
+        return pattern.sub(lambda m: SEPARATE_NUMBER_TEMPLATE.format(m.group(1)), text)

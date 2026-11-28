@@ -87,6 +87,9 @@ class NormalizationPipeline:
                 "remove_number_separator_markers",
                 "restore_number_list_commas",
             },
+            # Both write an ordinal between ¶ marks (SEPARATE_NUMBER_TEMPLATE).
+            "fold_spelled_ordinals": {"restore_number_list_commas"},
+            "strip_ordinal_suffixes": {"restore_number_list_commas"},
             "protect_decimal_separator": {"restore_decimal_separator_with_word"},
             "protect_hyphenated_letter_spelling": {"remove_letter_spelling_markers"},
             "protect_space_separated_letter_spelling": {

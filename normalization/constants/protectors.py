@@ -10,10 +10,19 @@ class ProtectPlaceholder(str, Enum):
     UNIT_SLASH = "†"
     UNIT_DECIMAL = "‡"
     NUMBER_SEPARATOR = "¤"
-    # Comma between multi-digit numbers ("60, 70"): kept until after digit
-    # collapsing so the groups are not glued into "6070", then restored as space.
+    # Comma between multi-digit numbers ("60, 70"), and the edges of an ordinal
+    # (fr "premier 93" -> "¶ 1 ¶ 93"): kept until after digit collapsing so the
+    # numbers are not glued into "6070" or "193", then restored as space.
     NUMBER_LIST_COMMA = "¶"
     SPELLING_SUFFIX = "xltrx"
+
+
+# An ordinal written as digits ("premier" -> "1", "1er" -> "1") between two
+# NUMBER_LIST_COMMA marks: it stays one number, apart from a number next to it.
+SEPARATE_NUMBER_TEMPLATE = (
+    f"{ProtectPlaceholder.NUMBER_LIST_COMMA.value} {{}} "
+    f"{ProtectPlaceholder.NUMBER_LIST_COMMA.value}"
+)
 
 
 PLACEHOLDER_FALLBACK_CHARS: dict[str, str] = {
