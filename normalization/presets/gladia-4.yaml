@@ -51,11 +51,11 @@ stages:
     - convert_digit_word_sequences_to_digits
 
     # --- Phase 4: Written-number expansion ---
-    # fold_spelled_ordinals runs first so a glued ordinal compound is read whole.
+    # Holds the ordinals the expansion reads (da "første") as placeholders.
+    - expand_written_numbers_to_digits_protecting_ordinals
+    # fold_spelled_ordinals runs after the expansion, so a compound the expansion
+    # reads whole (fr "vingt-deuxième" -> "22ème") is not split into "20" and "2e".
     - fold_spelled_ordinals
-    # Keeps an ordinal the expansion writes apart from the next number
-    # (da "første 2 maj" → "1 2 maj", not "12 maj").
-    - expand_written_numbers_to_digits_separating_ordinals
     # Re-protect after expansion: expand_written_numbers_to_digits can produce
     # new decimal numbers (e.g. "three point five" → "3.5"), new phone-number-
     # like digit sequences, and new email-adjacent patterns. All must be
@@ -70,9 +70,9 @@ stages:
     # to prevent "VIII" from being spaced out to "V I I I" instead of "8".
     - expand_www_abbreviation
     - convert_roman_numerals_to_digits
-    # strip_ordinal_suffixes must run before expand_alphanumeric_codes so "1er"
-    # becomes "1" instead of "1 e r", and before remove_diacritics turns "º" into "o".
-    - strip_ordinal_suffixes
+    # protect_digit_ordinals must run before expand_alphanumeric_codes so "1er" is
+    # not spaced out to "1 e r", and before remove_diacritics turns "º" into "o".
+    - protect_digit_ordinals
     - expand_alphanumeric_codes
 
     # --- Phase 6: Casefold and cleanup ---
@@ -132,3 +132,6 @@ stages:
     # After every digit-collapse pass: turn ¶ list commas into spaces so
     # "sixty, seventy" / "60, 70" stay "60 70" instead of "6070".
     - restore_number_list_commas
+    # Last: write each ordinal as digits plus the language's canonical suffix
+    # (fr "1er", "2e"; da "1."; sv "1:a"), which no later step can space out or glue.
+    - restore_ordinals

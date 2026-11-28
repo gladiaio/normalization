@@ -128,16 +128,16 @@ Delegates to operators.expand_contractions().
 
 Convert written numbers to digits (fifty -> 50, twenty three -> 23). Delegates to operators.expand_written_numbers().
 
-### `expand_written_numbers_to_digits_separating_ordinals`
+### `expand_written_numbers_to_digits_protecting_ordinals`
 
 **Base class:** `TextStep`
 
-Convert written numbers to digits, keeping an ordinal apart from the next number.
+Convert written numbers to digits, holding the ordinals it reads as placeholders.
 
 Same as expand_written_numbers_to_digits, except that an ordinal the expansion
-writes sits between ¶ marks (da 'første 2 maj' -> '1 2 maj', not '12 maj').
-Delegates to operators.expand_written_numbers_separating_ordinals();
-restore_number_list_commas turns the marks into spaces.
+reads (da 'første', 'enogtyvende') becomes an ordinal placeholder, which
+restore_ordinals writes with the language's canonical suffix ('1.', '21.').
+Delegates to operators.expand_written_numbers_protecting_ordinals().
 
 ### `expand_www_abbreviation`
 
@@ -182,14 +182,14 @@ Collapse space between 'v' and digit (v 2 -> v2). 'v' must be followed by a digi
 
 **Base class:** `TextStep`
 
-Write spelled ordinals as the digits of their number (fr 'premier' -> '1').
+Hold spelled ordinals as ordinal placeholders (fr 'premier' -> the ordinal 1).
 
 Reads ``operators.config.spelled_ordinals``: whole words, matched case-insensitively,
-longest first. Runs before expand_written_numbers_to_digits so a glued compound
-('tjugoförsta') is read whole, not split into a cardinal and an ordinal.
-The digits sit between ¶ marks, so no digit-collapse pass glues them to a number
-next to them ('premier 93' -> '1 93', not '193'); restore_number_list_commas
-turns the marks into spaces.
+longest first, so a glued compound ('tjugoförsta') is read whole. Runs after
+expand_written_numbers_to_digits, so a compound the expansion reads
+('vingt-deuxième' -> '22ème') is not split into a cardinal and an ordinal.
+restore_ordinals writes the placeholder as digits plus the language's canonical
+suffix ('1er'), the same form a digit ordinal ('1re') gets.
 
 ### `format_time_patterns_with_ampm`
 
@@ -230,6 +230,21 @@ is unset. No-op when number_words is empty.
 **Base class:** `ProtectStep`
 
 Protect the decimal separator from being removed by RemoveSymbolsStep.
+
+### `protect_digit_ordinals`
+
+**Base class:** `TextStep`
+
+Hold digit ordinals as ordinal placeholders (fr '2ème' -> the ordinal 2).
+
+Uses TextStep directly: the placeholder carries the ordinal's number, spelled in
+letters, so it is built per match. Reads ``operators.config.digit_ordinal_suffixes``.
+The token must be digits then a suffix, alone: a digit or letter before it ('AF1er')
+or a letter after it ('1e5') leaves it a code. A suffix with no letter ('.') only
+counts before another word: '3. maj' is an ordinal, a sentence-final '3.' is not.
+Runs before expand_alphanumeric_codes, which would space the suffix out letter by
+letter, and before remove_diacritics, which turns 'º' into 'o'. restore_ordinals
+writes the placeholder back with the language's canonical suffix.
 
 ### `protect_email_symbols`
 
@@ -472,6 +487,17 @@ so that placeholders never leak into the final output.
 
 Restore ¶ list-comma markers as a single space after digit collapsing.
 
+### `restore_ordinals`
+
+**Base class:** `TextStep`
+
+Write each ordinal placeholder as digits plus the language's canonical suffix.
+
+Uses TextStep directly: the digits come from the placeholder and the suffix from
+``operators.config.canonical_ordinal_suffix`` and
+``canonical_ordinal_suffix_by_number`` (fr 'xordxbx' -> '1er', 'xordxcx' -> '2e').
+Runs last, so no later step can space out, strip or glue the suffix.
+
 ### `restore_phone_plus_symbol`
 
 **Base class:** `TextStep`
@@ -497,21 +523,6 @@ Restore ‡ placeholder with the language-specific decimal word.
 **Base class:** `RestoreStep`
 
 Restore † placeholder back to /.
-
-### `strip_ordinal_suffixes`
-
-**Base class:** `TextStep`
-
-Drop the suffix of a digit ordinal (fr '1er' -> '1', sv '1:a' -> '1', es '1º' -> '1').
-
-Reads the suffixes of ``operators.config.stripped_ordinal_suffixes``. The token
-must be digits then a suffix, alone: a digit or letter before it ('AF1er') or a
-letter after it ('1e5') leaves it a code.
-Runs before expand_alphanumeric_codes, which would space the suffix out letter by
-letter, and before remove_diacritics, which turns 'º' into 'o'.
-The digits sit between ¶ marks, so no digit-collapse pass glues them to a number
-next to them ('1er 93' -> '1 93', not '193'); restore_number_list_commas turns the
-marks into spaces.
 
 ## Word Steps
 

@@ -1,6 +1,8 @@
 """Spanish ordinal data: digit marks (1º, 1ª, 1.º, 1.er) and spelled ordinals.
 
-Every ordinal normalizes to the bare number. "segundo" (also the time unit, "un segundo")
+Every ordinal is written as its number plus "º", masculine and feminine alike: the
+spelled form, "1º", "1.º" and "1ª" all become "1º". "1er" and "3er" (primer, tercer)
+become "1º" and "3º". "segundo" (also the time unit, "un segundo")
 and "cuarto" (also a room and a quarter, "un cuarto de hora") are left out.
 """
 
@@ -11,6 +13,8 @@ ORDINAL_SUFFIXES: list[str] = [
     ".ª",
     "er",
 ]
+
+CANONICAL_SUFFIX = "º"
 
 # Each stem takes the four endings o, a, os, as ("quinto", "quinta", "quintos", "quintas").
 _STEMS: dict[str, int] = {

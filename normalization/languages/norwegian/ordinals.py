@@ -1,10 +1,13 @@
 """Norwegian ordinal data: digit suffixes (1ste, 2dre, 3dje, 20ende) and spelled ordinals.
 
-Both forms normalize to the bare number, as "1." already does. "andre" (second) is left
+Every ordinal is written as its number plus ".", the Norwegian ordinal mark: "første",
+"1ste" and "1." all become "1.". "." only counts before another word. "andre" (second) is left
 out: it is also "other" ("de andre barna"), so folding it would turn "other" into 2.
 """
 
-ORDINAL_SUFFIXES: list[str] = ["ste", "dre", "dje", "je", "de", "te", "ende"]
+ORDINAL_SUFFIXES: list[str] = ["ste", "dre", "dje", "je", "de", "te", "ende", "."]
+
+CANONICAL_SUFFIX = "."
 
 _ONES: dict[str, int] = {
     "første": 1,

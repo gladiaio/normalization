@@ -86,14 +86,24 @@ class LanguageConfig:
     ordinal_suffixes: list[str] | None = None
     """Ordinal number suffixes for this language (e.g. ["st", "nd", "rd", "th"] for English).
     Used by steps that need to detect ordinal numbers. None = ordinal detection is skipped."""
-    stripped_ordinal_suffixes: list[str] | None = None
-    """Suffixes of a digit ordinal that strip_ordinal_suffixes removes (fr '1er' -> '1',
-    sv '1:a' -> '1'), so it meets the spelled ordinal, which this language writes as the
-    bare number. Kept apart from ``ordinal_suffixes``, which steps of earlier presets read.
+    digit_ordinal_suffixes: list[str] | None = None
+    """Suffixes of a digit ordinal in this language (fr '1er', '2ème'; sv '1:a'; da '1.').
+    Read by protect_digit_ordinals, which writes the ordinal in its canonical form
+    (see ``canonical_ordinal_suffix``). A suffix with no letter ('.') only counts
+    before another word, so a sentence-final number ('ich habe 3.') is not read as an
+    ordinal. Kept apart from ``ordinal_suffixes``, which steps of earlier presets read.
     None = step is skipped (English writes both 'first' and '1st' as '1st')."""
+    canonical_ordinal_suffix: str | None = None
+    """The one suffix every ordinal of this language is written with, glued to its digits
+    (fr 'e': '2e'; da '.': '2.'; sv ':a': '2:a'). Read by restore_ordinals.
+    None = ordinals are left as the steps before wrote them."""
+    canonical_ordinal_suffix_by_number: dict[str, str] | None = None
+    """Numbers whose canonical suffix differs from ``canonical_ordinal_suffix``
+    (fr {'1': 'er'}: '1er', but '21e'). Read by restore_ordinals."""
     spelled_ordinals: SpelledOrdinals | None = None
     """Spelled ordinals the language's number expansion leaves as words, mapped to their digits.
-    Used by fold_spelled_ordinals so a spelled ordinal and its digit form normalize alike.
+    Used by fold_spelled_ordinals so a spelled ordinal and its digit form normalize alike
+    (both end as digits plus ``canonical_ordinal_suffix``).
     Words that also mean something else (sv 'andra' = other, fr 'seconde' = the time unit)
     are left out. None = step is skipped."""
     roman_numerals_uppercase_only: bool = False

@@ -6,7 +6,14 @@ They live together in this file to keep the dependency explicit.
 
 import re
 
-from normalization.constants.protectors import ProtectPlaceholder
+from normalization.constants.protectors import (
+    ORDINAL_DIGIT_LETTERS,
+    ORDINAL_PLACEHOLDER_END,
+    ORDINAL_PLACEHOLDER_PREFIX,
+    ProtectPlaceholder,
+    ordinal_placeholder,
+    ordinal_placeholder_digits,
+)
 from normalization.languages.base import LanguageOperators
 from normalization.steps.base import ProtectStep, RestoreStep, TextStep
 from normalization.steps.registry import register_step
@@ -380,3 +387,70 @@ class RemoveLetterSpellingMarkersStep(TextStep):
     def __call__(self, text: str, operators: LanguageOperators) -> str:
         suffix = ProtectPlaceholder.SPELLING_SUFFIX.value
         return re.sub(rf"\b([a-z]){re.escape(suffix)}\b", r"\1", text)
+
+
+# ---------------------------------------------------------------------------
+# Ordinals  (1er -> xordxbx -> 1er; 2ème -> xordxcx -> 2e)
+# ---------------------------------------------------------------------------
+
+
+_RE_ORDINAL_PLACEHOLDER = re.compile(
+    rf"{ORDINAL_PLACEHOLDER_PREFIX}([{ORDINAL_DIGIT_LETTERS}]+){ORDINAL_PLACEHOLDER_END}"
+)
+
+
+@register_step
+class ProtectDigitOrdinalsStep(TextStep):
+    """Hold digit ordinals as ordinal placeholders (fr '2ème' -> the ordinal 2).
+
+    Uses TextStep directly: the placeholder carries the ordinal's number, spelled in
+    letters, so it is built per match. Reads ``operators.config.digit_ordinal_suffixes``.
+    The token must be digits then a suffix, alone: a digit or letter before it ('AF1er')
+    or a letter after it ('1e5') leaves it a code. A suffix with no letter ('.') only
+    counts before another word: '3. maj' is an ordinal, a sentence-final '3.' is not.
+    Runs before expand_alphanumeric_codes, which would space the suffix out letter by
+    letter, and before remove_diacritics, which turns 'º' into 'o'. restore_ordinals
+    writes the placeholder back with the language's canonical suffix.
+    """
+
+    name = "protect_digit_ordinals"
+
+    def __call__(self, text: str, operators: LanguageOperators) -> str:
+        suffixes = operators.config.digit_ordinal_suffixes
+        if not suffixes:
+            return text
+        alternatives = []
+        for suffix in sorted(suffixes, key=lambda s: len(s), reverse=True):
+            if any(c.isalpha() for c in suffix):
+                alternatives.append(rf"{re.escape(suffix)}(?!\w)")
+            else:
+                alternatives.append(rf"{re.escape(suffix)}(?=\s+\w)")
+        pattern = re.compile(
+            rf"(?<![\w.,])(\d+)(?:{'|'.join(alternatives)})", re.IGNORECASE
+        )
+        return pattern.sub(lambda m: ordinal_placeholder(m.group(1)), text)
+
+
+@register_step
+class RestoreOrdinalsStep(TextStep):
+    """Write each ordinal placeholder as digits plus the language's canonical suffix.
+
+    Uses TextStep directly: the digits come from the placeholder and the suffix from
+    ``operators.config.canonical_ordinal_suffix`` and
+    ``canonical_ordinal_suffix_by_number`` (fr 'xordxbx' -> '1er', 'xordxcx' -> '2e').
+    Runs last, so no later step can space out, strip or glue the suffix.
+    """
+
+    name = "restore_ordinals"
+
+    def __call__(self, text: str, operators: LanguageOperators) -> str:
+        if ORDINAL_PLACEHOLDER_PREFIX not in text:
+            return text
+        default = operators.config.canonical_ordinal_suffix or ""
+        by_number = operators.config.canonical_ordinal_suffix_by_number or {}
+
+        def _restore(match: re.Match) -> str:
+            digits = ordinal_placeholder_digits(match.group(1))
+            return digits + by_number.get(digits, default)
+
+        return _RE_ORDINAL_PLACEHOLDER.sub(_restore, text)

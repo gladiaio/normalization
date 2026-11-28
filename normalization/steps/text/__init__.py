@@ -13,7 +13,7 @@ from . import (
     expand_alphanumeric_codes,
     expand_contractions,
     expand_written_numbers_to_digits,
-    expand_written_numbers_to_digits_separating_ordinals,
+    expand_written_numbers_to_digits_protecting_ordinals,
     expand_www_abbreviation,
     fix_ampm_letter_spacing,
     fix_dot_adjacent_number_words,
@@ -39,7 +39,6 @@ from . import (
     remove_trailing_period,
     remove_zero_minutes_from_time,
     replace_currency,
-    strip_ordinal_suffixes,
 )
 
 __all__ = [
@@ -58,7 +57,7 @@ __all__ = [
     "expand_contractions",
     "expand_www_abbreviation",
     "expand_written_numbers_to_digits",
-    "expand_written_numbers_to_digits_separating_ordinals",
+    "expand_written_numbers_to_digits_protecting_ordinals",
     "fix_ampm_letter_spacing",
     "fix_dot_adjacent_number_words",
     "fix_one_word_in_numeric_contexts",
@@ -83,5 +82,4 @@ __all__ = [
     "remove_trailing_period",
     "remove_zero_minutes_from_time",
     "replace_currency",
-    "strip_ordinal_suffixes",
 ]

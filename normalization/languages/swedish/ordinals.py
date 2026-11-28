@@ -1,10 +1,13 @@
 """Swedish ordinal data: digit suffixes (1:a, 3:e) and spelled ordinals (första, tjugonde).
 
-Both forms normalize to the bare number. "andra" and "andre" (second) are left out: they
+Every ordinal is written as its number plus ":a": "första" and "1:a" become "1:a",
+"3:e" becomes "3:a". "andra" and "andre" (second) are left out: they
 are also "other" ("de andra barnen"), so folding them would turn "other" into 2.
 """
 
 ORDINAL_SUFFIXES: list[str] = [":a", ":e"]
+
+CANONICAL_SUFFIX = ":a"
 
 _ONES: dict[str, int] = {
     "första": 1,

@@ -1,6 +1,10 @@
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.german.number_normalizer import GermanNumberNormalizer
-from normalization.languages.german.ordinals import ORDINAL_SUFFIXES, SPELLED_ORDINALS
+from normalization.languages.german.ordinals import (
+    CANONICAL_SUFFIX,
+    ORDINAL_SUFFIXES,
+    SPELLED_ORDINALS,
+)
 from normalization.languages.german.replacements import GERMAN_REPLACEMENTS
 from normalization.languages.german.sentence_replacements import (
     GERMAN_SENTENCE_REPLACEMENTS,
@@ -78,7 +82,8 @@ GERMAN_CONFIG = LanguageConfig(
         "billionen",
     ],
     plus_word="plus",
-    stripped_ordinal_suffixes=ORDINAL_SUFFIXES,
+    digit_ordinal_suffixes=ORDINAL_SUFFIXES,
+    canonical_ordinal_suffix=CANONICAL_SUFFIX,
     spelled_ordinals=SPELLED_ORDINALS,
 )
 

@@ -1,7 +1,11 @@
 from normalization.languages.base import LanguageConfig, LanguageOperators
 from normalization.languages.registry import register_language
 from normalization.languages.swedish.number_normalizer import SwedishNumberNormalizer
-from normalization.languages.swedish.ordinals import ORDINAL_SUFFIXES, SPELLED_ORDINALS
+from normalization.languages.swedish.ordinals import (
+    CANONICAL_SUFFIX,
+    ORDINAL_SUFFIXES,
+    SPELLED_ORDINALS,
+)
 
 _SWEDISH_DIGIT_WORDS: dict[str, str] = {
     "noll": "0",
@@ -91,7 +95,8 @@ SWEDISH_CONFIG = LanguageConfig(
         "biljoner",
     ],
     plus_word="plus",
-    stripped_ordinal_suffixes=ORDINAL_SUFFIXES,
+    digit_ordinal_suffixes=ORDINAL_SUFFIXES,
+    canonical_ordinal_suffix=CANONICAL_SUFFIX,
     spelled_ordinals=SPELLED_ORDINALS,
 )
 

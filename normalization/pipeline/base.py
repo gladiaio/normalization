@@ -87,11 +87,11 @@ class NormalizationPipeline:
                 "remove_number_separator_markers",
                 "restore_number_list_commas",
             },
-            # These write an ordinal between ¶ marks (SEPARATE_NUMBER_TEMPLATE).
-            "fold_spelled_ordinals": {"restore_number_list_commas"},
-            "strip_ordinal_suffixes": {"restore_number_list_commas"},
-            "expand_written_numbers_to_digits_separating_ordinals": {
-                "restore_number_list_commas"
+            # These write ordinal placeholders (constants.protectors.ordinal_placeholder).
+            "fold_spelled_ordinals": {"restore_ordinals"},
+            "protect_digit_ordinals": {"restore_ordinals"},
+            "expand_written_numbers_to_digits_protecting_ordinals": {
+                "restore_ordinals"
             },
             "protect_decimal_separator": {"restore_decimal_separator_with_word"},
             "protect_hyphenated_letter_spelling": {"remove_letter_spelling_markers"},

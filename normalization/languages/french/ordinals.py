@@ -1,8 +1,9 @@
 """French ordinal data: digit suffixes (1er, 1re, 2e, 2ème, 2nd) and the spelled ordinals
 the number normalizer leaves as words.
 
-Every ordinal normalizes to the bare number: the number normalizer writes "cinquième" as
-"5ème", whose suffix is then dropped. "second(e)" is left out: it is also the time unit
+Every ordinal is written as its number plus "e", and 1 plus "er": "premier", "première",
+"1re" all become "1er"; "deuxième", "2ème", "2nd" become "2e". The number normalizer
+writes "cinquième" as "5ème". "second(e)" is left out: it is also the time unit
 ("une seconde").
 """
 
@@ -24,6 +25,10 @@ ORDINAL_SUFFIXES: list[str] = [
     "nde",
     "ndes",
 ]
+
+CANONICAL_SUFFIX = "e"
+
+CANONICAL_SUFFIX_BY_NUMBER: dict[str, str] = {"1": "er"}
 
 SPELLED_ORDINALS: dict[str, str] = {
     "premier": "1",

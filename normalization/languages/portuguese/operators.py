@@ -6,6 +6,7 @@ from normalization.languages.portuguese.number_normalizer import (
     PortugueseNumberNormalizer,
 )
 from normalization.languages.portuguese.ordinals import (
+    CANONICAL_SUFFIX,
     ORDINAL_SUFFIXES,
     SPELLED_ORDINALS,
 )
@@ -105,7 +106,8 @@ PORTUGUESE_CONFIG = LanguageConfig(
         "bilhões",
     ],
     plus_word="mais",
-    stripped_ordinal_suffixes=ORDINAL_SUFFIXES,
+    digit_ordinal_suffixes=ORDINAL_SUFFIXES,
+    canonical_ordinal_suffix=CANONICAL_SUFFIX,
     spelled_ordinals=SPELLED_ORDINALS,
 )
 

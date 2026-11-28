@@ -3,6 +3,7 @@ from normalization.languages.norwegian.number_normalizer import (
     NorwegianNumberNormalizer,
 )
 from normalization.languages.norwegian.ordinals import (
+    CANONICAL_SUFFIX,
     ORDINAL_SUFFIXES,
     SPELLED_ORDINALS,
 )
@@ -101,7 +102,8 @@ NORWEGIAN_CONFIG = LanguageConfig(
         "billioner",
     ],
     plus_word="plus",
-    stripped_ordinal_suffixes=ORDINAL_SUFFIXES,
+    digit_ordinal_suffixes=ORDINAL_SUFFIXES,
+    canonical_ordinal_suffix=CANONICAL_SUFFIX,
     spelled_ordinals=SPELLED_ORDINALS,
 )
 

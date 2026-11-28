@@ -1,5 +1,6 @@
 import pytest
 
+from normalization.constants.protectors import ordinal_placeholder
 from normalization.languages.danish.number_normalizer import DanishNumberNormalizer
 from normalization.languages.danish.operators import DANISH_CONFIG
 
@@ -143,18 +144,17 @@ def test_danish_ordinals(
 @pytest.mark.parametrize(
     ("text", "expected"),
     [
-        ("første", "¶ 1. ¶"),
-        ("enogtyvende", "¶ 21. ¶"),
-        ("hundrede enogtyvende", "¶ 121. ¶"),
-        # The marks keep the ordinal apart from the number after it.
-        ("den første 2 maj", "den ¶ 1. ¶ 2 maj"),
-        # Cardinals are not marked.
+        ("første", ordinal_placeholder("1")),
+        ("enogtyvende", ordinal_placeholder("21")),
+        ("hundrede enogtyvende", ordinal_placeholder("121")),
+        ("den første 2 maj", f"den {ordinal_placeholder('1')} 2 maj"),
+        # Cardinals are not held.
         ("en og tyve", "21"),
     ],
 )
-def test_danish_ordinals_separated(text: str, expected: str) -> None:
+def test_danish_ordinals_protected(text: str, expected: str) -> None:
     normalizer = DanishNumberNormalizer(
-        DANISH_CONFIG.currency_symbol_to_word, separate_ordinals=True
+        DANISH_CONFIG.currency_symbol_to_word, protect_ordinals=True
     )
     assert normalizer(text) == expected
 

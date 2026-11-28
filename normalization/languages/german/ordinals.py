@@ -1,8 +1,10 @@
 """German ordinal data: digit suffixes (1te, 1ten, 20sten) and the spelled ordinals the
 number normalizer leaves as words.
 
-Every ordinal normalizes to the bare number, as "1." and "dritten" already do; "erst-" and
-"zweit-" are the two the number normalizer does not read. "Erstens" (firstly) is left out.
+Every ordinal is written as its number plus ".", the German ordinal mark: "ersten",
+"1ten" and "1." all become "1.". The number normalizer writes "dritten" as "3.";
+"erst-" and "zweit-" are the two it does not read. "Erstens" (firstly) is left out.
+"." only counts before another word (see protect_digit_ordinals).
 """
 
 ORDINAL_SUFFIXES: list[str] = [
@@ -16,7 +18,10 @@ ORDINAL_SUFFIXES: list[str] = [
     "ster",
     "stes",
     "stem",
+    ".",
 ]
+
+CANONICAL_SUFFIX = "."
 
 _ENDINGS: tuple[str, ...] = ("e", "en", "er", "es", "em")
 
